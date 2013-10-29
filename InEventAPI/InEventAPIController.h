@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "InEventAPIControllerDelegate.h"
 
 #ifdef DEBUG
     #if TARGET_IPHONE_SIMULATOR
@@ -20,16 +21,6 @@
 #else
     #define URL @"http://inevent.us/"
 #endif
-
-@class InEventAPIController;
-
-@protocol InEventAPIControllerDelegate <NSObject>
-@optional
-- (void)apiController:(InEventAPIController *)apiController didLoadDictionaryFromServer:(NSDictionary *)dictionary;
-- (void)apiController:(InEventAPIController *)apiController didFailWithError:(NSError *)error;
-- (void)apiController:(InEventAPIController *)apiController didSaveForLaterWithError:(NSError *)error;
-
-@end
 
 @interface InEventAPIController : NSObject <NSURLConnectionDelegate, NSCoding>
 
