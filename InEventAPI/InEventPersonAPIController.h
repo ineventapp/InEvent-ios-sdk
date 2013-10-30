@@ -15,7 +15,7 @@
 - (void)signIn:(NSString *)email withPassword:(NSString *)password;
 - (void)signInWithLinkedInToken:(NSString *)linkedInToken;
 - (void)signInWithFacebookToken:(NSString *)facebookToken;
-- (void)getDetailsWithToken:(NSString *)tokenID;
+- (void)getDetailsWithTokenID:(NSString *)tokenID;
 - (void)editField:(NSString *)name withValue:(NSString *)value withTokenID:(NSString *)tokenID;
 - (void)enroll:(NSString *)name withPassword:(NSString *)password withEmail:(NSString *)email;
 

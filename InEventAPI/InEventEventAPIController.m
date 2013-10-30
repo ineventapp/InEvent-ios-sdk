@@ -147,7 +147,23 @@
     }
 }
 
-- (void)getOpinionFromEvent:(NSInteger)eventID withToken:(NSString *)tokenID {
+- (void)getGroupsAtEvent:(NSInteger)eventID {
+    
+    NSDictionary *attributes = @{@"GET" : @{@"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
+    
+    [self JSONObjectWithNamespace:@"event" method:@"getGroups" attributes:attributes];
+}
+
+- (void)getGroupsAtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
+    
+    if (tokenID != nil) {
+        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
+        
+        [self JSONObjectWithNamespace:@"event" method:@"getGroups" attributes:attributes];
+    }
+}
+
+- (void)getOpinionFromEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
     
     if (tokenID != nil) {
         NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
@@ -156,28 +172,12 @@
     }
 }
 
-- (void)sendOpinionWithRating:(NSInteger)rating withMessage:(NSString *)message toEvent:(NSInteger)eventID withToken:(NSString *)tokenID {
+- (void)sendOpinionWithRating:(NSInteger)rating withMessage:(NSString *)message toEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
     
     if (tokenID != nil && message != nil) {
         NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}, @"POST" : @{@"message" : message, @"rating" : [NSString stringWithFormat:@"%d", rating]}};
         
         [self JSONObjectWithNamespace:@"event" method:@"sendOpinion" attributes:attributes];
-    }
-}
-
-- (void)getGroupsAtEvent:(NSInteger)eventID {
- 
-    NSDictionary *attributes = @{@"GET" : @{@"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
-    
-    [self JSONObjectWithNamespace:@"event" method:@"getGroups" attributes:attributes];
-}
-
-- (void)getGroupsAtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
-   
-    if (tokenID != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
-        
-        [self JSONObjectWithNamespace:@"event" method:@"getGroups" attributes:attributes];
     }
 }
 

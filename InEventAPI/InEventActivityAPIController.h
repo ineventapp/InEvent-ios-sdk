@@ -28,7 +28,7 @@
 - (void)sendQuestion:(NSString *)question toActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
 - (void)removeQuestion:(NSInteger)questionID withTokenID:(NSString *)tokenID;
 - (void)upvoteQuestion:(NSInteger)questionID withTokenID:(NSString *)tokenID;
-- (void)getOpinionFromActivity:(NSInteger)activityID withToken:(NSString *)tokenID;
-- (void)sendOpinionWithRating:(NSInteger)rating toActivity:(NSInteger)activityID withToken:(NSString *)tokenID;
+- (void)getOpinionFromActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
+- (void)sendOpinionWithRating:(NSInteger)rating toActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
 
 @end

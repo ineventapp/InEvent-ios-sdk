@@ -30,7 +30,7 @@
 - (void)getActivitiesAtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID;
 - (void)getGroupsAtEvent:(NSInteger)eventID;
 - (void)getGroupsAtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID;
-- (void)getOpinionFromEvent:(NSInteger)eventID withToken:(NSString *)tokenID;
-- (void)sendOpinionWithRating:(NSInteger)rating withMessage:(NSString *)message toEvent:(NSInteger)eventID withToken:(NSString *)tokenID;
+- (void)getOpinionFromEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID;
+- (void)sendOpinionWithRating:(NSInteger)rating withMessage:(NSString *)message toEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID;
 
 @end

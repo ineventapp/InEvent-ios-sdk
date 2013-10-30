@@ -156,7 +156,7 @@
     }
 }
 
-- (void)getOpinionFromActivity:(NSInteger)activityID withToken:(NSString *)tokenID {
+- (void)getOpinionFromActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID {
     
     if (tokenID != nil) {
         NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%d", activityID]}};
@@ -165,7 +165,7 @@
     }
 }
 
-- (void)sendOpinionWithRating:(NSInteger)rating toActivity:(NSInteger)activityID withToken:(NSString *)tokenID {
+- (void)sendOpinionWithRating:(NSInteger)rating toActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID {
     
     if (tokenID != nil) {
         NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%d", activityID]}, @"POST" : @{@"rating" : [NSString stringWithFormat:@"%d", rating]}};

@@ -38,7 +38,7 @@
     }
 }
 
-- (void)getDetailsWithToken:(NSString *)tokenID {
+- (void)getDetailsWithTokenID:(NSString *)tokenID {
     
     if (tokenID != nil) {
         NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}};
