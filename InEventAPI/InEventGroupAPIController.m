@@ -21,6 +21,15 @@
     }
 }
 
+- (void)createGroupAtEvent:(NSInteger)eventID withName:(NSString *)name withTokenID:(NSString *)tokenID {
+    
+    if (tokenID != nil) {
+        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}, @"POST" : @{@"name" : name}};
+        
+        [self JSONObjectWithNamespace:@"group" method:@"create" attributes:attributes];
+    }
+}
+
 - (void)editField:(NSString *)name withValue:(NSString *)value atGroup:(NSInteger)groupID withTokenID:(NSString *)tokenID {
     
     if (tokenID != nil && name != nil) {

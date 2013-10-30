@@ -13,6 +13,7 @@
 
 #pragma mark - Group
 - (void)createGroupAtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID;
+- (void)createGroupAtEvent:(NSInteger)eventID withName:(NSString *)name withTokenID:(NSString *)tokenID;
 - (void)editField:(NSString *)name withValue:(NSString *)value atGroup:(NSInteger)groupID withTokenID:(NSString *)tokenID;
 - (void)removeGroup:(NSInteger)groupID withTokenID:(NSString *)tokenID;
 - (void)requestEnrollmentAtGroup:(NSInteger)groupID withTokenID:(NSString *)tokenID;

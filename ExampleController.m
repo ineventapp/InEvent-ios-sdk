@@ -7,7 +7,7 @@
 //
 
 #import "ExampleController.h"
-#import "InEventEventAPIController.h"
+#import "InEventAPI.h"
 
 @implementation ExampleController
 
