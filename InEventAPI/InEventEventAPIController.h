@@ -18,7 +18,7 @@
 - (void)getSingleEvent:(NSInteger)eventID;
 - (void)getSingleEvent:(NSInteger)eventID WithTokenID:(NSString *)tokenID;
 - (void)requestEnrollmentAtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID;
-- (void)requestEnrollmentForPerson:(NSInteger)personID atEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID;
+- (void)requestEnrollmentForPersonWithName:(NSString *)name andEmail:(NSString *)email atEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID;
 - (void)dismissEnrollmentAtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID;
 - (void)dismissEnrollmentForPerson:(NSInteger)personID atEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID;
 - (void)approveEnrollmentAtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID;

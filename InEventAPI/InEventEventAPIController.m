@@ -59,10 +59,10 @@
     }
 }
 
-- (void)requestEnrollmentForPerson:(NSInteger)personID atEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
-
+- (void)requestEnrollmentForPersonWithName:(NSString *)name andEmail:(NSString *)email atEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
+    
     if (tokenID != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"personID" : [NSString stringWithFormat:@"%d", personID]}};
+        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"name" : name, @"email" : email}};
         
         [self JSONObjectWithNamespace:@"event" method:@"requestEnrollment" attributes:attributes];
     }
