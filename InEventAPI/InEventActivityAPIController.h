@@ -24,6 +24,9 @@
 - (void)revokeEntranceForPerson:(NSInteger)personID atActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
 - (void)confirmPaymentForPerson:(NSInteger)personID atActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
 - (void)getPeopleAtActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
+- (void)getMaterialsAtActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
+- (void)sendMaterial:(NSString *)name withIcon:(NSString *)icon locatedAt:(NSString *)url toActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
+- (void)removeMaterial:(NSInteger)materialID withTokenID:(NSString *)tokenID;
 - (void)getQuestionsAtActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
 - (void)sendQuestion:(NSString *)question toActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
 - (void)removeQuestion:(NSInteger)questionID withTokenID:(NSString *)tokenID;

@@ -12,11 +12,12 @@
 @interface InEventEventAPIController : InEventAPIController
 
 #pragma mark - Event
+- (void)createWithName:(NSString *)name andNickname:(NSString *)nickname withTokenID:(NSString *)tokenID;
 - (void)editField:(NSString *)name withValue:(NSString *)value atEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID;
 - (void)getEvents;
 - (void)getEventsWithTokenID:(NSString *)tokenID;
-- (void)getSingleEvent:(NSInteger)eventID;
-- (void)getSingleEvent:(NSInteger)eventID WithTokenID:(NSString *)tokenID;
+- (void)getSingle:(NSInteger)eventID;
+- (void)getSingle:(NSInteger)eventID withTokenID:(NSString *)tokenID;
 - (void)requestEnrollmentAtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID;
 - (void)requestEnrollmentForPersonWithName:(NSString *)name andEmail:(NSString *)email atEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID;
 - (void)dismissEnrollmentAtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID;

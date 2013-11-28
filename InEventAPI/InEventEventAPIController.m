@@ -12,6 +12,15 @@
 
 #pragma mark - Event
 
+- (void)createWithName:(NSString *)name andNickname:(NSString *)nickname withTokenID:(NSString *)tokenID {
+    
+    if (tokenID != nil && name != nil && nickname != nil) {
+        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST": @{@"name" : name, @"nickname" : nickname}};
+        
+        [self JSONObjectWithNamespace:@"event" method:@"create" attributes:attributes];
+    }
+}
+
 - (void)editField:(NSString *)name withValue:(NSString *)value atEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
     
     if (tokenID != nil && name != nil) {
@@ -34,14 +43,14 @@
     }
 }
 
-- (void)getSingleEvent:(NSInteger)eventID {
+- (void)getSingle:(NSInteger)eventID {
     
     NSDictionary *attributes = @{@"GET" : @{@"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
     
     [self JSONObjectWithNamespace:@"event" method:@"getSingle" attributes:attributes];
 }
 
-- (void)getSingleEvent:(NSInteger)eventID WithTokenID:(NSString *)tokenID {
+- (void)getSingle:(NSInteger)eventID withTokenID:(NSString *)tokenID {
 
     if (tokenID != nil) {
         NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}};

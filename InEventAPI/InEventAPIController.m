@@ -169,8 +169,8 @@
     
     // Create directory if necessary
     BOOL isDir;
-    [[NSFileManager defaultManager] fileExistsAtPath:directory isDirectory:&isDir];
-    if (!isDir) [[NSFileManager defaultManager] createDirectoryAtPath:directory withIntermediateDirectories:NO attributes:nil error:nil];
+    BOOL existance = [[NSFileManager defaultManager] fileExistsAtPath:directory isDirectory:&isDir];
+    if (!existance && isDir) [[NSFileManager defaultManager] createDirectoryAtPath:directory withIntermediateDirectories:NO attributes:nil error:nil];
     
     NSString *path = [directory stringByAppendingPathComponent:filename];
     
@@ -266,7 +266,9 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     // Save the file for later
-    if (self.saveForLater) [self cacheFileForLaterSync];
+    if (self.saveForLater) {
+        [self cacheFileForLaterSync];
+    }
     
     // Notify the delegate about the error
     if ([self.delegate respondsToSelector:@selector(apiController:didSaveForLaterWithError:)]) {

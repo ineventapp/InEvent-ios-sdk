@@ -12,7 +12,7 @@
 @interface InEventAdAPIController : InEventAPIController
 
 #pragma mark - Ad
-- (void)getAdsAtEvent:(NSInteger)eventID;
+- (void)getAllAtEvent:(NSInteger)eventID;
 - (void)seenAd:(NSInteger)adID;
 
 @end

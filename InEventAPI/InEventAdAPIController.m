@@ -11,11 +11,11 @@
 @implementation InEventAdAPIController
 
 #pragma mark - Ad
-- (void)getAdsAtEvent:(NSInteger)eventID {
+- (void)getAllAtEvent:(NSInteger)eventID {
     
     NSDictionary *attributes = @{@"GET" : @{@"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
     
-    [self JSONObjectWithNamespace:@"ad" method:@"getAds" attributes:attributes];
+    [self JSONObjectWithNamespace:@"ad" method:@"getAll" attributes:attributes];
 }
 
 - (void)seenAd:(NSInteger)adID {

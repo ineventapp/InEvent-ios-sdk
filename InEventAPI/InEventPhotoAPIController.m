@@ -11,7 +11,7 @@
 @implementation InEventPhotoAPIController
 
 #pragma mark - Photo
-- (void)postPhoto:(NSString *)url AtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
+- (void)postPhoto:(NSString *)url atEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
     
     if (tokenID != nil && url != nil) {
         NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}, @"POST" : @{@"url" : url}};
@@ -20,16 +20,16 @@
     }
 }
 
-- (void)getPhotosAtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
+- (void)getAllAtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
     
     if (tokenID != nil) {
         NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
         
-        [self JSONObjectWithNamespace:@"photo" method:@"getPhotos" attributes:attributes];
+        [self JSONObjectWithNamespace:@"photo" method:@"getAll" attributes:attributes];
     }
 }
 
-- (void)getSinglePhoto:(NSInteger)photoID withTokenID:(NSString *)tokenID {
+- (void)getSingle:(NSInteger)photoID withTokenID:(NSString *)tokenID {
     
     if (tokenID != nil) {
         NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"photoID" : [NSString stringWithFormat:@"%d", photoID]}};

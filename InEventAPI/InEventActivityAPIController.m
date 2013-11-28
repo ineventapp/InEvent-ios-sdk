@@ -120,6 +120,33 @@
     }
 }
 
+- (void)getMaterialsAtActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID {
+    
+    if (tokenID != nil) {
+        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%d", activityID]}};
+        
+        [self JSONObjectWithNamespace:@"activity" method:@"getMaterials" attributes:attributes];
+    }
+}
+
+- (void)sendMaterial:(NSString *)name withIcon:(NSString *)icon locatedAt:(NSString *)url toActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID {
+    
+    if (tokenID != nil && name != nil && url != nil) {
+        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%d", activityID]}, @"POST" : @{@"name" : name, @"icon" : icon, @"url" : url}};
+        
+        [self JSONObjectWithNamespace:@"activity" method:@"sendMaterial" attributes:attributes];
+    }
+}
+
+- (void)removeMaterial:(NSInteger)materialID withTokenID:(NSString *)tokenID {
+    
+    if (tokenID != nil) {
+        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"materialID" : [NSString stringWithFormat:@"%d", materialID]}};
+        
+        [self JSONObjectWithNamespace:@"activity" method:@"removeMaterial" attributes:attributes];
+    }
+}
+
 - (void)getQuestionsAtActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID {
 
     if (tokenID != nil) {
