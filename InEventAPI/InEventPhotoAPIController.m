@@ -11,31 +11,35 @@
 @implementation InEventPhotoAPIController
 
 #pragma mark - Photo
-- (void)postPhoto:(NSString *)url atEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
+
+- (void)postAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID withUrl:(NSString *)url {
     
-    if (tokenID != nil && url != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}, @"POST" : @{@"url" : url}};
+	if (tokenID != nil && url != nil) {
         
-        [self JSONObjectWithNamespace:@"photo" method:@"post" attributes:attributes];
-    }
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}, @"POST" : @{@"url" : url}};
+        
+		[self JSONObjectWithNamespace:@"photo" method:@"post" attributes:attributes];
+	}
 }
 
-- (void)getAllAtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
+- (void)getAllAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID {
     
-    if (tokenID != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
+	if (tokenID != nil) {
         
-        [self JSONObjectWithNamespace:@"photo" method:@"getAll" attributes:attributes];
-    }
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
+        
+		[self JSONObjectWithNamespace:@"photo" method:@"getAll" attributes:attributes];
+	}
 }
 
-- (void)getSingle:(NSInteger)photoID withTokenID:(NSString *)tokenID {
+- (void)getSingleAuthenticatingWithTokenID:(NSString *)tokenID atPhoto:(NSInteger)photoID {
     
-    if (tokenID != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"photoID" : [NSString stringWithFormat:@"%d", photoID]}};
+	if (tokenID != nil) {
         
-        [self JSONObjectWithNamespace:@"photo" method:@"getSingle" attributes:attributes];
-    }
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"photoID" : [NSString stringWithFormat:@"%d", photoID]}};
+        
+		[self JSONObjectWithNamespace:@"photo" method:@"getSingle" attributes:attributes];
+	}
 }
 
 @end

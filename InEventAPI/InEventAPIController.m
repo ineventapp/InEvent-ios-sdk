@@ -76,7 +76,7 @@
 
 #pragma mark - Notifications
 
-- (void)notificationGetNumberOfNotificationsWithTokenID:(NSString *)tokenID {
+- (void)notificationGetNumberOfNotificationsAuthenticatingWithTokenID:(NSString *)tokenID {
     
     if (tokenID != nil) {
         NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}};
@@ -85,7 +85,7 @@
     }
 }
 
-- (void)notificationGetNotificationsWithTokenID:(NSString *)tokenID {
+- (void)notificationGetNotificationsAuthenticatingWithTokenID:(NSString *)tokenID {
     
     if (tokenID != nil) {
         NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}};
@@ -94,7 +94,7 @@
     }
 }
 
-- (void)notificationGetNotificationsSinceNotification:(NSInteger)lastNotificationID withTokenID:(NSString *)tokenID {
+- (void)notificationGetNotificationsSinceNotification:(NSInteger)lastNotificationID authenticatingWithTokenID:(NSString *)tokenID {
     
     if (tokenID != nil) {
         NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"lastNotificationID" : [NSString stringWithFormat:@"%d", lastNotificationID]}};
@@ -103,7 +103,7 @@
     }
 }
 
-- (void)notificationGetLastNotificationIDWithTokenID:(NSString *)tokenID {
+- (void)notificationGetLastNotificationIDAuthenticatingWithTokenID:(NSString *)tokenID {
     
     if (tokenID != nil) {
         NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}};
@@ -112,7 +112,7 @@
     }
 }
 
-- (void)notificationGetNotificationsWithinTime:(NSInteger)seconds withTokenID:(NSString *)tokenID {
+- (void)notificationGetNotificationsWithinTime:(NSInteger)seconds authenticatingWithTokenID:(NSString *)tokenID {
     
     if (tokenID != nil) {
         NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"seconds" : [NSString stringWithFormat:@"%d", seconds]}};
@@ -121,7 +121,7 @@
     }
 }
 
-- (void)notificationGetSingleNotification:(NSInteger)notificationID withTokenID:(NSString *)tokenID {
+- (void)notificationGetSingleNotification:(NSInteger)notificationID authenticatingWithTokenID:(NSString *)tokenID {
     
     if (tokenID != nil) {
         NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"notificationID" : [NSString stringWithFormat:@"%d", notificationID]}};
@@ -206,7 +206,7 @@
         }
     } else {
         // Define our API url
-        NSMutableString *url = [NSMutableString stringWithFormat:@"%@developer/api/?method=%@.%@", URL, _namespace, _method];
+        NSMutableString *url = [NSMutableString stringWithFormat:@"%@?method=%@.%@", URL, _namespace, _method];
         
         // Concatenate all the GET attributes inside the URL
         for (NSString *param in [[_attributes objectForKey:@"GET"] allKeys]) {

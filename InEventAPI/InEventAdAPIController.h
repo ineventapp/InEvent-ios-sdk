@@ -12,7 +12,10 @@
 @interface InEventAdAPIController : InEventAPIController
 
 #pragma mark - Ad
+- (void)createAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID withImage:(NSString *)image withWeight:(NSString *)weight;
+- (void)createForExhibitorAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID forExhibitor:(NSInteger)exhibitorID withImage:(NSString *)image withWeight:(NSString *)weight;
 - (void)getAllAtEvent:(NSInteger)eventID;
-- (void)seenAd:(NSInteger)adID;
+- (void)getAllByExhibitorAtEvent:(NSInteger)eventID forExhibitor:(NSInteger)exhibitorID;
+- (void)seenAdAtAd:(NSInteger)adID;
 
 @end

@@ -11,15 +11,13 @@
 
 #ifdef DEBUG
     #if TARGET_IPHONE_SIMULATOR
-        #define URL @"http://inevent:8888/"
-        //#define URL @"http://agarca.com.br/"
+        #define URL @"http://inevent.local:8888/developer/api/"
     #else
         //#define URL @"http://192.168.0.106:8888/InEvent-dev/Web/"
-        //#define URL @"http://pedrogoes.info/InEvent/Web/"
-        #define URL @"http://inevent.us/"
+        #define URL @"https://api.inevent.us/"
     #endif
 #else
-    #define URL @"http://inevent.us/"
+    #define URL @"https://api.inevent.us/"
 #endif
 
 @interface InEventAPIController : NSObject <NSURLConnectionDelegate, NSCoding>
@@ -47,12 +45,12 @@
 - (id)initWithDelegate:(id<InEventAPIControllerDelegate>)aDelegate forcing:(BOOL)aForce withMaxAge:(NSTimeInterval)aMaxAge withUserInfo:(NSDictionary *)aUserInfo;
 
 #pragma mark - Notifications
-- (void)notificationGetNumberOfNotificationsWithTokenID:(NSString *)tokenID;
-- (void)notificationGetNotificationsWithTokenID:(NSString *)tokenID;
-- (void)notificationGetNotificationsSinceNotification:(NSInteger)lastNotificationID withTokenID:(NSString *)tokenID;
-- (void)notificationGetLastNotificationIDWithTokenID:(NSString *)tokenID;
-- (void)notificationGetNotificationsWithinTime:(NSInteger)seconds withTokenID:(NSString *)tokenID;
-- (void)notificationGetSingleNotification:(NSInteger)notificationID withTokenID:(NSString *)tokenID;
+- (void)notificationGetNumberOfNotificationsAuthenticatingWithTokenID:(NSString *)tokenID;
+- (void)notificationGetNotificationsAuthenticatingWithTokenID:(NSString *)tokenID;
+- (void)notificationGetNotificationsSinceNotification:(NSInteger)lastNotificationID authenticatingWithTokenID:(NSString *)tokenID;
+- (void)notificationGetLastNotificationIDAuthenticatingWithTokenID:(NSString *)tokenID;
+- (void)notificationGetNotificationsWithinTime:(NSInteger)seconds authenticatingWithTokenID:(NSString *)tokenID;
+- (void)notificationGetSingleNotification:(NSInteger)notificationID authenticatingWithTokenID:(NSString *)tokenID;
 
 #pragma mark - Setup
 - (void)JSONObjectWithNamespace:(NSString *)namespace method:(NSString *)method attributes:(NSDictionary *)attributes;

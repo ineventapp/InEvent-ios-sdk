@@ -14,9 +14,18 @@
 
 #import "InEventActivityAPIController.h"
 #import "InEventAdAPIController.h"
+#import "InEventCompanyAPIController.h"
+#import "InEventContestAPIController.h"
+#import "InEventErrorAPIController.h"
 #import "InEventEventAPIController.h"
+#import "InEventExhibitorAPIController.h"
+#import "InEventFacebookAPIController.h"
 #import "InEventGroupAPIController.h"
+#import "InEventLinkedInAPIController.h"
+#import "InEventMapAPIController.h"
+#import "InEventPaymentAPIController.h"
 #import "InEventPersonAPIController.h"
 #import "InEventPhotoAPIController.h"
+#import "InEventQuizAPIController.h"
 
 #endif

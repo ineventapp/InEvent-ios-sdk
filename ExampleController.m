@@ -15,7 +15,7 @@
 
 - (id) init {
     if (self = [super init]) {
-        [[[InEventEventAPIController alloc] initWithDelegate:self forcing:YES withMaxAge:3600 withUserInfo:nil] getEvents];
+        [[[InEventEventAPIController alloc] initWithDelegate:self forcing:YES withMaxAge:3600 withUserInfo:nil] getEventsWithName:@"any" withCity:@"any" withTheme:@"any" withDateBegin:@"any" withDateEnd:@"any" withOrder:@"any"];
     }
     return self;
 }

@@ -12,26 +12,32 @@
 @interface InEventActivityAPIController : InEventAPIController
 
 #pragma mark - Activity
-- (void)createActivityAtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID;
-- (void)createActivityAtEvent:(NSInteger)eventID withName:(NSString *)name withTokenID:(NSString *)tokenID;
-- (void)editField:(NSString *)name withValue:(NSString *)value atActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
-- (void)removeActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
-- (void)requestEnrollmentAtActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
-- (void)requestEnrollmentForPersonWithName:(NSString *)name andEmail:(NSString *)email atActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
-- (void)dismissEnrollmentAtActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
-- (void)dismissEnrollmentForPerson:(NSInteger)personID atActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
-- (void)confirmEntranceForPerson:(NSInteger)personID atActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
-- (void)revokeEntranceForPerson:(NSInteger)personID atActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
-- (void)confirmPaymentForPerson:(NSInteger)personID atActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
-- (void)getPeopleAtActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
-- (void)getMaterialsAtActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
-- (void)sendMaterial:(NSString *)name withIcon:(NSString *)icon locatedAt:(NSString *)url toActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
-- (void)removeMaterial:(NSInteger)materialID withTokenID:(NSString *)tokenID;
-- (void)getQuestionsAtActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
-- (void)sendQuestion:(NSString *)question toActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
-- (void)removeQuestion:(NSInteger)questionID withTokenID:(NSString *)tokenID;
-- (void)upvoteQuestion:(NSInteger)questionID withTokenID:(NSString *)tokenID;
-- (void)getOpinionFromActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
-- (void)sendOpinionWithRating:(NSInteger)rating toActivity:(NSInteger)activityID withTokenID:(NSString *)tokenID;
+- (void)createAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID withName:(NSString *)name;
+- (void)editAuthenticatingWithTokenID:(NSString *)tokenID atActivity:(NSInteger)activityID withKey:(NSString *)key withValue:(NSString *)value;
+- (void)removeAuthenticatingWithTokenID:(NSString *)tokenID atActivity:(NSInteger)activityID;
+- (void)enrollAuthenticatingWithTokenID:(NSString *)tokenID atActivity:(NSInteger)activityID;
+- (void)enrollPersonAuthenticatingWithTokenID:(NSString *)tokenID atActivity:(NSInteger)activityID withName:(NSString *)name withEmail:(NSString *)email;
+- (void)enrollPeopleAuthenticatingWithTokenID:(NSString *)tokenID atActivity:(NSInteger)activityID withPath:(NSString *)path;
+- (void)dismissAuthenticatingWithTokenID:(NSString *)tokenID atActivity:(NSInteger)activityID;
+- (void)dismissPersonAuthenticatingWithTokenID:(NSString *)tokenID atActivity:(NSInteger)activityID forPerson:(NSInteger)personID;
+- (void)confirmApprovalForPersonAuthenticatingWithTokenID:(NSString *)tokenID atActivity:(NSInteger)activityID forPerson:(NSInteger)personID;
+- (void)revokeApprovalForPersonAuthenticatingWithTokenID:(NSString *)tokenID atActivity:(NSInteger)activityID forPerson:(NSInteger)personID;
+- (void)confirmEntranceForPersonAuthenticatingWithTokenID:(NSString *)tokenID atActivity:(NSInteger)activityID forPerson:(NSInteger)personID;
+- (void)revokeEntranceForPersonAuthenticatingWithTokenID:(NSString *)tokenID atActivity:(NSInteger)activityID forPerson:(NSInteger)personID;
+- (void)confirmPaymentForPersonAuthenticatingWithTokenID:(NSString *)tokenID atActivity:(NSInteger)activityID forPerson:(NSInteger)personID;
+- (void)revokePaymentForPersonAuthenticatingWithTokenID:(NSString *)tokenID atActivity:(NSInteger)activityID forPerson:(NSInteger)personID;
+- (void)risePriorityAuthenticatingWithTokenID:(NSString *)tokenID atActivity:(NSInteger)activityID;
+- (void)decreasePriorityAuthenticatingWithTokenID:(NSString *)tokenID atActivity:(NSInteger)activityID;
+- (void)getPeopleAuthenticatingWithTokenID:(NSString *)tokenID atActivity:(NSInteger)activityID withSelection:(NSString *)selection withOrder:(NSString *)order;
+- (void)getMaterialsAuthenticatingWithTokenID:(NSString *)tokenID atActivity:(NSInteger)activityID;
+- (void)sendMaterialAuthenticatingWithTokenID:(NSString *)tokenID atActivity:(NSInteger)activityID withName:(NSString *)name withIcon:(NSString *)icon withUrl:(NSString *)url;
+- (void)removeMaterialAuthenticatingWithTokenID:(NSString *)tokenID atMaterial:(NSInteger)materialID;
+- (void)getQuestionsAuthenticatingWithTokenID:(NSString *)tokenID atActivity:(NSInteger)activityID;
+- (void)sendQuestionAuthenticatingWithTokenID:(NSString *)tokenID atActivity:(NSInteger)activityID withQuestion:(NSString *)question;
+- (void)removeQuestionAuthenticatingWithTokenID:(NSString *)tokenID atQuestion:(NSInteger)questionID;
+- (void)upvoteQuestionAuthenticatingWithTokenID:(NSString *)tokenID atQuestion:(NSInteger)questionID;
+- (void)getOpinionAuthenticatingWithTokenID:(NSString *)tokenID atActivity:(NSInteger)activityID;
+- (void)sendOpinionAuthenticatingWithTokenID:(NSString *)tokenID atActivity:(NSInteger)activityID withRating:(NSString *)rating;
+- (void)sendOpinionForPersonAuthenticatingWithTokenID:(NSString *)tokenID atActivity:(NSInteger)activityID forPerson:(NSInteger)personID withRating:(NSString *)rating;
 
 @end

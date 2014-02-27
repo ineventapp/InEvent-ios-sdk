@@ -12,11 +12,16 @@
 @interface InEventPersonAPIController : InEventAPIController
 
 #pragma mark - Person
-- (void)signIn:(NSString *)email withPassword:(NSString *)password;
-- (void)signInWithLinkedInToken:(NSString *)linkedInToken;
-- (void)signInWithFacebookToken:(NSString *)facebookToken;
-- (void)getDetailsWithTokenID:(NSString *)tokenID;
-- (void)editField:(NSString *)name withValue:(NSString *)value withTokenID:(NSString *)tokenID;
-- (void)enroll:(NSString *)name withPassword:(NSString *)password withEmail:(NSString *)email;
+- (void)signInWithEmail:(NSString *)email withPassword:(NSString *)password;
+- (void)signInWithLinkedInWithLinkedInToken:(NSString *)linkedInToken;
+- (void)signInWithFacebookWithFacebookToken:(NSString *)facebookToken;
+- (void)getDetailsAuthenticatingWithTokenID:(NSString *)tokenID;
+- (void)getDetailsForPersonAuthenticatingWithTokenID:(NSString *)tokenID forPerson:(NSInteger)personID;
+- (void)editAuthenticatingWithTokenID:(NSString *)tokenID withKey:(NSString *)key withValue:(NSString *)value;
+- (void)enrollWithName:(NSString *)name withPassword:(NSString *)password withEmail:(NSString *)email;
+- (void)sendRecoveryWithEmail:(NSString *)email;
+- (void)subscribeAuthenticatingWithTokenID:(NSString *)tokenID withEmail:(NSString *)email;
+- (void)unsubscribeAuthenticatingWithTokenID:(NSString *)tokenID withEmail:(NSString *)email;
+- (void)changePasswordAuthenticatingWithTokenID:(NSString *)tokenID withOldPassword:(NSString *)oldPassword withNewPassword:(NSString *)newPassword;
 
 @end

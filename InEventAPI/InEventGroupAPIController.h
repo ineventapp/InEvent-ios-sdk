@@ -12,16 +12,17 @@
 @interface InEventGroupAPIController : InEventAPIController
 
 #pragma mark - Group
-- (void)createGroupAtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID;
-- (void)createGroupAtEvent:(NSInteger)eventID withName:(NSString *)name withTokenID:(NSString *)tokenID;
-- (void)editField:(NSString *)name withValue:(NSString *)value atGroup:(NSInteger)groupID withTokenID:(NSString *)tokenID;
-- (void)removeGroup:(NSInteger)groupID withTokenID:(NSString *)tokenID;
-- (void)requestEnrollmentAtGroup:(NSInteger)groupID withTokenID:(NSString *)tokenID;
-- (void)requestEnrollmentForPersonWithName:(NSString *)name andEmail:(NSString *)email atGroup:(NSInteger)groupID withTokenID:(NSString *)tokenID;
-- (void)dismissEnrollmentAtGroup:(NSInteger)groupID withTokenID:(NSString *)tokenID;
-- (void)dismissEnrollmentForPerson:(NSInteger)personID atGroup:(NSInteger)groupID withTokenID:(NSString *)tokenID;
-- (void)confirmEntranceForPerson:(NSInteger)personID atGroup:(NSInteger)groupID withTokenID:(NSString *)tokenID;
-- (void)revokeEntranceForPerson:(NSInteger)personID atGroup:(NSInteger)groupID withTokenID:(NSString *)tokenID;
-- (void)getPeopleAtGroup:(NSInteger)groupID withTokenID:(NSString *)tokenID;
+- (void)createAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID withName:(NSString *)name;
+- (void)editAuthenticatingWithTokenID:(NSString *)tokenID atGroup:(NSInteger)groupID withKey:(NSString *)key withValue:(NSString *)value;
+- (void)removeAuthenticatingWithTokenID:(NSString *)tokenID atGroup:(NSInteger)groupID;
+- (void)enrollAuthenticatingWithTokenID:(NSString *)tokenID atGroup:(NSInteger)groupID;
+- (void)enrollPersonAuthenticatingWithTokenID:(NSString *)tokenID atGroup:(NSInteger)groupID withName:(NSString *)name withEmail:(NSString *)email;
+- (void)dismissAuthenticatingWithTokenID:(NSString *)tokenID atGroup:(NSInteger)groupID;
+- (void)dismissPersonAuthenticatingWithTokenID:(NSString *)tokenID atGroup:(NSInteger)groupID forPerson:(NSInteger)personID;
+- (void)confirmApprovalAuthenticatingWithTokenID:(NSString *)tokenID atGroup:(NSInteger)groupID forPerson:(NSInteger)personID;
+- (void)revokeApprovalAuthenticatingWithTokenID:(NSString *)tokenID atGroup:(NSInteger)groupID forPerson:(NSInteger)personID;
+- (void)confirmEntranceAuthenticatingWithTokenID:(NSString *)tokenID atGroup:(NSInteger)groupID forPerson:(NSInteger)personID;
+- (void)revokeEntranceAuthenticatingWithTokenID:(NSString *)tokenID atGroup:(NSInteger)groupID forPerson:(NSInteger)personID;
+- (void)getPeopleAuthenticatingWithTokenID:(NSString *)tokenID atGroup:(NSInteger)groupID withSelection:(NSString *)selection withOrder:(NSString *)order;
 
 @end

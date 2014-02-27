@@ -12,8 +12,8 @@
 @interface InEventPhotoAPIController : InEventAPIController
 
 #pragma mark - Photo
-- (void)postPhoto:(NSString *)url atEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID;
-- (void)getAllAtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID;
-- (void)getSingle:(NSInteger)photoID withTokenID:(NSString *)tokenID;
+- (void)postAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID withUrl:(NSString *)url;
+- (void)getAllAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID;
+- (void)getSingleAuthenticatingWithTokenID:(NSString *)tokenID atPhoto:(NSInteger)photoID;
 
 @end

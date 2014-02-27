@@ -11,58 +11,115 @@
 @implementation InEventPersonAPIController
 
 #pragma mark - Person
-- (void)signIn:(NSString *)email withPassword:(NSString *)password {
+
+- (void)signInWithEmail:(NSString *)email withPassword:(NSString *)password {
     
-    if (email != nil && password != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"email" : email, @"password" : password}};
+	if (email != nil && password != nil) {
         
-        [self JSONObjectWithNamespace:@"person" method:@"signIn" attributes:attributes];
-    }
+		NSDictionary *attributes = @{@"GET" : @{@"email" : email, @"password" : password}};
+        
+		[self JSONObjectWithNamespace:@"person" method:@"signIn" attributes:attributes];
+	}
 }
 
-- (void)signInWithLinkedInToken:(NSString *)linkedInToken {
+- (void)signInWithLinkedInWithLinkedInToken:(NSString *)linkedInToken {
     
-    if (linkedInToken != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"linkedInToken" : linkedInToken}};
+	if (linkedInToken != nil) {
         
-        [self JSONObjectWithNamespace:@"person" method:@"signInWithLinkedIn" attributes:attributes];
-    }
+		NSDictionary *attributes = @{@"GET" : @{@"linkedInToken" : linkedInToken}};
+        
+		[self JSONObjectWithNamespace:@"person" method:@"signInWithLinkedIn" attributes:attributes];
+	}
 }
 
-- (void)signInWithFacebookToken:(NSString *)facebookToken {
+- (void)signInWithFacebookWithFacebookToken:(NSString *)facebookToken {
     
-    if (facebookToken != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"facebookToken" : facebookToken}};
+	if (facebookToken != nil) {
         
-        [self JSONObjectWithNamespace:@"person" method:@"signInWithFacebook" attributes:attributes];
-    }
+		NSDictionary *attributes = @{@"GET" : @{@"facebookToken" : facebookToken}};
+        
+		[self JSONObjectWithNamespace:@"person" method:@"signInWithFacebook" attributes:attributes];
+	}
 }
 
-- (void)getDetailsWithTokenID:(NSString *)tokenID {
+- (void)getDetailsAuthenticatingWithTokenID:(NSString *)tokenID {
     
-    if (tokenID != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}};
+	if (tokenID != nil) {
         
-        [self JSONObjectWithNamespace:@"person" method:@"getDetails" attributes:attributes];
-    }
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}};
+        
+		[self JSONObjectWithNamespace:@"person" method:@"getDetails" attributes:attributes];
+	}
 }
 
-- (void)editField:(NSString *)name withValue:(NSString *)value withTokenID:(NSString *)tokenID {
+- (void)getDetailsForPersonAuthenticatingWithTokenID:(NSString *)tokenID forPerson:(NSInteger)personID {
     
-    if (tokenID != nil && name != nil && value != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"name" : name}, @"POST" : @{@"value" : value}};
+	if (tokenID != nil) {
         
-        [self JSONObjectWithNamespace:@"person" method:@"edit" attributes:attributes];
-    }
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"personID" : [NSString stringWithFormat:@"%d", personID]}};
+        
+		[self JSONObjectWithNamespace:@"person" method:@"getDetailsForPerson" attributes:attributes];
+	}
 }
 
-- (void)enroll:(NSString *)name withPassword:(NSString *)password withEmail:(NSString *)email {
+- (void)editAuthenticatingWithTokenID:(NSString *)tokenID withKey:(NSString *)key withValue:(NSString *)value {
     
-    if (name != nil && password != nil && email != nil) {
-        NSDictionary *attributes = @{@"POST" : @{@"name" : name, @"password" : password, @"email" : email}};
+	if (tokenID != nil && key != nil && value != nil) {
         
-        [self JSONObjectWithNamespace:@"person" method:@"enroll" attributes:attributes];
-    }
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"key" : key}, @"POST" : @{@"value" : value}};
+        
+		[self JSONObjectWithNamespace:@"person" method:@"edit" attributes:attributes];
+	}
+}
+
+- (void)enrollWithName:(NSString *)name withPassword:(NSString *)password withEmail:(NSString *)email {
+    
+	if (name != nil && password != nil && email != nil) {
+        
+		NSDictionary *attributes = @{@"GET" : @{}, @"POST" : @{@"name" : name, @"password" : password, @"email" : email}};
+        
+		[self JSONObjectWithNamespace:@"person" method:@"enroll" attributes:attributes];
+	}
+}
+
+- (void)sendRecoveryWithEmail:(NSString *)email {
+    
+	if (email != nil) {
+        
+		NSDictionary *attributes = @{@"GET" : @{@"email" : email}};
+        
+		[self JSONObjectWithNamespace:@"person" method:@"sendRecovery" attributes:attributes];
+	}
+}
+
+- (void)subscribeAuthenticatingWithTokenID:(NSString *)tokenID withEmail:(NSString *)email {
+    
+	if (tokenID != nil && email != nil) {
+        
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"email" : email}};
+        
+		[self JSONObjectWithNamespace:@"person" method:@"subscribe" attributes:attributes];
+	}
+}
+
+- (void)unsubscribeAuthenticatingWithTokenID:(NSString *)tokenID withEmail:(NSString *)email {
+    
+	if (tokenID != nil && email != nil) {
+        
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"email" : email}};
+        
+		[self JSONObjectWithNamespace:@"person" method:@"unsubscribe" attributes:attributes];
+	}
+}
+
+- (void)changePasswordAuthenticatingWithTokenID:(NSString *)tokenID withOldPassword:(NSString *)oldPassword withNewPassword:(NSString *)newPassword {
+    
+	if (tokenID != nil && oldPassword != nil && newPassword != nil) {
+        
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"oldPassword" : oldPassword, @"newPassword" : newPassword}};
+        
+		[self JSONObjectWithNamespace:@"person" method:@"changePassword" attributes:attributes];
+	}
 }
 
 @end

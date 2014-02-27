@@ -12,9 +12,9 @@
 @interface InEventPaymentAPIController : InEventAPIController
 
 #pragma mark - Payment
-- (void)createWithTickets:(NSInteger)tickets andAdvertisements:(NSInteger)advertisements atEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID;
-- (void)getAllAtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID;
-- (void)requestAddress:(NSInteger)paymentID atEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID;
-- (void)confirmPaymentAtEvent:(NSInteger)eventID withCollection:(NSInteger)collection_id withTokenID:(NSString *)tokenID;
+- (void)createAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID withTickets:(NSString *)tickets withAdvertisements:(NSString *)advertisements;
+- (void)getAllAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID;
+- (void)requestAddressAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID atPayment:(NSInteger)paymentID;
+- (void)provideConfirmationAtEvent:(NSInteger)eventID withCollection_id:(NSString *)collection_id;
 
 @end

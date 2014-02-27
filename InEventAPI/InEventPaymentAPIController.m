@@ -11,40 +11,45 @@
 @implementation InEventPaymentAPIController
 
 #pragma mark - Payment
-- (void)createWithTickets:(NSInteger)tickets andAdvertisements:(NSInteger)advertisements atEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
+
+- (void)createAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID withTickets:(NSString *)tickets withAdvertisements:(NSString *)advertisements {
     
-    if (tokenID != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}, @"POST" : @{@"tickets" : [NSString stringWithFormat:@"%d", tickets], @"advertisements" : [NSString stringWithFormat:@"%d", advertisements]}};
+	if (tokenID != nil && tickets != nil && advertisements != nil) {
         
-        [self JSONObjectWithNamespace:@"payment" method:@"create" attributes:attributes];
-    }
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}, @"POST" : @{@"tickets" : tickets, @"advertisements" : advertisements}};
+        
+		[self JSONObjectWithNamespace:@"payment" method:@"create" attributes:attributes];
+	}
 }
 
-- (void)getAllAtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
+- (void)getAllAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID {
     
-    if (tokenID != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
+	if (tokenID != nil) {
         
-        [self JSONObjectWithNamespace:@"payment" method:@"getAll" attributes:attributes];
-    }
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
+        
+		[self JSONObjectWithNamespace:@"payment" method:@"getAll" attributes:attributes];
+	}
 }
 
-- (void)requestAddress:(NSInteger)paymentID atEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
+- (void)requestAddressAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID atPayment:(NSInteger)paymentID {
     
-    if (tokenID != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"paymentID" : [NSString stringWithFormat:@"%d", paymentID]}};
+	if (tokenID != nil) {
         
-        [self JSONObjectWithNamespace:@"payment" method:@"requestAddress" attributes:attributes];
-    }
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"paymentID" : [NSString stringWithFormat:@"%d", paymentID]}};
+        
+		[self JSONObjectWithNamespace:@"payment" method:@"requestAddress" attributes:attributes];
+	}
 }
 
-- (void)confirmPaymentAtEvent:(NSInteger)eventID withCollection:(NSInteger)collection_id withTokenID:(NSString *)tokenID {
+- (void)provideConfirmationAtEvent:(NSInteger)eventID withCollection_id:(NSString *)collection_id {
     
-    if (tokenID != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"collection_id" : [NSString stringWithFormat:@"%d", collection_id]}};
+	if (collection_id != nil) {
         
-        [self JSONObjectWithNamespace:@"payment" method:@"confirm" attributes:attributes];
-    }
+		NSDictionary *attributes = @{@"GET" : @{@"eventID" : [NSString stringWithFormat:@"%d", eventID], @"collection_id" : collection_id}};
+        
+		[self JSONObjectWithNamespace:@"payment" method:@"provideConfirmation" attributes:attributes];
+	}
 }
 
 @end

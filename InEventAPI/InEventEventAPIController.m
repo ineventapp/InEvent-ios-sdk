@@ -12,182 +12,285 @@
 
 #pragma mark - Event
 
-- (void)createWithName:(NSString *)name andNickname:(NSString *)nickname withTokenID:(NSString *)tokenID {
+- (void)createAuthenticatingWithTokenID:(NSString *)tokenID withName:(NSString *)name withNickname:(NSString *)nickname {
     
-    if (tokenID != nil && name != nil && nickname != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST": @{@"name" : name, @"nickname" : nickname}};
+	if (tokenID != nil && name != nil && nickname != nil) {
         
-        [self JSONObjectWithNamespace:@"event" method:@"create" attributes:attributes];
-    }
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"name" : name, @"nickname" : nickname}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"create" attributes:attributes];
+	}
 }
 
-- (void)editField:(NSString *)name withValue:(NSString *)value atEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
+- (void)editAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID withKey:(NSString *)key withValue:(NSString *)value {
     
-    if (tokenID != nil && name != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"name" : name, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}, @"POST": @{@"value" : value}};
+	if (tokenID != nil && key != nil && value != nil) {
         
-        [self JSONObjectWithNamespace:@"event" method:@"edit" attributes:attributes];
-    }
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"key" : key}, @"POST" : @{@"value" : value}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"edit" attributes:attributes];
+	}
 }
 
-- (void)getEvents {
-    [self JSONObjectWithNamespace:@"event" method:@"getEvents" attributes:@{}];
-}
-
-- (void)getEventsWithTokenID:(NSString *)tokenID {
+- (void)operateAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID withAction:(NSString *)action withKey:(NSString *)key withValue:(NSString *)value {
     
-    if (tokenID != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}};
+	if (tokenID != nil && action != nil && key != nil && value != nil) {
         
-        [self JSONObjectWithNamespace:@"event" method:@"getEvents" attributes:attributes];
-    }
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"action" : action, @"key" : key}, @"POST" : @{@"value" : value}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"operate" attributes:attributes];
+	}
 }
 
-- (void)getSingle:(NSInteger)eventID {
+- (void)getEventsWithName:(NSString *)name withCity:(NSString *)city withTheme:(NSString *)theme withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd withOrder:(NSString *)order {
     
-    NSDictionary *attributes = @{@"GET" : @{@"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
+	if (name != nil && city != nil && theme != nil && dateBegin != nil && dateEnd != nil && order != nil) {
+        
+		NSDictionary *attributes = @{@"GET" : @{@"name" : name, @"city" : city, @"theme" : theme, @"dateBegin" : dateBegin, @"dateEnd" : dateEnd, @"order" : order}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"getEvents" attributes:attributes];
+	}
+}
+
+- (void)getEventsForPersonAuthenticatingWithTokenID:(NSString *)tokenID withSelection:(NSString *)selection withName:(NSString *)name withCity:(NSString *)city withTheme:(NSString *)theme withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd withOrder:(NSString *)order {
     
-    [self JSONObjectWithNamespace:@"event" method:@"getSingle" attributes:attributes];
-}
-
-- (void)getSingle:(NSInteger)eventID withTokenID:(NSString *)tokenID {
-
-    if (tokenID != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
+	if (tokenID != nil && selection != nil && name != nil && city != nil && theme != nil && dateBegin != nil && dateEnd != nil && order != nil) {
         
-        [self JSONObjectWithNamespace:@"event" method:@"getSingle" attributes:attributes];
-    }
-}
-
-- (void)requestEnrollmentAtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
-
-    if (tokenID != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"selection" : selection, @"name" : name, @"city" : city, @"theme" : theme, @"dateBegin" : dateBegin, @"dateEnd" : dateEnd, @"order" : order}};
         
-        [self JSONObjectWithNamespace:@"event" method:@"requestEnrollment" attributes:attributes];
-    }
+		[self JSONObjectWithNamespace:@"event" method:@"getEventsForPerson" attributes:attributes];
+	}
 }
 
-- (void)requestEnrollmentForPersonWithName:(NSString *)name andEmail:(NSString *)email atEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
+- (void)getSingleAtEvent:(NSInteger)eventID {
     
-    if (tokenID != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"name" : name, @"email" : email}};
-        
-        [self JSONObjectWithNamespace:@"event" method:@"requestEnrollment" attributes:attributes];
-    }
-}
-
-- (void)dismissEnrollmentAtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
- 
-    if (tokenID != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
-        
-        [self JSONObjectWithNamespace:@"event" method:@"dismissEnrollment" attributes:attributes];
-    }
-}
-
-- (void)dismissEnrollmentForPerson:(NSInteger)personID atEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
-  
-    if (tokenID != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"personID" : [NSString stringWithFormat:@"%d", personID]}};
-        
-        [self JSONObjectWithNamespace:@"event" method:@"dismissEnrollment" attributes:attributes];
-    }
-}
-
-- (void)approveEnrollmentAtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
+	NSDictionary *attributes = @{@"GET" : @{@"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
     
-    if (tokenID != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
-        
-        [self JSONObjectWithNamespace:@"event" method:@"approveEnrollment" attributes:attributes];
-    }
+	[self JSONObjectWithNamespace:@"event" method:@"getSingle" attributes:attributes];
 }
 
-- (void)approveEnrollmentForPerson:(NSInteger)personID atEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
+- (void)getSingleForPersonAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID {
     
-    if (tokenID != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"personID" : [NSString stringWithFormat:@"%d", personID]}};
+	if (tokenID != nil) {
         
-        [self JSONObjectWithNamespace:@"event" method:@"approveEnrollment" attributes:attributes];
-    }
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"getSingleForPerson" attributes:attributes];
+	}
 }
 
-- (void)grantPermissionForPerson:(NSInteger)personID atEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
+- (void)enlistExhibitorAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID withName:(NSString *)name withEmail:(NSString *)email {
     
-    if (tokenID != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"personID" : [NSString stringWithFormat:@"%d", personID]}};
+	if (tokenID != nil && name != nil && email != nil) {
         
-        [self JSONObjectWithNamespace:@"event" method:@"grantPermission" attributes:attributes];
-    }
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"name" : name, @"email" : email}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"enlistExhibitor" attributes:attributes];
+	}
 }
 
-- (void)revokePermissionForPerson:(NSInteger)personID atEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
+- (void)dismissExhibitorAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID forExhibitor:(NSInteger)exhibitorID {
     
-    if (tokenID != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"personID" : [NSString stringWithFormat:@"%d", personID]}};
+	if (tokenID != nil) {
         
-        [self JSONObjectWithNamespace:@"event" method:@"revokePermission" attributes:attributes];
-    }
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"exhibitorID" : [NSString stringWithFormat:@"%d", exhibitorID]}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"dismissExhibitor" attributes:attributes];
+	}
 }
 
-- (void)getPeopleAtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
-
-    if (tokenID != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"selection" : @"all"}};
+- (void)enrollAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID {
+    
+	if (tokenID != nil) {
         
-        [self JSONObjectWithNamespace:@"event" method:@"getPeople" attributes:attributes];
-    }   
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"enroll" attributes:attributes];
+	}
+}
+
+- (void)enrollPersonAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID withName:(NSString *)name withEmail:(NSString *)email {
+    
+	if (tokenID != nil && name != nil && email != nil) {
+        
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"name" : name, @"email" : email}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"enrollPerson" attributes:attributes];
+	}
+}
+
+- (void)enrollPeopleAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID withPath:(NSString *)path {
+    
+	if (tokenID != nil && path != nil) {
+        
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"path" : path}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"enrollPeople" attributes:attributes];
+	}
+}
+
+- (void)dismissPersonAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID forPerson:(NSInteger)personID {
+    
+	if (tokenID != nil) {
+        
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"personID" : [NSString stringWithFormat:@"%d", personID]}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"dismissPerson" attributes:attributes];
+	}
+}
+
+- (void)confirmEntranceAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID {
+    
+	if (tokenID != nil) {
+        
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"confirmEntrance" attributes:attributes];
+	}
+}
+
+- (void)confirmEntranceForPersonAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID forPerson:(NSInteger)personID {
+    
+	if (tokenID != nil) {
+        
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"personID" : [NSString stringWithFormat:@"%d", personID]}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"confirmEntranceForPerson" attributes:attributes];
+	}
+}
+
+- (void)revokeEntranceAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID {
+    
+	if (tokenID != nil) {
+        
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"revokeEntrance" attributes:attributes];
+	}
+}
+
+- (void)revokeEntranceForPersonAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID forPerson:(NSInteger)personID {
+    
+	if (tokenID != nil) {
+        
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"personID" : [NSString stringWithFormat:@"%d", personID]}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"revokeEntranceForPerson" attributes:attributes];
+	}
+}
+
+- (void)grantPermissionForPersonAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID forPerson:(NSInteger)personID {
+    
+	if (tokenID != nil) {
+        
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"personID" : [NSString stringWithFormat:@"%d", personID]}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"grantPermissionForPerson" attributes:attributes];
+	}
+}
+
+- (void)revokePermissionForPersonAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID forPerson:(NSInteger)personID {
+    
+	if (tokenID != nil) {
+        
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"personID" : [NSString stringWithFormat:@"%d", personID]}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"revokePermissionForPerson" attributes:attributes];
+	}
+}
+
+- (void)getExhibitorsAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID withSelection:(NSString *)selection withOrder:(NSString *)order {
+    
+	if (tokenID != nil && selection != nil && order != nil) {
+        
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"selection" : selection, @"order" : order}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"getExhibitors" attributes:attributes];
+	}
+}
+
+- (void)getPeopleAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID withSelection:(NSString *)selection withOrder:(NSString *)order {
+    
+	if (tokenID != nil && selection != nil && order != nil) {
+        
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"selection" : selection, @"order" : order}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"getPeople" attributes:attributes];
+	}
+}
+
+- (void)sendMailAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID withSelection:(NSString *)selection withOrder:(NSString *)order {
+    
+	if (tokenID != nil && selection != nil && order != nil) {
+        
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID], @"selection" : selection, @"order" : order}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"sendMail" attributes:attributes];
+	}
+}
+
+- (void)getFlowForPersonAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID {
+    
+	if (tokenID != nil) {
+        
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"getFlowForPerson" attributes:attributes];
+	}
 }
 
 - (void)getActivitiesAtEvent:(NSInteger)eventID {
-
-    NSDictionary *attributes = @{@"GET" : @{@"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
     
-    [self JSONObjectWithNamespace:@"event" method:@"getActivities" attributes:attributes];
+	NSDictionary *attributes = @{@"GET" : @{@"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
+    
+	[self JSONObjectWithNamespace:@"event" method:@"getActivities" attributes:attributes];
 }
 
-- (void)getActivitiesAtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
-
-    if (tokenID != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
+- (void)getActivitiesForPersonAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID {
+    
+	if (tokenID != nil) {
         
-        [self JSONObjectWithNamespace:@"event" method:@"getActivities" attributes:attributes];
-    }
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"getActivitiesForPerson" attributes:attributes];
+	}
 }
 
 - (void)getGroupsAtEvent:(NSInteger)eventID {
     
-    NSDictionary *attributes = @{@"GET" : @{@"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
+	NSDictionary *attributes = @{@"GET" : @{@"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
     
-    [self JSONObjectWithNamespace:@"event" method:@"getGroups" attributes:attributes];
+	[self JSONObjectWithNamespace:@"event" method:@"getGroups" attributes:attributes];
 }
 
-- (void)getGroupsAtEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
+- (void)getGroupsForPersonAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID {
     
-    if (tokenID != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
+	if (tokenID != nil) {
         
-        [self JSONObjectWithNamespace:@"event" method:@"getGroups" attributes:attributes];
-    }
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"getGroupsForPerson" attributes:attributes];
+	}
 }
 
-- (void)getOpinionFromEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
+- (void)getOpinionAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID {
     
-    if (tokenID != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
+	if (tokenID != nil) {
         
-        [self JSONObjectWithNamespace:@"event" method:@"getOpinion" attributes:attributes];
-    }
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"getOpinion" attributes:attributes];
+	}
 }
 
-- (void)sendOpinionWithRating:(NSInteger)rating withMessage:(NSString *)message toEvent:(NSInteger)eventID withTokenID:(NSString *)tokenID {
+- (void)sendOpinionAuthenticatingWithTokenID:(NSString *)tokenID atEvent:(NSInteger)eventID withRating:(NSString *)rating withMessage:(NSString *)message {
     
-    if (tokenID != nil && message != nil) {
-        NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}, @"POST" : @{@"message" : message, @"rating" : [NSString stringWithFormat:@"%d", rating]}};
+	if (tokenID != nil && rating != nil && message != nil) {
         
-        [self JSONObjectWithNamespace:@"event" method:@"sendOpinion" attributes:attributes];
-    }
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : [NSString stringWithFormat:@"%d", eventID]}, @"POST" : @{@"rating" : rating, @"message" : message}};
+        
+		[self JSONObjectWithNamespace:@"event" method:@"sendOpinion" attributes:attributes];
+	}
 }
 
 @end
