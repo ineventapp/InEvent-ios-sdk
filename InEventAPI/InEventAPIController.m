@@ -210,7 +210,7 @@
         
         // Concatenate all the GET attributes inside the URL
         for (NSString *param in [[_attributes objectForKey:@"GET"] allKeys]) {
-            [url appendFormat:@"&%@=%@", param, [[[_attributes objectForKey:@"GET"] objectForKey:param] urlEncodeUsingEncoding:NSUTF8StringEncoding]];
+            [url appendFormat:@"&%@=%@", param, [[[_attributes objectForKey:@"GET"] objectForKey:param] stringByEncodingURLWithEncoding:NSUTF8StringEncoding]];
         }
         
 #ifdef DEBUG
@@ -221,7 +221,7 @@
         NSMutableString *postAttributes = [NSMutableString string];
         
         for (NSString *param in [[_attributes objectForKey:@"POST"] allKeys]) {
-            [postAttributes appendFormat:@"&%@=%@", param, [[[_attributes objectForKey:@"POST"] objectForKey:param] urlEncodeUsingEncoding:NSUTF8StringEncoding]];
+            [postAttributes appendFormat:@"&%@=%@", param, [[[_attributes objectForKey:@"POST"] objectForKey:param] stringByEncodingURLWithEncoding:NSUTF8StringEncoding]];
         }
         
         // Create a requisition
