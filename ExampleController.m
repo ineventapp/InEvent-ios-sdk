@@ -15,9 +15,13 @@
 
 - (id) init {
     if (self = [super init]) {
-        [[[InEventEventAPIController alloc] initWithDelegate:self forcing:YES withMaxAge:3600 withUserInfo:nil] getEventsWithName:@"any" withCity:@"any" withTheme:@"any" withDateBegin:@"any" withDateEnd:@"any" withOrder:@"any"];
+        [[[INEventAPIController alloc] initWithDelegate:self forcing:forcing withMaxAge:3600 withUserInfo:nil] findWithName:name withCity:city withTheme:theme withDateBegin:dateBegin withDateEnd:dateEnd withOrder:@"any"];
     }
     return self;
+}
+
+- (void)apiController:(INAPIController *)apiController didPartiallyReceiveDictionaryFromServer:(CGFloat)percentage {
+    // Show how much has already loaded
 }
 
 - (void)apiController:(InEventAPIController *)apiController didLoadDictionaryFromServer:(NSDictionary *)dictionary {

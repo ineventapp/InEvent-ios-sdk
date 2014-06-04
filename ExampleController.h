@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "InEventAPIControllerDelegate.h"
+#import "INAPIControllerDelegate.h"
 
-@interface ExampleController : NSObject <InEventAPIControllerDelegate>
+@interface ExampleController : NSObject <INAPIControllerDelegate>
 
 @end
