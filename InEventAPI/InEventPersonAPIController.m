@@ -1,125 +1,102 @@
-//
-//  APIController.m
-//  InEvent
-//
-//  Created by Pedro Góes on 14/10/12.
-//  Copyright (c) 2012 Pedro Góes. All rights reserved.
-//
+#import "INEventPersonAPIController.h"
 
-#import "InEventPersonAPIController.h"
+@implementation INEventPersonAPIController
 
-@implementation InEventPersonAPIController
+#pragma mark - EventPerson
 
-#pragma mark - Person
+- (void)bindAuthenticatedAtEvent {
 
-- (void)signInWithEmail:(NSString *)email withPassword:(NSString *)password {
-    
-	if (email != nil && password != nil) {
-        
-		NSDictionary *attributes = @{@"GET" : @{@"email" : email, @"password" : password}};
-        
-		[self JSONObjectWithNamespace:@"person" method:@"signIn" attributes:attributes];
+	NSDictionary *attributes = @{@"GET" : @{}};
+
+	[self JSONObjectWithModule:@"event.person" method:@"bind" attributes:attributes];
+}
+
+- (void)bindAuthenticatedAtEventWithName:(NSString *)name withEmail:(NSString *)email {
+
+	if (name != nil && email != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{}, @"POST" : @{@"name" : name, @"email" : email}};
+
+		[self JSONObjectWithModule:@"event.person" method:@"bind" attributes:attributes];
 	}
 }
 
-- (void)signInWithLinkedInWithLinkedInToken:(NSString *)linkedInToken {
-    
-	if (linkedInToken != nil) {
-        
-		NSDictionary *attributes = @{@"GET" : @{@"linkedInToken" : linkedInToken}};
-        
-		[self JSONObjectWithNamespace:@"person" method:@"signInWithLinkedIn" attributes:attributes];
+- (void)bindAuthenticatedAtEventWithPath:(NSString *)path {
+
+	if (path != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{}, @"POST" : @{@"path" : path}};
+
+		[self JSONObjectWithModule:@"event.person" method:@"bind" attributes:attributes];
 	}
 }
 
-- (void)signInWithFacebookWithFacebookToken:(NSString *)facebookToken {
-    
-	if (facebookToken != nil) {
-        
-		NSDictionary *attributes = @{@"GET" : @{@"facebookToken" : facebookToken}};
-        
-		[self JSONObjectWithNamespace:@"person" method:@"signInWithFacebook" attributes:attributes];
+- (void)operateAuthenticatedAtEventWithKey:(NSString *)key forPerson:(NSInteger)personID withValue:(NSString *)value {
+
+	if (key != nil && value != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"key" : key, @"personID" : [NSString stringWithFormat:@"%d", personID]}, @"POST" : @{@"value" : value}};
+
+		[self JSONObjectWithModule:@"event.person" method:@"operate" attributes:attributes];
 	}
 }
 
-- (void)getDetailsAuthenticatingWithTokenID:(NSString *)tokenID {
-    
-	if (tokenID != nil) {
-        
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}};
-        
-		[self JSONObjectWithNamespace:@"person" method:@"getDetails" attributes:attributes];
+- (void)operateAuthenticatedAtEventWithKey:(NSString *)key withValue:(NSString *)value {
+
+	if (key != nil && value != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"key" : key}, @"POST" : @{@"value" : value}};
+
+		[self JSONObjectWithModule:@"event.person" method:@"operate" attributes:attributes];
 	}
 }
 
-- (void)getDetailsForPersonAuthenticatingWithTokenID:(NSString *)tokenID forPerson:(NSInteger)personID {
-    
-	if (tokenID != nil) {
-        
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"personID" : [NSString stringWithFormat:@"%d", personID]}};
-        
-		[self JSONObjectWithNamespace:@"person" method:@"getDetailsForPerson" attributes:attributes];
+- (void)dismissAuthenticatedAtEventForPerson:(NSInteger)personID {
+
+	NSDictionary *attributes = @{@"GET" : @{@"personID" : [NSString stringWithFormat:@"%d", personID]}};
+
+	[self JSONObjectWithModule:@"event.person" method:@"dismiss" attributes:attributes];
+}
+
+- (void)dismissAuthenticatedAtEvent {
+
+	NSDictionary *attributes = @{@"GET" : @{}};
+
+	[self JSONObjectWithModule:@"event.person" method:@"dismiss" attributes:attributes];
+}
+
+- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection withOrder:(NSString *)order {
+
+	if (selection != nil && order != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"selection" : selection, @"order" : order}};
+
+		[self JSONObjectWithModule:@"event.person" method:@"find" attributes:attributes];
 	}
 }
 
-- (void)editAuthenticatingWithTokenID:(NSString *)tokenID withKey:(NSString *)key withValue:(NSString *)value {
-    
-	if (tokenID != nil && key != nil && value != nil) {
-        
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"key" : key}, @"POST" : @{@"value" : value}};
-        
-		[self JSONObjectWithNamespace:@"person" method:@"edit" attributes:attributes];
+- (void)sendMailAuthenticatedAtEventWithSelection:(NSString *)selection withOrder:(NSString *)order {
+
+	if (selection != nil && order != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"selection" : selection, @"order" : order}};
+
+		[self JSONObjectWithModule:@"event.person" method:@"sendMail" attributes:attributes];
 	}
 }
 
-- (void)enrollWithName:(NSString *)name withPassword:(NSString *)password withEmail:(NSString *)email {
-    
-	if (name != nil && password != nil && email != nil) {
-        
-		NSDictionary *attributes = @{@"GET" : @{}, @"POST" : @{@"name" : name, @"password" : password, @"email" : email}};
-        
-		[self JSONObjectWithNamespace:@"person" method:@"enroll" attributes:attributes];
-	}
+- (void)getAuthenticatedAtEventForPerson:(NSInteger)personID {
+
+	NSDictionary *attributes = @{@"GET" : @{@"personID" : [NSString stringWithFormat:@"%d", personID]}};
+
+	[self JSONObjectWithModule:@"event.person" method:@"get" attributes:attributes];
 }
 
-- (void)sendRecoveryWithEmail:(NSString *)email {
-    
-	if (email != nil) {
-        
-		NSDictionary *attributes = @{@"GET" : @{@"email" : email}};
-        
-		[self JSONObjectWithNamespace:@"person" method:@"sendRecovery" attributes:attributes];
-	}
-}
+- (void)getAuthenticatedAtEvent {
 
-- (void)subscribeAuthenticatingWithTokenID:(NSString *)tokenID withEmail:(NSString *)email {
-    
-	if (tokenID != nil && email != nil) {
-        
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"email" : email}};
-        
-		[self JSONObjectWithNamespace:@"person" method:@"subscribe" attributes:attributes];
-	}
-}
+	NSDictionary *attributes = @{@"GET" : @{}};
 
-- (void)unsubscribeAuthenticatingWithTokenID:(NSString *)tokenID withEmail:(NSString *)email {
-    
-	if (tokenID != nil && email != nil) {
-        
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"email" : email}};
-        
-		[self JSONObjectWithNamespace:@"person" method:@"unsubscribe" attributes:attributes];
-	}
-}
-
-- (void)changePasswordAuthenticatingWithTokenID:(NSString *)tokenID withOldPassword:(NSString *)oldPassword withNewPassword:(NSString *)newPassword {
-    
-	if (tokenID != nil && oldPassword != nil && newPassword != nil) {
-        
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"oldPassword" : oldPassword, @"newPassword" : newPassword}};
-        
-		[self JSONObjectWithNamespace:@"person" method:@"changePassword" attributes:attributes];
-	}
+	[self JSONObjectWithModule:@"event.person" method:@"get" attributes:attributes];
 }
 
 @end
