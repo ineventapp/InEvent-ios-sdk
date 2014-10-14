@@ -81,14 +81,6 @@
 
 #pragma mark - Setters
 
-- (void)setTokenID:(NSString *)tokenID {
-    [[INPersonToken sharedInstance] setTokenID:tokenID];
-}
-
-- (NSString *)tokenID {
-    return [[INPersonToken sharedInstance] tokenID];
-}
-
 - (NSString *)path {
     return [self generatePath];
 }
@@ -120,15 +112,15 @@
     
     // Add our tokenID is the method has our special keyword
     if ([[self.caller lowercaseString] rangeOfString:@"authenticated"].location != NSNotFound) {
-        if ([[INPersonToken sharedInstance] tokenID] != nil) {
-            [getDictionary setObject:[[INPersonToken sharedInstance] tokenID] forKey:@"tokenID"];
+        if ([[INPersonToken sharedInstance] objectForKey:@"tokenID"] != nil) {
+            [getDictionary setObject:[[INPersonToken sharedInstance] objectForKey:@"tokenID"] forKey:@"tokenID"];
         }
     }
     
     // Add our eventID is the method has our special keyword
     if ([[self.caller lowercaseString] rangeOfString:@"atevent"].location != NSNotFound) {
-        if ([[INEventToken sharedInstance] eventID] != 0) {
-            [getDictionary setObject:[NSString stringWithFormat:@"%ld", (long)[[INEventToken sharedInstance] eventID]] forKey:@"eventID"];
+        if ([[[INEventToken sharedInstance] objectForKey:@"eventID"] integerValue] != 0) {
+            [getDictionary setObject:[NSString stringWithFormat:@"%ld", [[[INEventToken sharedInstance] objectForKey:@"eventID"] longValue]] forKey:@"eventID"];
         }
     }
     
@@ -200,13 +192,31 @@
         self.force = YES;
     }
     
+    BOOL isIntact = NO;
+    
     // If the data shouldn't be download again (a.k.a. forced), we just retrieve it from the filesystem
     if (existance && !self.force) {
-        // Load it from the filesystem
+        
+        // See if there is a delegate to answer this request
         if ([self.delegate respondsToSelector:@selector(apiController:didLoadDictionaryFromServer:)]) {
-            [self.delegate apiController:self didLoadDictionaryFromServer: [NSDictionary dictionaryWithContentsOfFile:path]];
+            
+            @try {
+                // Defer our object
+                isIntact = YES;
+                // Load it from the filesystem
+                NSData *archivedData = [NSData dataWithContentsOfFile:path];
+                [self.delegate apiController:self didLoadDictionaryFromServer:[NSKeyedUnarchiver unarchiveObjectWithData:archivedData]];
+            }
+            @catch (NSException *exception) {
+                // Refuse our object
+                isIntact = NO;
+                // Remove it from the filesystem
+                [fileManager removeItemAtPath:path error:nil];
+            }
         }
-    } else {
+    }
+
+    if (!isIntact) {
         // Define our API url
         NSMutableString *url = [NSMutableString stringWithFormat:@"%@?action=%@.%@", URL_API, self.module, self.method];
         
@@ -302,6 +312,9 @@
         // Send a notification to the delegate
         if ([self.delegate respondsToSelector:@selector(apiController:didFailWithError:)]) {
             NSError *error = [NSError errorWithDomain:@"HTTP Code Error" code:[((NSHTTPURLResponse *)response) statusCode] userInfo:nil];
+#ifdef DEBUG
+            NSLog(@"%@", error.description);
+#endif
             [self.delegate apiController:self didFailWithError:error];
         }
     }
@@ -363,12 +376,12 @@
     } else {
         
         // Let's also save our JSON object inside a file
-        [JSON writeToFile:[self generatePath] atomically:YES];
+        [[NSKeyedArchiver archivedDataWithRootObject:JSON] writeToFile:[self generatePath] atomically:YES];
         
         // See if we have a valid token and assign it to our singleton
         if ([self.method isEqualToString:@"signIn"]) {
             if ([[JSON objectForKey:@"data"] count] > 0) {
-                [[INPersonToken sharedInstance] setTokenID:[[[JSON objectForKey:@"data"] firstObject] objectForKey:@"tokenID"]];
+                [[INPersonToken sharedInstance] setObject:[[[JSON objectForKey:@"data"] firstObject] objectForKey:@"tokenID"] forKey:@"tokenID"];
             }
         }
         

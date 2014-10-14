@@ -54,10 +54,6 @@
 - (id)initWithDelegate:(id<INAPIControllerDelegate>)aDelegate forcing:(BOOL)aForce withUserInfo:(NSDictionary *)aUserInfo;
 - (id)initWithDelegate:(id<INAPIControllerDelegate>)aDelegate forcing:(BOOL)aForce withMaxAge:(NSTimeInterval)aMaxAge withUserInfo:(NSDictionary *)aUserInfo;
 
-#pragma mark - Setters
-- (void)setTokenID:(NSString *)tokenID;
-- (NSString *)tokenID;
-
 #pragma mark - Verification
 - (BOOL)isRepresentedBySelector:(SEL)selector;
 
