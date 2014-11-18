@@ -36,7 +36,7 @@
     // Add, merge and replace keys
     for (int i = 0; i < [keys count]; i++) {
         if ([_values objectForKey:[keys objectAtIndex:i]] == nil) {
-            [_values setObject:[NSNull null] forKey:[keys objectAtIndex:i]];
+            [_values setObject:@"[NSNull null]" forKey:[keys objectAtIndex:i]];
         }
     }
 }
@@ -54,7 +54,7 @@
 - (id)objectForKey:(id)aKey {
     id object = [_values objectForKey:aKey];
     if (object != nil) {
-        return (object == [NSNull null]) ? nil : object;
+        return ([object isEqual:@"[NSNull null]"]) ? nil : object;
     } else {
         [NSException raise:@"invalid key" format:@"key %@ is not available", aKey];
         return object;
@@ -80,7 +80,7 @@
 - (void)resetData {
     NSArray *keys = [_values allKeys];
     for (int i = 0; i < [keys count]; i++) {
-        [_values setObject:[NSNull null] forKey:[keys objectAtIndex:i]];
+        [_values setObject:@"[NSNull null]" forKey:[keys objectAtIndex:i]];
     }
     
     [self storeEssentialData];

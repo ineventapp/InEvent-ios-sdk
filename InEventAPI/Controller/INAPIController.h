@@ -12,15 +12,13 @@
 #ifdef DEBUG
     #if TARGET_IPHONE_SIMULATOR
         #define URL @"http://inevent.local:8888/"
-        #define URL_API @"http://inevent.local:8888/developer/"
+        #define URL_API @"http://inevent.local:8888/api/"
     #else
-        //#define URL @"http://192.168.1.73:8888/INEvent-dev/Web/"
-        //#define URL_API @"https://inevent.us/api/"
-        #define URL @"http://inevent.us/"
+        #define URL @"https://inevent.us/"
         #define URL_API @"https://inevent.us/api/"
     #endif
 #else
-    #define URL @"http://inevent.us/"
+    #define URL @"https://inevent.us/"
     #define URL_API @"https://inevent.us/api/"
 #endif
 

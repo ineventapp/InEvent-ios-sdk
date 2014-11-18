@@ -22,6 +22,7 @@
 #import "Modules/INActivityAPIController.h"
 #import "Modules/INActivityPersonAPIController.h"
 #import "Modules/INAdAPIController.h"
+#import "Modules/INCommentAPIController.h"
 #import "Modules/INCompanyAPIController.h"
 #import "Modules/INCompanyEventAPIController.h"
 #import "Modules/INCompanyPartyAPIController.h"
@@ -43,5 +44,6 @@
 #import "Modules/INQuizAPIController.h"
 #import "Modules/INQuizOptionAPIController.h"
 #import "Modules/INTicketAPIController.h"
+#import "Modules/INTrackingAPIController.h"
 
 #endif

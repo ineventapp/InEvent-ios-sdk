@@ -9,6 +9,5 @@
 - (void)removeAuthenticatedAtAd:(NSInteger)adID;
 - (void)findAtEventForExhibitor:(NSInteger)exhibitorID;
 - (void)findAtEvent;
-- (void)seenAdAtAd:(NSInteger)adID;
 
 @end

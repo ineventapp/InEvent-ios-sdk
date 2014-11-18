@@ -45,11 +45,4 @@
 	[self JSONObjectWithModule:@"ad" method:@"find" attributes:attributes];
 }
 
-- (void)seenAdAtAd:(NSInteger)adID {
-
-	NSDictionary *attributes = @{@"GET" : @{@"adID" : [NSString stringWithFormat:@"%d", adID]}};
-
-	[self JSONObjectWithModule:@"ad" method:@"seenAd" attributes:attributes];
-}
-
 @end
