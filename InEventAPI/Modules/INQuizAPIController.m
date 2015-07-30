@@ -4,42 +4,76 @@
 
 #pragma mark - Quiz
 
-- (void)createAuthenticatedAtEventWithText:(NSString *)text {
+- (void)createAuthenticatedAtActivity:(NSInteger)activityID withText:(NSString *)text {
 
-	if (text != nil) {
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-		NSDictionary *attributes = @{@"GET" : @{}, @"POST" : @{@"text" : text}};
+	if (tokenID != nil && text != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}, @"POST" : @{@"text" : text}};
 
 		[self JSONObjectWithModule:@"quiz" method:@"create" attributes:attributes];
 	}
 }
 
-- (void)removeAuthenticatedAtQuiz:(NSInteger)quizID {
+- (void)editAuthenticatedAtQuiz:(NSInteger)quizID withKey:(NSString *)key withValue:(NSString *)value {
 
-	NSDictionary *attributes = @{@"GET" : @{@"quizID" : [NSString stringWithFormat:@"%d", quizID]}};
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	[self JSONObjectWithModule:@"quiz" method:@"remove" attributes:attributes];
+	if (tokenID != nil && key != nil && value != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"quizID" : [NSString stringWithFormat:@"%ld", (long)quizID], @"key" : key}, @"POST" : @{@"value" : value}};
+
+		[self JSONObjectWithModule:@"quiz" method:@"edit" attributes:attributes];
+	}
 }
 
-- (void)findAuthenticatedAtEvent {
+- (void)removeAuthenticatedAtQuiz:(NSInteger)quizID {
 
-	NSDictionary *attributes = @{@"GET" : @{}};
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	[self JSONObjectWithModule:@"quiz" method:@"find" attributes:attributes];
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"quizID" : [NSString stringWithFormat:@"%ld", (long)quizID]}};
+
+		[self JSONObjectWithModule:@"quiz" method:@"remove" attributes:attributes];
+	}
+}
+
+- (void)findAuthenticatedAtActivity:(NSInteger)activityID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}};
+
+		[self JSONObjectWithModule:@"quiz" method:@"find" attributes:attributes];
+	}
 }
 
 - (void)getAuthenticatedAtQuiz:(NSInteger)quizID {
 
-	NSDictionary *attributes = @{@"GET" : @{@"quizID" : [NSString stringWithFormat:@"%d", quizID]}};
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	[self JSONObjectWithModule:@"quiz" method:@"get" attributes:attributes];
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"quizID" : [NSString stringWithFormat:@"%ld", (long)quizID]}};
+
+		[self JSONObjectWithModule:@"quiz" method:@"get" attributes:attributes];
+	}
 }
 
 - (void)respondAuthenticatedAtQuiz:(NSInteger)quizID atQuizOption:(NSInteger)quizOptionID {
 
-	NSDictionary *attributes = @{@"GET" : @{@"quizID" : [NSString stringWithFormat:@"%d", quizID], @"quizOptionID" : [NSString stringWithFormat:@"%d", quizOptionID]}};
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	[self JSONObjectWithModule:@"quiz" method:@"respond" attributes:attributes];
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"quizID" : [NSString stringWithFormat:@"%ld", (long)quizID], @"quizOptionID" : [NSString stringWithFormat:@"%ld", (long)quizOptionID]}};
+
+		[self JSONObjectWithModule:@"quiz" method:@"respond" attributes:attributes];
+	}
 }
 
 @end

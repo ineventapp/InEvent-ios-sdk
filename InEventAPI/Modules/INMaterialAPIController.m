@@ -6,9 +6,11 @@
 
 - (void)createAuthenticatedAtActivity:(NSInteger)activityID withName:(NSString *)name withIcon:(NSString *)icon withUrl:(NSString *)url {
 
-	if (name != nil && icon != nil && url != nil) {
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-		NSDictionary *attributes = @{@"GET" : @{@"activityID" : [NSString stringWithFormat:@"%d", activityID]}, @"POST" : @{@"name" : name, @"icon" : icon, @"url" : url}};
+	if (tokenID != nil && name != nil && icon != nil && url != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}, @"POST" : @{@"name" : name, @"icon" : icon, @"url" : url}};
 
 		[self JSONObjectWithModule:@"material" method:@"create" attributes:attributes];
 	}
@@ -16,23 +18,38 @@
 
 - (void)removeAuthenticatedAtMaterial:(NSInteger)materialID {
 
-	NSDictionary *attributes = @{@"GET" : @{@"materialID" : [NSString stringWithFormat:@"%d", materialID]}};
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	[self JSONObjectWithModule:@"material" method:@"remove" attributes:attributes];
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"materialID" : [NSString stringWithFormat:@"%ld", (long)materialID]}};
+
+		[self JSONObjectWithModule:@"material" method:@"remove" attributes:attributes];
+	}
 }
 
 - (void)findAuthenticatedAtActivity:(NSInteger)activityID {
 
-	NSDictionary *attributes = @{@"GET" : @{@"activityID" : [NSString stringWithFormat:@"%d", activityID]}};
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	[self JSONObjectWithModule:@"material" method:@"find" attributes:attributes];
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}};
+
+		[self JSONObjectWithModule:@"material" method:@"find" attributes:attributes];
+	}
 }
 
 - (void)getAuthenticatedAtMaterial:(NSInteger)materialID {
 
-	NSDictionary *attributes = @{@"GET" : @{@"materialID" : [NSString stringWithFormat:@"%d", materialID]}};
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	[self JSONObjectWithModule:@"material" method:@"get" attributes:attributes];
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"materialID" : [NSString stringWithFormat:@"%ld", (long)materialID]}};
+
+		[self JSONObjectWithModule:@"material" method:@"get" attributes:attributes];
+	}
 }
 
 @end

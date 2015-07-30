@@ -43,7 +43,11 @@
 
 - (void)setObject:(id)anObject forKey:(id < NSCopying >)aKey {
     if ([_values objectForKey:aKey] != nil) {
-        [_values setObject:anObject forKey:aKey];
+        if (anObject != nil) {
+            [_values setObject:anObject forKey:aKey];
+        } else {
+            [_values setObject:@"[NSNull null]" forKey:aKey];
+        }
     } else {
         [NSException raise:@"invalid key" format:@"key %@ is not available", aKey];
     }
@@ -56,9 +60,12 @@
     if (object != nil) {
         return ([object isEqual:@"[NSNull null]"]) ? nil : object;
     } else {
-        [NSException raise:@"invalid key" format:@"key %@ is not available", aKey];
         return object;
     }
+}
+
+- (NSArray *)getAllKeys {
+    return [_values allKeys];
 }
 
 #pragma mark - Data
@@ -68,13 +75,23 @@
 }
 
 - (void)storeEssentialData {
-    [_values writeToFile:[self essentialDataPath] atomically:YES];
+    if (![[NSKeyedArchiver archivedDataWithRootObject:_values] writeToFile:[self essentialDataPath] atomically:YES]) {
+        [NSException raise:@"invalid storage" format:@"values couldn't be saved"];
+    }
 }
 
 - (void)loadEssentialData {
-    _values = [NSMutableDictionary dictionaryWithContentsOfFile:[self essentialDataPath]];
-    
-    if (_values == nil) _values = [NSMutableDictionary dictionary];
+    NSData *archivedData = [NSData dataWithContentsOfFile:[self essentialDataPath]];
+    if (archivedData) {
+        @try {
+            _values = (NSMutableDictionary *)[NSKeyedUnarchiver unarchiveObjectWithData:archivedData];
+        }
+        @catch (NSException *exception) {
+            _values = [NSMutableDictionary dictionary];
+        }
+    } else {
+        _values = [NSMutableDictionary dictionary];
+    }
 }
 
 - (void)resetData {

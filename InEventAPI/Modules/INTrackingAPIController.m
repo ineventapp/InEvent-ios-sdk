@@ -6,9 +6,12 @@
 
 - (void)createAuthenticatedAtEventWithTarget:(NSString *)target atTarget:(NSInteger)targetID withDate:(NSString *)date {
 
-	if (target != nil && date != nil) {
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
 
-		NSDictionary *attributes = @{@"GET" : @{}, @"POST" : @{@"target" : target, @"targetID" : [NSString stringWithFormat:@"%d", targetID], @"date" : date}};
+	if (tokenID != nil && eventID != nil && target != nil && date != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"target" : target, @"targetID" : [NSString stringWithFormat:@"%ld", (long)targetID], @"date" : date}};
 
 		[self JSONObjectWithModule:@"tracking" method:@"create" attributes:attributes];
 	}
@@ -16,26 +19,75 @@
 
 - (void)createAtEventWithTarget:(NSString *)target atTarget:(NSInteger)targetID withDate:(NSString *)date {
 
-	if (target != nil && date != nil) {
+	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
 
-		NSDictionary *attributes = @{@"GET" : @{}, @"POST" : @{@"target" : target, @"targetID" : [NSString stringWithFormat:@"%d", targetID], @"date" : date}};
+	if (eventID != nil && target != nil && date != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID}, @"POST" : @{@"target" : target, @"targetID" : [NSString stringWithFormat:@"%ld", (long)targetID], @"date" : date}};
 
 		[self JSONObjectWithModule:@"tracking" method:@"create" attributes:attributes];
 	}
 }
 
-- (void)findAuthenticatedAtEvent {
+- (void)createAuthenticatedWithContent:(NSString *)content {
 
-	NSDictionary *attributes = @{@"GET" : @{}};
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	[self JSONObjectWithModule:@"tracking" method:@"find" attributes:attributes];
+	if (tokenID != nil && content != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"content" : content}};
+
+		[self JSONObjectWithModule:@"tracking" method:@"create" attributes:attributes];
+	}
+}
+
+- (void)createWithContent:(NSString *)content {
+
+
+	if (content != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{}, @"POST" : @{@"content" : content}};
+
+		[self JSONObjectWithModule:@"tracking" method:@"create" attributes:attributes];
+	}
+}
+
+- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+
+	if (tokenID != nil && eventID != nil && selection != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection}};
+
+		[self JSONObjectWithModule:@"tracking" method:@"find" attributes:attributes];
+	}
+}
+
+- (void)findAuthenticatedAtEventWithRoot:(NSString *)root withModule:(NSString *)module {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+
+	if (tokenID != nil && eventID != nil && root != nil && module != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"root" : root, @"module" : module}};
+
+		[self JSONObjectWithModule:@"tracking" method:@"find" attributes:attributes];
+	}
 }
 
 - (void)getAuthenticatedAtTracking:(NSInteger)trackingID {
 
-	NSDictionary *attributes = @{@"GET" : @{@"trackingID" : [NSString stringWithFormat:@"%d", trackingID]}};
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	[self JSONObjectWithModule:@"tracking" method:@"get" attributes:attributes];
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"trackingID" : [NSString stringWithFormat:@"%ld", (long)trackingID]}};
+
+		[self JSONObjectWithModule:@"tracking" method:@"get" attributes:attributes];
+	}
 }
 
 @end

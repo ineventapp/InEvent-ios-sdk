@@ -6,9 +6,11 @@
 
 - (void)bindAuthenticatedAtCompany:(NSInteger)companyID withModel:(NSString *)model withDeviceKey:(NSString *)deviceKey {
 
-	if (model != nil && deviceKey != nil) {
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-		NSDictionary *attributes = @{@"GET" : @{@"companyID" : [NSString stringWithFormat:@"%d", companyID]}, @"POST" : @{@"model" : model, @"deviceKey" : deviceKey}};
+	if (tokenID != nil && model != nil && deviceKey != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"model" : model, @"deviceKey" : deviceKey}};
 
 		[self JSONObjectWithModule:@"person.device" method:@"bind" attributes:attributes];
 	}
@@ -16,9 +18,11 @@
 
 - (void)dismissAuthenticatedAtCompany:(NSInteger)companyID withModel:(NSString *)model withDeviceKey:(NSString *)deviceKey {
 
-	if (model != nil && deviceKey != nil) {
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-		NSDictionary *attributes = @{@"GET" : @{@"companyID" : [NSString stringWithFormat:@"%d", companyID]}, @"POST" : @{@"model" : model, @"deviceKey" : deviceKey}};
+	if (tokenID != nil && model != nil && deviceKey != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"model" : model, @"deviceKey" : deviceKey}};
 
 		[self JSONObjectWithModule:@"person.device" method:@"dismiss" attributes:attributes];
 	}

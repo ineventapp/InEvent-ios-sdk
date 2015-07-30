@@ -10,8 +10,8 @@
 
 typedef enum {
     INPersonStateUnknown = -1,
-    INPersonStateDenied,
-    INPersonStateApproved
+    INPersonStateDenied = 0,
+    INPersonStateApproved = 1
 } INPersonState;
 
 typedef enum {

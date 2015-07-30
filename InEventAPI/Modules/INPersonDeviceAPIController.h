@@ -6,5 +6,4 @@
 #pragma mark - PersonDevice
 - (void)bindAuthenticatedAtCompany:(NSInteger)companyID withModel:(NSString *)model withDeviceKey:(NSString *)deviceKey;
 - (void)dismissAuthenticatedAtCompany:(NSInteger)companyID withModel:(NSString *)model withDeviceKey:(NSString *)deviceKey;
-
 @end

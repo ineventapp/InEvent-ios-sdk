@@ -20,42 +20,54 @@
         sharedInstance = [[INPersonToken alloc] init];
         // Load the data that is already stored
         [sharedInstance setAllowedKeys:@[@"tokenID",
-                                         @"memberID",
+                                         @"personID",
                                          @"approved",
                                          @"role",
                                          @"name"]];
+        
+        // Set approved as default value
+        if ([sharedInstance objectForKey:@"approved"] == nil) [sharedInstance setObject:@(-1) forKey:@"approved"];
     });
     return sharedInstance;
 }
 
 #pragma mark - User Methods
 
-- (BOOL)isMemberAuthenticated {
-    if ([self objectForKey:@"tokenID"] != nil) {
+- (BOOL)isPersonAuthenticated {
+    if ([self objectForKey:@"tokenID"] != nil && [self objectForKey:@"personID"] != nil) {
         return YES;
     } else {
         return NO;
     }
 }
 
-- (BOOL)isMemberApproved {
-    if ((INPersonState)[[self objectForKey:@"approved"] integerValue] == INPersonStateApproved) {
-        return YES;
+- (BOOL)isPersonApproved {
+    if ([self isPersonAuthenticated]) {
+        if ((INPersonState)[[self objectForKey:@"approved"] integerValue] == INPersonStateApproved) {
+            return YES;
+        } else {
+            return NO;
+        }
     } else {
         return NO;
     }
 }
 
-- (BOOL)isMemberWorking {
-    if ((INPersonPermission)[[self objectForKey:@"role"] integerValue] & INPersonPermissionWorking) {
-        return YES;
+- (BOOL)isPersonWorking {
+    if ([self isPersonAuthenticated]) {
+        if ((INPersonPermission)[[self objectForKey:@"role"] integerValue] & INPersonPermissionWorking) {
+            return YES;
+        } else {
+            return NO;
+        }
     } else {
         return NO;
     }
 }
 
-- (void)removeMember {
+- (void)removePerson {
     [self resetData];
+    [self setObject:@(-1) forKey:@"approved"];
 }
 
 @end

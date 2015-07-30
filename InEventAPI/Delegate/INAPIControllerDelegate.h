@@ -12,6 +12,8 @@
 
 @protocol INAPIControllerDelegate <NSObject>
 @optional
+- (void)apiControllerWillStartAsyncronousDownload:(INAPIController *)apiController;
+- (void)apiController:(INAPIController *)apiController didReceiveStatusCodeFromServer:(NSInteger)statusCode;
 - (void)apiController:(INAPIController *)apiController didPartiallyReceiveDictionaryFromServer:(CGFloat)percentage;
 - (void)apiController:(INAPIController *)apiController didLoadDictionaryFromServer:(NSDictionary *)dictionary;
 - (void)apiController:(INAPIController *)apiController didFailWithError:(NSError *)error;

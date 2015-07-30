@@ -8,5 +8,4 @@
 - (void)findAuthenticatedAtEvent;
 - (void)requestAddressAuthenticatedAtEventAtPayment:(NSInteger)paymentID;
 - (void)provideConfirmationAtEventWithCollection_id:(NSString *)collection_id;
-
 @end

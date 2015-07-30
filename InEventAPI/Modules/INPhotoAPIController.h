@@ -7,5 +7,4 @@
 - (void)createAuthenticatedAtEventWithUrl:(NSString *)url;
 - (void)findAuthenticatedAtEvent;
 - (void)getAuthenticatedAtPhoto:(NSInteger)photoID;
-
 @end

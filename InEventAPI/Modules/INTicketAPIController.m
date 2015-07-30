@@ -6,9 +6,12 @@
 
 - (void)createAuthenticatedAtEventWithName:(NSString *)name {
 
-	if (name != nil) {
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
 
-		NSDictionary *attributes = @{@"GET" : @{}, @"POST" : @{@"name" : name}};
+	if (tokenID != nil && eventID != nil && name != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"name" : name}};
 
 		[self JSONObjectWithModule:@"ticket" method:@"create" attributes:attributes];
 	}
@@ -16,9 +19,11 @@
 
 - (void)editAuthenticatedAtTicket:(NSInteger)ticketID withKey:(NSString *)key withValue:(NSString *)value {
 
-	if (key != nil && value != nil) {
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-		NSDictionary *attributes = @{@"GET" : @{@"ticketID" : [NSString stringWithFormat:@"%d", ticketID], @"key" : key}, @"POST" : @{@"value" : value}};
+	if (tokenID != nil && key != nil && value != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"ticketID" : [NSString stringWithFormat:@"%ld", (long)ticketID], @"key" : key}, @"POST" : @{@"value" : value}};
 
 		[self JSONObjectWithModule:@"ticket" method:@"edit" attributes:attributes];
 	}
@@ -26,23 +31,39 @@
 
 - (void)removeAuthenticatedAtTicket:(NSInteger)ticketID {
 
-	NSDictionary *attributes = @{@"GET" : @{@"ticketID" : [NSString stringWithFormat:@"%d", ticketID]}};
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	[self JSONObjectWithModule:@"ticket" method:@"remove" attributes:attributes];
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"ticketID" : [NSString stringWithFormat:@"%ld", (long)ticketID]}};
+
+		[self JSONObjectWithModule:@"ticket" method:@"remove" attributes:attributes];
+	}
 }
 
 - (void)findAuthenticatedAtEvent {
 
-	NSDictionary *attributes = @{@"GET" : @{}};
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
 
-	[self JSONObjectWithModule:@"ticket" method:@"find" attributes:attributes];
+	if (tokenID != nil && eventID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
+
+		[self JSONObjectWithModule:@"ticket" method:@"find" attributes:attributes];
+	}
 }
 
 - (void)getAuthenticatedAtTicket:(NSInteger)ticketID {
 
-	NSDictionary *attributes = @{@"GET" : @{@"ticketID" : [NSString stringWithFormat:@"%d", ticketID]}};
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	[self JSONObjectWithModule:@"ticket" method:@"get" attributes:attributes];
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"ticketID" : [NSString stringWithFormat:@"%ld", (long)ticketID]}};
+
+		[self JSONObjectWithModule:@"ticket" method:@"get" attributes:attributes];
+	}
 }
 
 @end

@@ -4,45 +4,61 @@
 
 #pragma mark - Ad
 
-- (void)createAuthenticatedAtEventForExhibitor:(NSInteger)exhibitorID withImage:(NSString *)image withWeight:(NSString *)weight {
+- (void)createAuthenticatedAtSponsorship:(NSInteger)sponsorshipID withImage:(NSString *)image withWeight:(NSString *)weight {
 
-	if (image != nil && weight != nil) {
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-		NSDictionary *attributes = @{@"GET" : @{@"exhibitorID" : [NSString stringWithFormat:@"%d", exhibitorID]}, @"POST" : @{@"image" : image, @"weight" : weight}};
+	if (tokenID != nil && image != nil && weight != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"sponsorshipID" : [NSString stringWithFormat:@"%ld", (long)sponsorshipID]}, @"POST" : @{@"image" : image, @"weight" : weight}};
 
 		[self JSONObjectWithModule:@"ad" method:@"create" attributes:attributes];
 	}
 }
 
-- (void)createAuthenticatedAtEventWithImage:(NSString *)image withWeight:(NSString *)weight {
+- (void)editAuthenticatedAtAd:(NSInteger)adID withKey:(NSString *)key withValue:(NSString *)value {
 
-	if (image != nil && weight != nil) {
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-		NSDictionary *attributes = @{@"GET" : @{}, @"POST" : @{@"image" : image, @"weight" : weight}};
+	if (tokenID != nil && key != nil && value != nil) {
 
-		[self JSONObjectWithModule:@"ad" method:@"create" attributes:attributes];
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"adID" : [NSString stringWithFormat:@"%ld", (long)adID], @"key" : key}, @"POST" : @{@"value" : value}};
+
+		[self JSONObjectWithModule:@"ad" method:@"edit" attributes:attributes];
 	}
 }
 
 - (void)removeAuthenticatedAtAd:(NSInteger)adID {
 
-	NSDictionary *attributes = @{@"GET" : @{@"adID" : [NSString stringWithFormat:@"%d", adID]}};
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	[self JSONObjectWithModule:@"ad" method:@"remove" attributes:attributes];
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"adID" : [NSString stringWithFormat:@"%ld", (long)adID]}};
+
+		[self JSONObjectWithModule:@"ad" method:@"remove" attributes:attributes];
+	}
 }
 
-- (void)findAtEventForExhibitor:(NSInteger)exhibitorID {
+- (void)findAtSponsorship:(NSInteger)sponsorshipID {
 
-	NSDictionary *attributes = @{@"GET" : @{@"exhibitorID" : [NSString stringWithFormat:@"%d", exhibitorID]}};
+
+
+	NSDictionary *attributes = @{@"GET" : @{@"sponsorshipID" : [NSString stringWithFormat:@"%ld", (long)sponsorshipID]}};
 
 	[self JSONObjectWithModule:@"ad" method:@"find" attributes:attributes];
 }
 
 - (void)findAtEvent {
 
-	NSDictionary *attributes = @{@"GET" : @{}};
+	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
 
-	[self JSONObjectWithModule:@"ad" method:@"find" attributes:attributes];
+	if (eventID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID}};
+
+		[self JSONObjectWithModule:@"ad" method:@"find" attributes:attributes];
+	}
 }
 
 @end

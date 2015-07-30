@@ -14,5 +14,4 @@
 - (void)findAuthenticatedAtActivity:(NSInteger)activityID withSelection:(NSString *)selection withOrder:(NSString *)order;
 - (void)getAuthenticatedAtActivity:(NSInteger)activityID forPerson:(NSInteger)personID;
 - (void)getAuthenticatedAtActivity:(NSInteger)activityID;
-
 @end

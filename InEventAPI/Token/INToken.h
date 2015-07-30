@@ -18,6 +18,9 @@
 - (void)setObject:(id)anObject forKey:(id < NSCopying >)aKey;
 - (id)objectForKey:(id)aKey;
 
+#pragma mark - Getters
+- (NSArray *)getAllKeys;
+
 #pragma mark - Cleaner
 - (void)resetData;
 

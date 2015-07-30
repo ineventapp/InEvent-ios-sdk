@@ -11,5 +11,6 @@
 - (void)findWithName:(NSString *)name withCity:(NSString *)city withTheme:(NSString *)theme withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd withOrder:(NSString *)order;
 - (void)getAuthenticatedAtEvent;
 - (void)getAtEvent;
-
+- (void)checkAccessCodeAuthenticatedAtEventWithAccessCode:(NSString *)accessCode;
+- (void)statisticsAuthenticatedAtEvent;
 @end

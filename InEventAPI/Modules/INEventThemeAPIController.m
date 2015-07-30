@@ -6,9 +6,12 @@
 
 - (void)operateAuthenticatedAtEventWithOperation:(NSString *)operation withKey:(NSString *)key withValue:(NSString *)value {
 
-	if (operation != nil && key != nil && value != nil) {
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
 
-		NSDictionary *attributes = @{@"GET" : @{@"operation" : operation, @"key" : key}, @"POST" : @{@"value" : value}};
+	if (tokenID != nil && eventID != nil && operation != nil && key != nil && value != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"operation" : operation, @"key" : key}, @"POST" : @{@"value" : value}};
 
 		[self JSONObjectWithModule:@"event.theme" method:@"operate" attributes:attributes];
 	}

@@ -4,6 +4,5 @@
 @interface INFlowAPIController : INAPIController
 
 #pragma mark - Flow
-- (void)findAuthenticatedAtEvent;
-
+- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection;
 @end

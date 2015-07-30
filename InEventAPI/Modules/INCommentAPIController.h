@@ -8,5 +8,4 @@
 - (void)removeAuthenticatedAtComment:(NSInteger)commentID;
 - (void)findAuthenticatedAtActivity:(NSInteger)activityID;
 - (void)getAuthenticatedAtComment:(NSInteger)commentID;
-
 @end

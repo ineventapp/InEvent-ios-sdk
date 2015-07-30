@@ -15,5 +15,4 @@
 - (void)sendMailAuthenticatedAtEventWithSelection:(NSString *)selection withOrder:(NSString *)order;
 - (void)getAuthenticatedAtEventForPerson:(NSInteger)personID;
 - (void)getAuthenticatedAtEvent;
-
 @end

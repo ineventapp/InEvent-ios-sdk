@@ -6,9 +6,11 @@
 
 - (void)createAuthenticatedAtActivity:(NSInteger)activityID withText:(NSString *)text {
 
-	if (text != nil) {
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-		NSDictionary *attributes = @{@"GET" : @{@"activityID" : [NSString stringWithFormat:@"%d", activityID]}, @"POST" : @{@"text" : text}};
+	if (tokenID != nil && text != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}, @"POST" : @{@"text" : text}};
 
 		[self JSONObjectWithModule:@"comment" method:@"create" attributes:attributes];
 	}
@@ -16,23 +18,38 @@
 
 - (void)removeAuthenticatedAtComment:(NSInteger)commentID {
 
-	NSDictionary *attributes = @{@"GET" : @{@"commentID" : [NSString stringWithFormat:@"%d", commentID]}};
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	[self JSONObjectWithModule:@"comment" method:@"remove" attributes:attributes];
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"commentID" : [NSString stringWithFormat:@"%ld", (long)commentID]}};
+
+		[self JSONObjectWithModule:@"comment" method:@"remove" attributes:attributes];
+	}
 }
 
 - (void)findAuthenticatedAtActivity:(NSInteger)activityID {
 
-	NSDictionary *attributes = @{@"GET" : @{@"activityID" : [NSString stringWithFormat:@"%d", activityID]}};
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	[self JSONObjectWithModule:@"comment" method:@"find" attributes:attributes];
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}};
+
+		[self JSONObjectWithModule:@"comment" method:@"find" attributes:attributes];
+	}
 }
 
 - (void)getAuthenticatedAtComment:(NSInteger)commentID {
 
-	NSDictionary *attributes = @{@"GET" : @{@"commentID" : [NSString stringWithFormat:@"%d", commentID]}};
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	[self JSONObjectWithModule:@"comment" method:@"get" attributes:attributes];
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"commentID" : [NSString stringWithFormat:@"%ld", (long)commentID]}};
+
+		[self JSONObjectWithModule:@"comment" method:@"get" attributes:attributes];
+	}
 }
 
 @end

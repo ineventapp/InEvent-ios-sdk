@@ -4,11 +4,17 @@
 
 #pragma mark - Flow
 
-- (void)findAuthenticatedAtEvent {
+- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection {
 
-	NSDictionary *attributes = @{@"GET" : @{}};
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
 
-	[self JSONObjectWithModule:@"flow" method:@"find" attributes:attributes];
+	if (tokenID != nil && eventID != nil && selection != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection}};
+
+		[self JSONObjectWithModule:@"flow" method:@"find" attributes:attributes];
+	}
 }
 
 @end

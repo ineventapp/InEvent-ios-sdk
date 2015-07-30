@@ -7,6 +7,7 @@
 //
 
 #import "INEventToken.h"
+#import "CompanyMacro.h"
 
 @implementation INEventToken
 
@@ -21,12 +22,31 @@
         // Load the data that is already stored
         [sharedInstance setAllowedKeys:@[@"eventID",
                                          @"name",
-                                         @"nickname"]];
+                                         @"nickname",
+                                         @"public"]];
+        
+        // Load a default value
+        if (APP_EVENTID != 0) [sharedInstance setObject:@(APP_EVENTID) forKey:@"eventID"];
     });
     return sharedInstance;
 }
 
-#pragma mark - User Methods
+#pragma mark - Public Methods
+
+- (void)updateValuesWithDictionary:(NSDictionary *)dictionary {
+    // Update all values based on dictionary
+    if ([dictionary objectForKey:@"eventID"]) [[INEventToken sharedInstance] setObject:@([[dictionary objectForKey:@"eventID"] integerValue]) forKey:@"eventID"];
+    
+    if ([dictionary objectForKey:@"name"]) [[INEventToken sharedInstance] setObject:[dictionary objectForKey:@"name"] forKey:@"name"];
+    
+    if ([dictionary objectForKey:@"nickname"]) [[INEventToken sharedInstance] setObject:[dictionary objectForKey:@"nickname"] forKey:@"nickname"];
+    
+    if ([dictionary objectForKey:@"public"]) [[INEventToken sharedInstance] setObject:[dictionary objectForKey:@"public"] forKey:@"public"];
+    
+    if ([dictionary objectForKey:@"approved"]) [[INPersonToken sharedInstance] setObject:@((INPersonState)[[dictionary objectForKey:@"approved"] integerValue]) forKey:@"approved"];
+    
+    if ([dictionary objectForKey:@"roleID"]) [[INPersonToken sharedInstance] setObject:@((INPersonRole)[[dictionary objectForKey:@"roleID"] integerValue]) forKey:@"role"];
+}
 
 - (BOOL)isEventSelected {
     if ([[self objectForKey:@"eventID"] integerValue] != 0) {
@@ -39,6 +59,9 @@
 - (void)removeEvent {
     // Remove all the data
     [self resetData];
+    
+    // Rewrite our default value
+    [self setObject:@(APP_EVENTID) forKey:@"eventID"];
     
     // Notify about the enterprise removal
     [[NSNotificationCenter defaultCenter] postNotificationName:@"selectFirstController" object:nil];

@@ -7,18 +7,20 @@
 //
 
 #import "ExampleController.h"
-#import "InEventAPI.h"
+#import "INAPI.h"
 
 @implementation ExampleController
 
-#pragma mark - APIController Delegate
+#pragma mark - Initialization
 
-- (id) init {
+- (id)init {
     if (self = [super init]) {
-        [[[INEventAPIController alloc] initWithDelegate:self forcing:forcing withMaxAge:3600 withUserInfo:nil] findWithName:name withCity:city withTheme:theme withDateBegin:dateBegin withDateEnd:dateEnd withOrder:@"any"];
+        [[[INEventAPIController alloc] initWithDelegate:self returnPreviousSave:NO] findWithName:name withCity:city withTheme:theme withDateBegin:dateBegin withDateEnd:dateEnd withOrder:@"any"];
     }
     return self;
 }
+
+#pragma mark - APIController Delegate
 
 - (void)apiController:(INAPIController *)apiController didPartiallyReceiveDictionaryFromServer:(CGFloat)percentage {
     // Show how much has already loaded

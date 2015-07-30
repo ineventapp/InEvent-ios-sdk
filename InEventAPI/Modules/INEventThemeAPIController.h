@@ -5,5 +5,4 @@
 
 #pragma mark - EventTheme
 - (void)operateAuthenticatedAtEventWithOperation:(NSString *)operation withKey:(NSString *)key withValue:(NSString *)value;
-
 @end

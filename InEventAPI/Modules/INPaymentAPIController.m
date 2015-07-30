@@ -6,9 +6,11 @@
 
 - (void)createAuthenticatedWithName:(NSString *)name withEmail:(NSString *)email {
 
-	if (name != nil && email != nil) {
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-		NSDictionary *attributes = @{@"GET" : @{}, @"POST" : @{@"name" : name, @"email" : email}};
+	if (tokenID != nil && name != nil && email != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"name" : name, @"email" : email}};
 
 		[self JSONObjectWithModule:@"payment" method:@"create" attributes:attributes];
 	}
@@ -16,23 +18,37 @@
 
 - (void)findAuthenticatedAtEvent {
 
-	NSDictionary *attributes = @{@"GET" : @{}};
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
 
-	[self JSONObjectWithModule:@"payment" method:@"find" attributes:attributes];
+	if (tokenID != nil && eventID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
+
+		[self JSONObjectWithModule:@"payment" method:@"find" attributes:attributes];
+	}
 }
 
 - (void)requestAddressAuthenticatedAtEventAtPayment:(NSInteger)paymentID {
 
-	NSDictionary *attributes = @{@"GET" : @{@"paymentID" : [NSString stringWithFormat:@"%d", paymentID]}};
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
 
-	[self JSONObjectWithModule:@"payment" method:@"requestAddress" attributes:attributes];
+	if (tokenID != nil && eventID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"paymentID" : [NSString stringWithFormat:@"%ld", (long)paymentID]}};
+
+		[self JSONObjectWithModule:@"payment" method:@"requestAddress" attributes:attributes];
+	}
 }
 
 - (void)provideConfirmationAtEventWithCollection_id:(NSString *)collection_id {
 
-	if (collection_id != nil) {
+	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
 
-		NSDictionary *attributes = @{@"GET" : @{@"collection_id" : collection_id}};
+	if (eventID != nil && collection_id != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID, @"collection_id" : collection_id}};
 
 		[self JSONObjectWithModule:@"payment" method:@"provideConfirmation" attributes:attributes];
 	}

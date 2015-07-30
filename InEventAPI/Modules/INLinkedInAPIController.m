@@ -6,6 +6,7 @@
 
 - (void)signInWithLinkedInToken:(NSString *)linkedInToken {
 
+
 	if (linkedInToken != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"linkedInToken" : linkedInToken}};
@@ -16,9 +17,11 @@
 
 - (void)updateAuthenticatedWithLinkedInToken:(NSString *)linkedInToken withSelection:(NSString *)selection {
 
-	if (linkedInToken != nil && selection != nil) {
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-		NSDictionary *attributes = @{@"GET" : @{@"linkedInToken" : linkedInToken, @"selection" : selection}};
+	if (tokenID != nil && linkedInToken != nil && selection != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"linkedInToken" : linkedInToken, @"selection" : selection}};
 
 		[self JSONObjectWithModule:@"linkedIn" method:@"update" attributes:attributes];
 	}
@@ -26,9 +29,15 @@
 
 - (void)generateAuthenticatedAtEvent {
 
-	NSDictionary *attributes = @{@"GET" : @{}};
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
 
-	[self JSONObjectWithModule:@"linkedIn" method:@"generate" attributes:attributes];
+	if (tokenID != nil && eventID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
+
+		[self JSONObjectWithModule:@"linkedIn" method:@"generate" attributes:attributes];
+	}
 }
 
 @end

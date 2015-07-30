@@ -8,5 +8,4 @@
 - (void)removeAuthenticatedAtMaterial:(NSInteger)materialID;
 - (void)findAuthenticatedAtActivity:(NSInteger)activityID;
 - (void)getAuthenticatedAtMaterial:(NSInteger)materialID;
-
 @end

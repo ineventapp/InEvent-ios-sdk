@@ -9,5 +9,4 @@
 - (void)removeAuthenticatedAtTicket:(NSInteger)ticketID;
 - (void)findAuthenticatedAtEvent;
 - (void)getAuthenticatedAtTicket:(NSInteger)ticketID;
-
 @end
