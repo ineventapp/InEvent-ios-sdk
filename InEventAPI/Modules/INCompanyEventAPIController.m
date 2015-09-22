@@ -65,6 +65,18 @@
 	}
 }
 
+- (void)getAtEventAtCompany:(NSInteger)companyID {
+
+	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+
+	if (eventID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"eventID" : eventID}};
+
+		[self JSONObjectWithModule:@"company.event" method:@"get" attributes:attributes];
+	}
+}
+
 - (void)approveAuthenticatedAtEventAtCompany:(NSInteger)companyID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];

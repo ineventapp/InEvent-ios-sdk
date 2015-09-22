@@ -15,4 +15,5 @@
 - (void)getAuthenticatedAtActivity:(NSInteger)activityID;
 - (void)getAtActivity:(NSInteger)activityID;
 - (void)copyAuthenticatedAtActivity:(NSInteger)activityID;
+- (void)delayAuthenticatedAtActivity:(NSInteger)activityID withMinutes:(NSString *)minutes withSubsequent:(NSString *)subsequent;
 @end

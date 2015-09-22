@@ -9,6 +9,7 @@
 - (void)findAuthenticatedAtCompany:(NSInteger)companyID withSelection:(NSString *)selection withName:(NSString *)name withCity:(NSString *)city withTheme:(NSString *)theme withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd withOrder:(NSString *)order;
 - (void)findAtCompany:(NSInteger)companyID withName:(NSString *)name withCity:(NSString *)city withTheme:(NSString *)theme withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd withOrder:(NSString *)order;
 - (void)getAuthenticatedAtEventAtCompany:(NSInteger)companyID;
+- (void)getAtEventAtCompany:(NSInteger)companyID;
 - (void)approveAuthenticatedAtEventAtCompany:(NSInteger)companyID;
 - (void)reviewAuthenticatedAtEventAtCompany:(NSInteger)companyID withMessage:(NSString *)message;
 - (void)copyAuthenticatedAtEventAtCompany:(NSInteger)companyID;

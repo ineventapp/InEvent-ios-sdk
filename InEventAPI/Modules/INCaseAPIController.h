@@ -4,6 +4,7 @@
 @interface INCaseAPIController : INAPIController
 
 #pragma mark - Case
+- (void)editAuthenticatedAtEventWithKey:(NSString *)key withValue:(NSString *)value;
 - (void)find;
 - (void)getAtEvent;
 @end

@@ -4,13 +4,13 @@
 
 #pragma mark - CompanyParty
 
-- (void)bindAuthenticatedAtCompany:(NSInteger)companyID withName:(NSString *)name withLocation:(NSString *)location {
+- (void)bindAuthenticatedAtCompany:(NSInteger)companyID withShortName:(NSString *)shortName withStoreTitle:(NSString *)storeTitle {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && name != nil && location != nil) {
+	if (tokenID != nil && shortName != nil && storeTitle != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"name" : name, @"location" : location}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"shortName" : shortName, @"storeTitle" : storeTitle}};
 
 		[self JSONObjectWithModule:@"company.party" method:@"bind" attributes:attributes];
 	}

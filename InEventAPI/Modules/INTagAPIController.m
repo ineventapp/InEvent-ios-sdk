@@ -42,6 +42,19 @@
 	}
 }
 
+- (void)statisticsAuthenticatedAtEvent {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+
+	if (tokenID != nil && eventID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
+
+		[self JSONObjectWithModule:@"tag" method:@"statistics" attributes:attributes];
+	}
+}
+
 - (void)getAuthenticatedAtTag:(NSInteger)tagID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];

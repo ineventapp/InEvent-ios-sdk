@@ -11,5 +11,7 @@
 - (void)getAuthenticatedAtFeedback:(NSInteger)feedbackID;
 - (void)findAuthenticatedAtEventWithSelection:(NSString *)selection;
 - (void)findAuthenticatedAtActivity:(NSInteger)activityID;
+- (void)pushNotificationAuthenticatedAtActivity:(NSInteger)activityID;
+- (void)pushNotificationAuthenticatedAtEvent;
 - (void)respondAuthenticatedWithContent:(NSString *)content;
 @end

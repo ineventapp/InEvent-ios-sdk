@@ -7,6 +7,13 @@
 //
 
 #import "INTrackingToken.h"
+#import "INAPI.h"
+
+@interface INTrackingToken () <INAPIControllerDelegate> {
+    
+}
+
+@end
 
 @implementation INTrackingToken
 

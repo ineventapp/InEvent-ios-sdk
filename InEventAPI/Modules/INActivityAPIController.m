@@ -137,4 +137,16 @@
 	}
 }
 
+- (void)delayAuthenticatedAtActivity:(NSInteger)activityID withMinutes:(NSString *)minutes withSubsequent:(NSString *)subsequent {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && minutes != nil && subsequent != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID], @"minutes" : minutes, @"subsequent" : subsequent}};
+
+		[self JSONObjectWithModule:@"activity" method:@"delay" attributes:attributes];
+	}
+}
+
 @end

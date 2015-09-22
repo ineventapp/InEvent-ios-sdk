@@ -25,8 +25,11 @@
                                          @"nickname",
                                          @"public"]];
         
+#ifdef APP_EVENTID
         // Load a default value
-        if (APP_EVENTID != 0) [sharedInstance setObject:@(APP_EVENTID) forKey:@"eventID"];
+        if ([APP_EVENTID integerValue] != 0) [sharedInstance setObject:@([APP_EVENTID integerValue]) forKey:@"eventID"];
+#endif
+        
     });
     return sharedInstance;
 }
@@ -60,8 +63,10 @@
     // Remove all the data
     [self resetData];
     
+#ifdef APP_EVENTID
     // Rewrite our default value
-    [self setObject:@(APP_EVENTID) forKey:@"eventID"];
+    [self setObject:@([APP_EVENTID integerValue]) forKey:@"eventID"];
+#endif
     
     // Notify about the enterprise removal
     [[NSNotificationCenter defaultCenter] postNotificationName:@"selectFirstController" object:nil];

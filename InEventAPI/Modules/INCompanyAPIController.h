@@ -4,7 +4,7 @@
 @interface INCompanyAPIController : INAPIController
 
 #pragma mark - Company
-- (void)createAuthenticatedWithName:(NSString *)name withLocation:(NSString *)location;
+- (void)createAuthenticatedWithShortName:(NSString *)shortName withStoreTitle:(NSString *)storeTitle;
 - (void)editAuthenticatedAtCompany:(NSInteger)companyID withKey:(NSString *)key withValue:(NSString *)value;
 - (void)removeAuthenticatedAtCompany:(NSInteger)companyID;
 - (void)findAuthenticated;

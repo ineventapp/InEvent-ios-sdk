@@ -42,29 +42,6 @@
 	}
 }
 
-- (void)findAuthenticatedWithSelection:(NSString *)selection withName:(NSString *)name withCity:(NSString *)city withTheme:(NSString *)theme withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd withOrder:(NSString *)order {
-
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-
-	if (tokenID != nil && selection != nil && name != nil && city != nil && theme != nil && dateBegin != nil && dateEnd != nil && order != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"selection" : selection, @"name" : name, @"city" : city, @"theme" : theme, @"dateBegin" : dateBegin, @"dateEnd" : dateEnd, @"order" : order}};
-
-		[self JSONObjectWithModule:@"event" method:@"find" attributes:attributes];
-	}
-}
-
-- (void)findWithName:(NSString *)name withCity:(NSString *)city withTheme:(NSString *)theme withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd withOrder:(NSString *)order {
-
-
-	if (name != nil && city != nil && theme != nil && dateBegin != nil && dateEnd != nil && order != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"name" : name, @"city" : city, @"theme" : theme, @"dateBegin" : dateBegin, @"dateEnd" : dateEnd, @"order" : order}};
-
-		[self JSONObjectWithModule:@"event" method:@"find" attributes:attributes];
-	}
-}
-
 - (void)getAuthenticatedAtEvent {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];

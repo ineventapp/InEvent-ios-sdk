@@ -4,13 +4,13 @@
 
 #pragma mark - Company
 
-- (void)createAuthenticatedWithName:(NSString *)name withLocation:(NSString *)location {
+- (void)createAuthenticatedWithShortName:(NSString *)shortName withStoreTitle:(NSString *)storeTitle {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && name != nil && location != nil) {
+	if (tokenID != nil && shortName != nil && storeTitle != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"name" : name, @"location" : location}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"shortName" : shortName, @"storeTitle" : storeTitle}};
 
 		[self JSONObjectWithModule:@"company" method:@"create" attributes:attributes];
 	}

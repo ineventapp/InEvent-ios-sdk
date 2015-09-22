@@ -7,9 +7,8 @@
 //
 
 #import "INToken.h"
-#import "INAPI.h"
 
-@interface INTrackingToken : INToken <INTokenSingleton, INAPIControllerDelegate>
+@interface INTrackingToken : INToken <INTokenSingleton>
 
 - (void)addToQueueWithTarget:(NSString *)target atTarget:(NSInteger)targetID;
 - (void)pushQueueToServer;

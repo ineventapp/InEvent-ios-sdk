@@ -9,6 +9,6 @@
 - (void)createAuthenticatedWithContent:(NSString *)content;
 - (void)createWithContent:(NSString *)content;
 - (void)findAuthenticatedAtEventWithSelection:(NSString *)selection;
-- (void)findAuthenticatedAtEventWithRoot:(NSString *)root withModule:(NSString *)module;
+- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection withRoot:(NSString *)root withModule:(NSString *)module;
 - (void)getAuthenticatedAtTracking:(NSInteger)trackingID;
 @end

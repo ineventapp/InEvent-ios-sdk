@@ -65,14 +65,14 @@
 	}
 }
 
-- (void)findAuthenticatedAtEventWithRoot:(NSString *)root withModule:(NSString *)module {
+- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection withRoot:(NSString *)root withModule:(NSString *)module {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
 
-	if (tokenID != nil && eventID != nil && root != nil && module != nil) {
+	if (tokenID != nil && eventID != nil && selection != nil && root != nil && module != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"root" : root, @"module" : module}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection, @"root" : root, @"module" : module}};
 
 		[self JSONObjectWithModule:@"tracking" method:@"find" attributes:attributes];
 	}

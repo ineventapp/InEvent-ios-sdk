@@ -7,6 +7,7 @@
 - (void)createAuthenticatedAtEventWithName:(NSString *)name withColor:(NSString *)color;
 - (void)editAuthenticatedAtTag:(NSInteger)tagID withKey:(NSString *)key withValue:(NSString *)value;
 - (void)findAuthenticatedAtEvent;
+- (void)statisticsAuthenticatedAtEvent;
 - (void)getAuthenticatedAtTag:(NSInteger)tagID;
 - (void)removeAuthenticatedAtTag:(NSInteger)tagID;
 @end

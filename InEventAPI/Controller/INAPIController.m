@@ -9,6 +9,7 @@
 #import "INAPIController.h"
 #import "NSString+Encoding.h"
 #import "ETAlertView.h"
+#import "CompanyMacro.h"
 
 #define kGlobalQueue dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
 
@@ -210,7 +211,7 @@
     if (!isCacheAvailable || self.force) {
         
         // Define our API url
-        NSMutableString *url = [NSMutableString stringWithFormat:@"%@?action=%@.%@", URL_API, self.module, self.method];
+        NSMutableString *url = [NSMutableString stringWithFormat:@"%@?action=%@.%@", IN_URL_API, self.module, self.method];
         
         // Append our version number
         [url appendFormat:@"&version=%@", self.version];
@@ -219,11 +220,11 @@
         [url appendFormat:@"&lang=%@", ([[NSLocale preferredLanguages] count] > 0 ? [[NSLocale preferredLanguages] objectAtIndex:0] : @"")];
         
         // Concatenate all the GET attributes inside the URL
-        NSMutableArray *getKeys = [NSMutableArray arrayWithArray:[[self.attributes objectForKey:@"GET"] allKeys]];
-        NSMutableArray *getObjects = [NSMutableArray arrayWithArray:[[self.attributes objectForKey:@"GET"] allObjects]];
+        NSArray *getKeys = [[self.attributes objectForKey:@"GET"] allKeys];
+        NSDictionary *getObjects = [self.attributes objectForKey:@"GET"];
         
-        for (int i = 0; i < [getKeys count]; i++) {
-            [url appendFormat:@"&%@=%@", [getKeys objectAtIndex:i], [[getObjects objectAtIndex:i] stringByEncodingURLWithEncoding:NSUTF8StringEncoding]];
+        for (NSString *key in getKeys) {
+            [url appendFormat:@"&%@=%@", key, [[getObjects objectForKey:key] stringByEncodingURLWithEncoding:NSUTF8StringEncoding]];
         }
         
 #ifdef DEBUG
@@ -234,22 +235,80 @@
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
         [request setHTTPShouldHandleCookies:NO];
-        [request setTimeoutInterval:20];
+        [request setTimeoutInterval:30];
         [request setHTTPMethod:@"POST"];
         [request setURL:[NSURL URLWithString:url]];
         
-        // Set Content-Type in HTTP header
-        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
+        // Define our boundaries
+        NSString *boundary = [self genRandStringLength:14];
         
-        // Concatenate all the POST attributes inside the URL
+        // See if we have a single module for creating files
+        NSString *contentType = ([_module isEqualToString:@"file"] && [_method isEqualToString:@"create"]) ? @"image/png" : nil;
+        
+        // Set Content-Type in HTTP header
+        if (contentType) {
+            [request setValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary] forHTTPHeaderField:@"Content-Type"];
+        } else {
+            [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        }
+        
+        // Concatenate all remaining attributes inside our body
         NSMutableData *postAttributes = [NSMutableData data];
         
         // Add params (all params are strings)
         NSArray *postKeys = [[self.attributes objectForKey:@"POST"] allKeys];
-        for (NSString *key in postKeys) {
-            // See what ype of attribute we have
-            if ([[[self.attributes objectForKey:@"POST"] objectForKey:key] isKindOfClass:[NSString class]]) {
-                [postAttributes appendData:[[NSString stringWithFormat:@"&%@=%@", key, [[[self.attributes objectForKey:@"POST"] objectForKey:key] stringByEncodingURLWithEncoding:NSUTF8StringEncoding]] dataUsingEncoding:NSUTF8StringEncoding]];
+        NSDictionary *postObjects = [self.attributes objectForKey:@"POST"];
+        
+        // See if our contentType will vary for files
+        if (contentType) {
+            
+            for (NSString *key in postKeys) {
+                    
+                // Begin
+                [postAttributes appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+                
+                // Content-Disposition
+                if ([contentType isEqualToString:@"text/plain"]) {
+                    [postAttributes appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
+                } else {
+                    [postAttributes appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", key, [contentType stringByReplacingOccurrencesOfString:@"/" withString:@"."]] dataUsingEncoding:NSUTF8StringEncoding]];
+                }
+                
+                // Content-Type
+                [postAttributes appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n", contentType] dataUsingEncoding:NSUTF8StringEncoding]];
+                
+                // Content
+                if ([contentType isEqualToString:@"text/plain"]) {
+                    [postAttributes appendData:[[postObjects objectForKey:key] dataUsingEncoding:NSUTF8StringEncoding]];
+                } else {
+                    [postAttributes appendData:[[NSData alloc] initWithBase64EncodedString:[postObjects objectForKey:key] options:NSDataBase64DecodingIgnoreUnknownCharacters]];
+                }
+                
+                // End
+                [postAttributes appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+            }
+            
+            [postAttributes appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+            
+        } else {
+        
+            for (NSString *key in postKeys) {
+                
+                // See what type of attribute we have
+                id obj = [[self.attributes objectForKey:@"POST"] objectForKey:key];
+                
+                // Convert objects to strings
+                if ([obj isKindOfClass:[NSData class]]) {
+                    obj = [[NSString alloc] initWithData:obj encoding:NSUTF8StringEncoding];
+                }
+                
+                // Encode strings for http
+                if ([obj isKindOfClass:[NSString class]]) {
+                    obj = [obj stringByEncodingURLWithEncoding:NSUTF8StringEncoding];
+                }
+                
+                // Post to our request body
+                [postAttributes appendData:[[NSString stringWithFormat:@"&%@=%@", key, obj] dataUsingEncoding:NSUTF8StringEncoding]];
             }
         }
         
@@ -264,7 +323,9 @@
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         
         // Create a connection
-        NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+        NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
+        [connection scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+        [connection start];
         
         // Alloc object if true
         if (connection) {
@@ -296,7 +357,7 @@
             // Create a custom http error
             NSError *error = [NSError errorWithDomain:@"HTTP Code Error" code:[((NSHTTPURLResponse *)response) statusCode] userInfo:nil];
 #ifdef DEBUG
-            NSLog(@"%@", error.description);
+            NSLog(@"%@", ((NSHTTPURLResponse *)response));
 #endif
             [self.delegate apiController:self didFailWithError:error];
         }
@@ -378,18 +439,30 @@
         // Try to send older cached files still on the queue
         NSString *directory = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"queue"];
         
+        NSString *path;
         NSDirectoryEnumerator *queueFiles = [[NSFileManager defaultManager] enumeratorAtPath:directory];
         
-        NSString *path;
+        // Loop through existing files
         while (path = [queueFiles nextObject]) {
+            
+            // Find our stored controllers
             if ([[path pathExtension] isEqualToString:@"bin"]) {
-                // Load the object from the file system
+                
+                // Load the object from the filesystem
                 INAPIController *apiController = [NSKeyedUnarchiver unarchiveObjectWithFile:[directory stringByAppendingPathComponent:path]];
-                // Remove the reference
-                [[NSFileManager defaultManager] removeItemAtPath:[directory stringByAppendingPathComponent:path] error:nil];
+                
+                // Remove the reference from the filesystem
+                NSError *error;
+                [[NSFileManager defaultManager] removeItemAtPath:[directory stringByAppendingPathComponent:path] error:&error];
+                
+#ifdef DEBUG
+                if (error) NSLog(@"%@", error.description);
+#endif
+                
                 // Define a new delegate and launch it
                 [apiController setDelegate:nil];
                 [apiController startAsyncronousDownload];
+                
                 // Finish loop
                 break;
             }

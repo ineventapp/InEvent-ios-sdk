@@ -4,13 +4,26 @@
 
 #pragma mark - Material
 
-- (void)createAuthenticatedAtActivity:(NSInteger)activityID withName:(NSString *)name withIcon:(NSString *)icon withUrl:(NSString *)url {
+- (void)createAuthenticatedAtActivity:(NSInteger)activityID withName:(NSString *)name withExtension:(NSString *)extension withUrl:(NSString *)url {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && name != nil && icon != nil && url != nil) {
+	if (tokenID != nil && name != nil && extension != nil && url != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}, @"POST" : @{@"name" : name, @"icon" : icon, @"url" : url}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}, @"POST" : @{@"name" : name, @"extension" : extension, @"url" : url}};
+
+		[self JSONObjectWithModule:@"material" method:@"create" attributes:attributes];
+	}
+}
+
+- (void)createAuthenticatedAtEventWithName:(NSString *)name withExtension:(NSString *)extension withUrl:(NSString *)url {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+
+	if (tokenID != nil && eventID != nil && name != nil && extension != nil && url != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"name" : name, @"extension" : extension, @"url" : url}};
 
 		[self JSONObjectWithModule:@"material" method:@"create" attributes:attributes];
 	}
@@ -35,6 +48,19 @@
 	if (tokenID != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}};
+
+		[self JSONObjectWithModule:@"material" method:@"find" attributes:attributes];
+	}
+}
+
+- (void)findAuthenticatedAtEvent {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+
+	if (tokenID != nil && eventID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
 
 		[self JSONObjectWithModule:@"material" method:@"find" attributes:attributes];
 	}

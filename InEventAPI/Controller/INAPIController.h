@@ -12,18 +12,21 @@
 #import "INPersonToken.h"
 
 #ifdef DEBUG
-    #if TARGET_IPHONE_SIMULATOR
-        #define URL @"https://inevent.us/"
-        #define URL_API @"https://inevent.us/api/"
-//        #define URL @"http://inevent.local:8888/"
-//        #define URL_API @"http://inevent.local:8888/api/"
+    #if SNAPSHOT
+        #define IN_URL @"https://inevent.us/"
+        #define IN_URL_API @"https://inevent.us/api/"
+    #elif TARGET_IPHONE_SIMULATOR
+//        #define IN_URL @"https://inevent.us/"
+//        #define IN_URL_API @"https://inevent.us/api/"
+        #define IN_URL @"http://inevent.local:8888/"
+        #define IN_URL_API @"http://inevent.local:8888/api/"
     #else
-        #define URL @"https://inevent.us/"
-        #define URL_API @"https://inevent.us/api/"
+        #define IN_URL @"https://inevent.us/"
+        #define IN_URL_API @"https://inevent.us/api/"
     #endif
 #else
-    #define URL @"https://inevent.us/"
-    #define URL_API @"https://inevent.us/api/"
+    #define IN_URL @"https://inevent.us/"
+    #define IN_URL_API @"https://inevent.us/api/"
 #endif
 
 @interface INAPIController : NSObject <NSURLConnectionDelegate, NSCoding>

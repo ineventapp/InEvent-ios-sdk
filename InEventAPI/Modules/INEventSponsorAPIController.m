@@ -82,16 +82,4 @@
 	}
 }
 
-- (void)getAuthenticatedAtSponsorship:(NSInteger)sponsorshipID {
-
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-
-	if (tokenID != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"sponsorshipID" : [NSString stringWithFormat:@"%ld", (long)sponsorshipID]}};
-
-		[self JSONObjectWithModule:@"event.sponsor" method:@"get" attributes:attributes];
-	}
-}
-
 @end

@@ -4,13 +4,13 @@
 
 #pragma mark - Ad
 
-- (void)createAuthenticatedAtSponsorship:(NSInteger)sponsorshipID withImage:(NSString *)image withWeight:(NSString *)weight {
+- (void)createAuthenticatedAtSponsorship:(NSInteger)sponsorshipID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && image != nil && weight != nil) {
+	if (tokenID != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"sponsorshipID" : [NSString stringWithFormat:@"%ld", (long)sponsorshipID]}, @"POST" : @{@"image" : image, @"weight" : weight}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"sponsorshipID" : [NSString stringWithFormat:@"%ld", (long)sponsorshipID]}};
 
 		[self JSONObjectWithModule:@"ad" method:@"create" attributes:attributes];
 	}

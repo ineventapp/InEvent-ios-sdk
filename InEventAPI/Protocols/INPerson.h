@@ -15,6 +15,7 @@ typedef enum {
 } INPersonState;
 
 typedef enum {
+    INPersonRoleUnknown = 0,
     INPersonRoleAttendee = 1,
     INPersonRoleStaff = 2,
     INPersonRoleCoordinator = 4
