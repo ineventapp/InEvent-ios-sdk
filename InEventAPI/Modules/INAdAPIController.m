@@ -4,15 +4,16 @@
 
 #pragma mark - Ad
 
-- (void)createAuthenticatedAtSponsorship:(NSInteger)sponsorshipID {
+- (void)createAuthenticatedAtEventAtSponsor:(NSInteger)sponsorID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil) {
+	if (tokenID != nil && eventID != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"sponsorshipID" : [NSString stringWithFormat:@"%ld", (long)sponsorshipID]}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"sponsorID" : [NSString stringWithFormat:@"%ld", (long)sponsorID]}};
 
-		[self JSONObjectWithModule:@"ad" method:@"create" attributes:attributes];
+		[self objectWithModule:@"ad" method:@"create" attributes:attributes];
 	}
 }
 
@@ -24,7 +25,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"adID" : [NSString stringWithFormat:@"%ld", (long)adID], @"key" : key}, @"POST" : @{@"value" : value}};
 
-		[self JSONObjectWithModule:@"ad" method:@"edit" attributes:attributes];
+		[self objectWithModule:@"ad" method:@"edit" attributes:attributes];
 	}
 }
 
@@ -36,28 +37,31 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"adID" : [NSString stringWithFormat:@"%ld", (long)adID]}};
 
-		[self JSONObjectWithModule:@"ad" method:@"remove" attributes:attributes];
+		[self objectWithModule:@"ad" method:@"remove" attributes:attributes];
 	}
 }
 
-- (void)findAtSponsorship:(NSInteger)sponsorshipID {
+- (void)findAtEventAtSponsor:(NSInteger)sponsorID {
 
-
-
-	NSDictionary *attributes = @{@"GET" : @{@"sponsorshipID" : [NSString stringWithFormat:@"%ld", (long)sponsorshipID]}};
-
-	[self JSONObjectWithModule:@"ad" method:@"find" attributes:attributes];
-}
-
-- (void)findAtEvent {
-
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (eventID != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID}};
+		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID, @"sponsorID" : [NSString stringWithFormat:@"%ld", (long)sponsorID]}};
 
-		[self JSONObjectWithModule:@"ad" method:@"find" attributes:attributes];
+		[self objectWithModule:@"ad" method:@"find" attributes:attributes];
+	}
+}
+
+- (void)findAtEventWithSelection:(NSString *)selection {
+
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (eventID != nil && selection != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID, @"selection" : selection}};
+
+		[self objectWithModule:@"ad" method:@"find" attributes:attributes];
 	}
 }
 

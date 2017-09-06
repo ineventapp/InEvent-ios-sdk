@@ -4,28 +4,52 @@
 
 #pragma mark - Feedback
 
-- (void)createAuthenticatedAtEventWithText:(NSString *)text withType:(NSString *)type {
+- (void)createAuthenticatedAtEventWithTextPT:(NSString *)textPT withType:(NSString *)type withTextEN:(NSString *)textEN withTextES:(NSString *)textES withPreQualify:(NSString *)preQualify {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && text != nil && type != nil) {
+	if (tokenID != nil && eventID != nil && textPT != nil && type != nil && textEN != nil && textES != nil && preQualify != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"text" : text, @"type" : type}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"textPT" : textPT, @"type" : type, @"textEN" : textEN, @"textES" : textES, @"preQualify" : preQualify}};
 
-		[self JSONObjectWithModule:@"feedback" method:@"create" attributes:attributes];
+		[self objectWithModule:@"feedback" method:@"create" attributes:attributes];
 	}
 }
 
-- (void)createAuthenticatedAtActivity:(NSInteger)activityID withText:(NSString *)text withType:(NSString *)type {
+- (void)createAuthenticatedAtActivity:(NSInteger)activityID withTextPT:(NSString *)textPT withType:(NSString *)type withTextEN:(NSString *)textEN withTextES:(NSString *)textES {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && text != nil && type != nil) {
+	if (tokenID != nil && textPT != nil && type != nil && textEN != nil && textES != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}, @"POST" : @{@"text" : text, @"type" : type}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}, @"POST" : @{@"textPT" : textPT, @"type" : type, @"textEN" : textEN, @"textES" : textES}};
 
-		[self JSONObjectWithModule:@"feedback" method:@"create" attributes:attributes];
+		[self objectWithModule:@"feedback" method:@"create" attributes:attributes];
+	}
+}
+
+- (void)createAuthenticatedAtMeeting:(NSInteger)meetingID withTextPT:(NSString *)textPT withType:(NSString *)type withTextEN:(NSString *)textEN withTextES:(NSString *)textES {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && textPT != nil && type != nil && textEN != nil && textES != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"meetingID" : [NSString stringWithFormat:@"%ld", (long)meetingID]}, @"POST" : @{@"textPT" : textPT, @"type" : type, @"textEN" : textEN, @"textES" : textES}};
+
+		[self objectWithModule:@"feedback" method:@"create" attributes:attributes];
+	}
+}
+
+- (void)createAuthenticatedAtForm:(NSInteger)formID withTextPT:(NSString *)textPT withType:(NSString *)type withTextEN:(NSString *)textEN withTextES:(NSString *)textES {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && textPT != nil && type != nil && textEN != nil && textES != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"formID" : [NSString stringWithFormat:@"%ld", (long)formID]}, @"POST" : @{@"textPT" : textPT, @"type" : type, @"textEN" : textEN, @"textES" : textES}};
+
+		[self objectWithModule:@"feedback" method:@"create" attributes:attributes];
 	}
 }
 
@@ -37,7 +61,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"feedbackID" : [NSString stringWithFormat:@"%ld", (long)feedbackID], @"key" : key}, @"POST" : @{@"value" : value}};
 
-		[self JSONObjectWithModule:@"feedback" method:@"edit" attributes:attributes];
+		[self objectWithModule:@"feedback" method:@"edit" attributes:attributes];
 	}
 }
 
@@ -49,7 +73,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"feedbackID" : [NSString stringWithFormat:@"%ld", (long)feedbackID]}};
 
-		[self JSONObjectWithModule:@"feedback" method:@"remove" attributes:attributes];
+		[self objectWithModule:@"feedback" method:@"remove" attributes:attributes];
 	}
 }
 
@@ -61,20 +85,20 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"feedbackID" : [NSString stringWithFormat:@"%ld", (long)feedbackID]}};
 
-		[self JSONObjectWithModule:@"feedback" method:@"get" attributes:attributes];
+		[self objectWithModule:@"feedback" method:@"get" attributes:attributes];
 	}
 }
 
 - (void)findAuthenticatedAtEventWithSelection:(NSString *)selection {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (tokenID != nil && eventID != nil && selection != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection}};
 
-		[self JSONObjectWithModule:@"feedback" method:@"find" attributes:attributes];
+		[self objectWithModule:@"feedback" method:@"find" attributes:attributes];
 	}
 }
 
@@ -86,7 +110,31 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}};
 
-		[self JSONObjectWithModule:@"feedback" method:@"find" attributes:attributes];
+		[self objectWithModule:@"feedback" method:@"find" attributes:attributes];
+	}
+}
+
+- (void)findAuthenticatedAtMeeting:(NSInteger)meetingID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"meetingID" : [NSString stringWithFormat:@"%ld", (long)meetingID]}};
+
+		[self objectWithModule:@"feedback" method:@"find" attributes:attributes];
+	}
+}
+
+- (void)findAuthenticatedAtForm:(NSInteger)formID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"formID" : [NSString stringWithFormat:@"%ld", (long)formID]}};
+
+		[self objectWithModule:@"feedback" method:@"find" attributes:attributes];
 	}
 }
 
@@ -98,20 +146,20 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}};
 
-		[self JSONObjectWithModule:@"feedback" method:@"pushNotification" attributes:attributes];
+		[self objectWithModule:@"feedback" method:@"pushNotification" attributes:attributes];
 	}
 }
 
 - (void)pushNotificationAuthenticatedAtEvent {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (tokenID != nil && eventID != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
 
-		[self JSONObjectWithModule:@"feedback" method:@"pushNotification" attributes:attributes];
+		[self objectWithModule:@"feedback" method:@"pushNotification" attributes:attributes];
 	}
 }
 
@@ -123,7 +171,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"content" : content}};
 
-		[self JSONObjectWithModule:@"feedback" method:@"respond" attributes:attributes];
+		[self objectWithModule:@"feedback" method:@"respond" attributes:attributes];
 	}
 }
 

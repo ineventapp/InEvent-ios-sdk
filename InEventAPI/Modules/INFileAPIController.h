@@ -4,6 +4,6 @@
 @interface INFileAPIController : INAPIController
 
 #pragma mark - File
-- (void)createAuthenticatedWithName:(NSString *)name withFile:(NSString *)file;
-- (void)createAuthenticatedWithName:(NSString *)name withX:(NSString *)x withY:(NSString *)y withWidth:(NSString *)width withHeight:(NSString *)height withFile:(NSString *)file;
+- (void)createAuthenticatedAtCompany:(NSInteger)companyID withName:(NSString *)name withWidth:(NSString *)width withHeight:(NSString *)height withFile:(NSString *)file;
+- (void)createWithOnboardingToken:(NSString *)onboardingToken withName:(NSString *)name withWidth:(NSString *)width withHeight:(NSString *)height withFile:(NSString *)file;
 @end

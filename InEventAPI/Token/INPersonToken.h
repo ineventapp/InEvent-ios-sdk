@@ -11,9 +11,6 @@
 
 @interface INPersonToken : INToken <INTokenSingleton>
 
-- (BOOL)isPersonAuthenticated;
-- (BOOL)isPersonApproved;
-- (BOOL)isPersonWorking;
-- (void)removePerson;
+- (BOOL)isAuthenticated;
 
 @end

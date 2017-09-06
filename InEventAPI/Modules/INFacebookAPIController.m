@@ -11,7 +11,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"facebookToken" : facebookToken}};
 
-		[self JSONObjectWithModule:@"facebook" method:@"signIn" attributes:attributes];
+		[self objectWithModule:@"facebook" method:@"signIn" attributes:attributes];
 	}
 }
 
@@ -23,7 +23,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"facebookToken" : facebookToken, @"selection" : selection}};
 
-		[self JSONObjectWithModule:@"facebook" method:@"update" attributes:attributes];
+		[self objectWithModule:@"facebook" method:@"update" attributes:attributes];
 	}
 }
 

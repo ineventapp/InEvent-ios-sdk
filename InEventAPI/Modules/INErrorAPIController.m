@@ -12,18 +12,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"platform" : platform, @"message" : message, @"STACK_TRACE" : STACK_TRACE, @"INITIAL_CONFIGURATION" : INITIAL_CONFIGURATION, @"BUILD" : BUILD}};
 
-		[self JSONObjectWithModule:@"error" method:@"create" attributes:attributes];
-	}
-}
-
-- (void)createWithPlatform:(NSString *)platform withMessage:(NSString *)message {
-
-
-	if (platform != nil && message != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{}, @"POST" : @{@"platform" : platform, @"message" : message}};
-
-		[self JSONObjectWithModule:@"error" method:@"create" attributes:attributes];
+		[self objectWithModule:@"error" method:@"create" attributes:attributes];
 	}
 }
 

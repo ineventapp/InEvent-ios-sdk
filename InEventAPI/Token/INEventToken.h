@@ -11,9 +11,7 @@
 
 @interface INEventToken : INToken <INTokenSingleton>
 
-- (void)updateValuesWithDictionary:(NSDictionary *)dictionary;
-
-- (BOOL)isEventSelected;
-- (void)removeEvent;
+- (void)crossTemporary:(NSString *)eventID runningRequest:(void (^)())request;
+- (BOOL)isSelected;
 
 @end

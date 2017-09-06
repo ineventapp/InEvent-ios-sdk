@@ -4,11 +4,10 @@
 @interface INEventAPIController : INAPIController
 
 #pragma mark - Event
-- (void)createAuthenticatedWithName:(NSString *)name withNickname:(NSString *)nickname;
 - (void)editAuthenticatedAtEventWithKey:(NSString *)key withValue:(NSString *)value;
-- (void)removeAuthenticatedAtEvent;
+- (void)getAuthenticatedAtEventForPerson:(NSInteger)personID;
 - (void)getAuthenticatedAtEvent;
 - (void)getAtEvent;
 - (void)checkAccessCodeAuthenticatedAtEventWithAccessCode:(NSString *)accessCode;
-- (void)statisticsAuthenticatedAtEvent;
+- (void)sendSMSAtEventWithTelephone:(NSString *)telephone;
 @end

@@ -4,7 +4,7 @@
 
 #pragma mark - MeetingPerson
 
-- (void)subscribeAuthenticatedAtMeeting:(NSInteger)meetingID {
+- (void)bindAuthenticatedAtMeeting:(NSInteger)meetingID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
@@ -12,32 +12,19 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"meetingID" : [NSString stringWithFormat:@"%ld", (long)meetingID]}};
 
-		[self JSONObjectWithModule:@"meeting.person" method:@"subscribe" attributes:attributes];
+		[self objectWithModule:@"meeting.person" method:@"bind" attributes:attributes];
 	}
 }
 
-- (void)getAuthenticatedAtMeeting:(NSInteger)meetingID {
+- (void)bindAuthenticatedAtMeeting:(NSInteger)meetingID forPerson:(NSInteger)personID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
 	if (tokenID != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"meetingID" : [NSString stringWithFormat:@"%ld", (long)meetingID]}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"meetingID" : [NSString stringWithFormat:@"%ld", (long)meetingID], @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}};
 
-		[self JSONObjectWithModule:@"meeting.person" method:@"get" attributes:attributes];
-	}
-}
-
-- (void)findAuthenticatedAtEvent {
-
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
-
-	if (tokenID != nil && eventID != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
-
-		[self JSONObjectWithModule:@"meeting.person" method:@"find" attributes:attributes];
+		[self objectWithModule:@"meeting.person" method:@"bind" attributes:attributes];
 	}
 }
 
@@ -49,7 +36,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"meetingID" : [NSString stringWithFormat:@"%ld", (long)meetingID], @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}};
 
-		[self JSONObjectWithModule:@"meeting.person" method:@"confirm" attributes:attributes];
+		[self objectWithModule:@"meeting.person" method:@"confirm" attributes:attributes];
 	}
 }
 
@@ -61,11 +48,23 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"meetingID" : [NSString stringWithFormat:@"%ld", (long)meetingID], @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}};
 
-		[self JSONObjectWithModule:@"meeting.person" method:@"revoke" attributes:attributes];
+		[self objectWithModule:@"meeting.person" method:@"revoke" attributes:attributes];
 	}
 }
 
-- (void)cancelAuthenticatedAtMeeting:(NSInteger)meetingID forPerson:(NSInteger)personID {
+- (void)dismissAuthenticatedAtMeeting:(NSInteger)meetingID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"meetingID" : [NSString stringWithFormat:@"%ld", (long)meetingID]}};
+
+		[self objectWithModule:@"meeting.person" method:@"dismiss" attributes:attributes];
+	}
+}
+
+- (void)dismissAuthenticatedAtMeeting:(NSInteger)meetingID forPerson:(NSInteger)personID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
@@ -73,7 +72,31 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"meetingID" : [NSString stringWithFormat:@"%ld", (long)meetingID], @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}};
 
-		[self JSONObjectWithModule:@"meeting.person" method:@"cancel" attributes:attributes];
+		[self objectWithModule:@"meeting.person" method:@"dismiss" attributes:attributes];
+	}
+}
+
+- (void)checkInAuthenticatedAtMeeting:(NSInteger)meetingID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"meetingID" : [NSString stringWithFormat:@"%ld", (long)meetingID]}};
+
+		[self objectWithModule:@"meeting.person" method:@"checkIn" attributes:attributes];
+	}
+}
+
+- (void)checkInAuthenticatedAtMeeting:(NSInteger)meetingID forPerson:(NSInteger)personID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"meetingID" : [NSString stringWithFormat:@"%ld", (long)meetingID], @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}};
+
+		[self objectWithModule:@"meeting.person" method:@"checkIn" attributes:attributes];
 	}
 }
 

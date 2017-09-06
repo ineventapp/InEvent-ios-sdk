@@ -1,9 +1,9 @@
 #import <Foundation/Foundation.h>
 #import "INAPIController.h"
 
-@interface INLinkedInAPIController : INAPIController
+@interface INLinkedinAPIController : INAPIController
 
-#pragma mark - LinkedIn
+#pragma mark - Linkedin
 - (void)signInWithLinkedInToken:(NSString *)linkedInToken;
 - (void)updateAuthenticatedWithLinkedInToken:(NSString *)linkedInToken withSelection:(NSString *)selection;
 - (void)generateAuthenticatedAtEvent;

@@ -12,7 +12,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID], @"speakerID" : [NSString stringWithFormat:@"%ld", (long)speakerID]}};
 
-		[self JSONObjectWithModule:@"activity.speaker" method:@"bind" attributes:attributes];
+		[self objectWithModule:@"activity.speaker" method:@"bind" attributes:attributes];
 	}
 }
 
@@ -24,7 +24,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID], @"speakerID" : [NSString stringWithFormat:@"%ld", (long)speakerID]}};
 
-		[self JSONObjectWithModule:@"activity.speaker" method:@"dismiss" attributes:attributes];
+		[self objectWithModule:@"activity.speaker" method:@"dismiss" attributes:attributes];
 	}
 }
 
@@ -36,7 +36,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}};
 
-		[self JSONObjectWithModule:@"activity.speaker" method:@"find" attributes:attributes];
+		[self objectWithModule:@"activity.speaker" method:@"find" attributes:attributes];
 	}
 }
 
@@ -48,7 +48,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"speakerID" : [NSString stringWithFormat:@"%ld", (long)speakerID]}};
 
-		[self JSONObjectWithModule:@"activity.speaker" method:@"find" attributes:attributes];
+		[self objectWithModule:@"activity.speaker" method:@"find" attributes:attributes];
 	}
 }
 

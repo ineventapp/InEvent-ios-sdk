@@ -4,27 +4,26 @@
 
 #pragma mark - File
 
-- (void)createAuthenticatedWithName:(NSString *)name withFile:(NSString *)file {
+- (void)createAuthenticatedAtCompany:(NSInteger)companyID withName:(NSString *)name withWidth:(NSString *)width withHeight:(NSString *)height withFile:(NSString *)file {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && name != nil && file != nil) {
+	if (tokenID != nil && name != nil && width != nil && height != nil && file != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"name" : name}, @"POST" : @{@"file" : file}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"name" : name, @"width" : width, @"height" : height}, @"POST" : @{@"file" : file}};
 
-		[self JSONObjectWithModule:@"file" method:@"create" attributes:attributes];
+		[self objectWithModule:@"file" method:@"create" attributes:attributes];
 	}
 }
 
-- (void)createAuthenticatedWithName:(NSString *)name withX:(NSString *)x withY:(NSString *)y withWidth:(NSString *)width withHeight:(NSString *)height withFile:(NSString *)file {
+- (void)createWithOnboardingToken:(NSString *)onboardingToken withName:(NSString *)name withWidth:(NSString *)width withHeight:(NSString *)height withFile:(NSString *)file {
 
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && name != nil && x != nil && y != nil && width != nil && height != nil && file != nil) {
+	if (onboardingToken != nil && name != nil && width != nil && height != nil && file != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"name" : name, @"x" : x, @"y" : y, @"width" : width, @"height" : height}, @"POST" : @{@"file" : file}};
+		NSDictionary *attributes = @{@"GET" : @{@"onboardingToken" : onboardingToken, @"name" : name, @"width" : width, @"height" : height}, @"POST" : @{@"file" : file}};
 
-		[self JSONObjectWithModule:@"file" method:@"create" attributes:attributes];
+		[self objectWithModule:@"file" method:@"create" attributes:attributes];
 	}
 }
 

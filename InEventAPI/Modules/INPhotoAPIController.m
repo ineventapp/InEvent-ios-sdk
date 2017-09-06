@@ -7,26 +7,38 @@
 - (void)createAuthenticatedAtEventWithUrl:(NSString *)url {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (tokenID != nil && eventID != nil && url != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"url" : url}};
 
-		[self JSONObjectWithModule:@"photo" method:@"create" attributes:attributes];
+		[self objectWithModule:@"photo" method:@"create" attributes:attributes];
+	}
+}
+
+- (void)removeAuthenticatedAtPhoto:(NSInteger)photoID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"photoID" : [NSString stringWithFormat:@"%ld", (long)photoID]}};
+
+		[self objectWithModule:@"photo" method:@"remove" attributes:attributes];
 	}
 }
 
 - (void)findAuthenticatedAtEvent {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (tokenID != nil && eventID != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
 
-		[self JSONObjectWithModule:@"photo" method:@"find" attributes:attributes];
+		[self objectWithModule:@"photo" method:@"find" attributes:attributes];
 	}
 }
 
@@ -38,7 +50,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"photoID" : [NSString stringWithFormat:@"%ld", (long)photoID]}};
 
-		[self JSONObjectWithModule:@"photo" method:@"get" attributes:attributes];
+		[self objectWithModule:@"photo" method:@"get" attributes:attributes];
 	}
 }
 

@@ -4,15 +4,15 @@
 
 #pragma mark - QuizOption
 
-- (void)createAuthenticatedAtQuiz:(NSInteger)quizID withText:(NSString *)text {
+- (void)createAuthenticatedAtQuiz:(NSInteger)quizID withText:(NSString *)text withImage:(NSString *)image {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && text != nil) {
+	if (tokenID != nil && text != nil && image != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"quizID" : [NSString stringWithFormat:@"%ld", (long)quizID]}, @"POST" : @{@"text" : text}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"quizID" : [NSString stringWithFormat:@"%ld", (long)quizID]}, @"POST" : @{@"text" : text, @"image" : image}};
 
-		[self JSONObjectWithModule:@"quiz.option" method:@"create" attributes:attributes];
+		[self objectWithModule:@"quiz.option" method:@"create" attributes:attributes];
 	}
 }
 
@@ -24,7 +24,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"quizOptionID" : [NSString stringWithFormat:@"%ld", (long)quizOptionID]}};
 
-		[self JSONObjectWithModule:@"quiz.option" method:@"remove" attributes:attributes];
+		[self objectWithModule:@"quiz.option" method:@"remove" attributes:attributes];
 	}
 }
 

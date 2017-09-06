@@ -42,7 +42,7 @@
     
     // Add a new reference
     [queueData addObject:@{
-                           @"eventID": ([[INEventToken sharedInstance] isEventSelected] ? [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue] : @"0"),
+                           @"eventID": ([[INEventToken sharedInstance] isSelected] ? [[INEventToken sharedInstance] objectForKey:@"eventID"] : @"0"),
                            @"target": target,
                            @"targetID": [NSString stringWithFormat:@"%ld", (long)targetID],
                            @"date": [NSString stringWithFormat:@"%lu", (long)[[NSDate date] timeIntervalSince1970]]}
@@ -60,11 +60,9 @@
         // Convert our tracking data into an array
         NSString *stringData = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:queueData options:0 error:nil] encoding:NSUTF8StringEncoding];
         
-        // See if your member is authenticated
-        if ([[INPersonToken sharedInstance] isPersonAuthenticated]) {
+        // See if person is authenticated
+        if ([[INPersonToken sharedInstance] isAuthenticated]) {
             [[[INTrackingAPIController alloc] initWithDelegate:self] createAuthenticatedWithContent:stringData];
-        } else {
-            [[[INTrackingAPIController alloc] initWithDelegate:self] createWithContent:stringData];
         }
         
         // Remove sent references
@@ -72,20 +70,6 @@
         
         // Save our updated object
         [self setObject:queueData forKey:@"queue"];
-    }
-}
-
-#pragma mark - APIController Delegate
-
-- (void)apiController:(INAPIController *)apiController didFailWithError:(NSError *)error {
-    
-    if ([apiController.module isEqualToString:@"tracking"] && error.code != 406) {
-        
-        // Attempt to upload forever
-        NSString *stringData = [[apiController.attributes objectForKey:@"POST"] objectForKey:@"content"];
-        
-        // Send as unauthenticated user
-        [[[INTrackingAPIController alloc] initWithDelegate:self] createWithContent:stringData];
     }
 }
 

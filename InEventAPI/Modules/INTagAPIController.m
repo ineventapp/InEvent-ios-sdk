@@ -7,13 +7,13 @@
 - (void)createAuthenticatedAtEventWithName:(NSString *)name withColor:(NSString *)color {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (tokenID != nil && eventID != nil && name != nil && color != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"name" : name, @"color" : color}};
 
-		[self JSONObjectWithModule:@"tag" method:@"create" attributes:attributes];
+		[self objectWithModule:@"tag" method:@"create" attributes:attributes];
 	}
 }
 
@@ -25,33 +25,20 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"tagID" : [NSString stringWithFormat:@"%ld", (long)tagID], @"key" : key}, @"POST" : @{@"value" : value}};
 
-		[self JSONObjectWithModule:@"tag" method:@"edit" attributes:attributes];
+		[self objectWithModule:@"tag" method:@"edit" attributes:attributes];
 	}
 }
 
-- (void)findAuthenticatedAtEvent {
+- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil) {
+	if (tokenID != nil && eventID != nil && selection != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection}};
 
-		[self JSONObjectWithModule:@"tag" method:@"find" attributes:attributes];
-	}
-}
-
-- (void)statisticsAuthenticatedAtEvent {
-
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
-
-	if (tokenID != nil && eventID != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
-
-		[self JSONObjectWithModule:@"tag" method:@"statistics" attributes:attributes];
+		[self objectWithModule:@"tag" method:@"find" attributes:attributes];
 	}
 }
 
@@ -63,7 +50,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"tagID" : [NSString stringWithFormat:@"%ld", (long)tagID]}};
 
-		[self JSONObjectWithModule:@"tag" method:@"get" attributes:attributes];
+		[self objectWithModule:@"tag" method:@"get" attributes:attributes];
 	}
 }
 
@@ -75,7 +62,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"tagID" : [NSString stringWithFormat:@"%ld", (long)tagID]}};
 
-		[self JSONObjectWithModule:@"tag" method:@"remove" attributes:attributes];
+		[self objectWithModule:@"tag" method:@"remove" attributes:attributes];
 	}
 }
 

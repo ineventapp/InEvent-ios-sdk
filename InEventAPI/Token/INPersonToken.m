@@ -19,23 +19,19 @@
     dispatch_once(&onceToken, ^{
         sharedInstance = [[INPersonToken alloc] init];
         // Load the data that is already stored
-        [sharedInstance setAllowedKeys:@[@"tokenID",
-                                         @"personID",
-                                         @"approved",
-                                         @"role",
-                                         @"name"]];
+        [sharedInstance setAllowedKeys:@[@"tokenID", @"personID"]];
         
-        // Set our default values
-        if ([sharedInstance objectForKey:@"approved"] == nil) [sharedInstance setObject:@(INPersonStateUnknown) forKey:@"approved"];
-        if ([sharedInstance objectForKey:@"role"] == nil) [sharedInstance setObject:@(INPersonRoleUnknown) forKey:@"role"];
-        
+        // personID should always be a string
+        if ([[sharedInstance objectForKey:@"personID"] isKindOfClass:[NSNumber class]]) {
+            [sharedInstance setObject:nil forKey:@"personID"];
+        }
     });
     return sharedInstance;
 }
 
 #pragma mark - User Methods
 
-- (BOOL)isPersonAuthenticated {
+- (BOOL)isAuthenticated {
     if ([self objectForKey:@"tokenID"] != nil && [self objectForKey:@"personID"] != nil) {
         return YES;
     } else {
@@ -43,37 +39,9 @@
     }
 }
 
-- (BOOL)isPersonApproved {
-    if ([self isPersonAuthenticated]) {
-        if ((INPersonState)[[self objectForKey:@"approved"] integerValue] == INPersonStateApproved) {
-            return YES;
-        } else {
-            return NO;
-        }
-    } else {
-        return NO;
-    }
-}
-
-- (BOOL)isPersonWorking {
-    if ([self isPersonAuthenticated]) {
-        if ((INPersonPermission)[[self objectForKey:@"role"] integerValue] & INPersonPermissionWorking) {
-            return YES;
-        } else {
-            return NO;
-        }
-    } else {
-        return NO;
-    }
-}
-
-- (void)removePerson {
+- (void)resetData {
     // Remove all the data
-    [self resetData];
-    
-    // Rewrite our default values
-    [self setObject:@(INPersonStateUnknown) forKey:@"approved"];
-    [self setObject:@(INPersonRoleUnknown) forKey:@"role"];
+    [super resetData];
 }
 
 @end

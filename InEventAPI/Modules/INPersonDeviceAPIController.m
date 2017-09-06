@@ -12,7 +12,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"model" : model, @"deviceKey" : deviceKey}};
 
-		[self JSONObjectWithModule:@"person.device" method:@"bind" attributes:attributes];
+		[self objectWithModule:@"person.device" method:@"bind" attributes:attributes];
 	}
 }
 
@@ -24,7 +24,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"model" : model, @"deviceKey" : deviceKey}};
 
-		[self JSONObjectWithModule:@"person.device" method:@"dismiss" attributes:attributes];
+		[self objectWithModule:@"person.device" method:@"dismiss" attributes:attributes];
 	}
 }
 

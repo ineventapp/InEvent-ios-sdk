@@ -11,4 +11,5 @@
 - (void)findAuthenticatedAtEvent;
 - (void)getAuthenticatedAtQuestion:(NSInteger)questionID;
 - (void)upvoteAuthenticatedAtQuestion:(NSInteger)questionID;
+- (void)downvoteAuthenticatedAtQuestion:(NSInteger)questionID;
 @end

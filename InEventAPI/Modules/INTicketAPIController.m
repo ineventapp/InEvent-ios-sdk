@@ -7,13 +7,13 @@
 - (void)createAuthenticatedAtEventWithName:(NSString *)name {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (tokenID != nil && eventID != nil && name != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"name" : name}};
 
-		[self JSONObjectWithModule:@"ticket" method:@"create" attributes:attributes];
+		[self objectWithModule:@"ticket" method:@"create" attributes:attributes];
 	}
 }
 
@@ -25,7 +25,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"ticketID" : [NSString stringWithFormat:@"%ld", (long)ticketID], @"key" : key}, @"POST" : @{@"value" : value}};
 
-		[self JSONObjectWithModule:@"ticket" method:@"edit" attributes:attributes];
+		[self objectWithModule:@"ticket" method:@"edit" attributes:attributes];
 	}
 }
 
@@ -37,20 +37,20 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"ticketID" : [NSString stringWithFormat:@"%ld", (long)ticketID]}};
 
-		[self JSONObjectWithModule:@"ticket" method:@"remove" attributes:attributes];
+		[self objectWithModule:@"ticket" method:@"remove" attributes:attributes];
 	}
 }
 
 - (void)findAuthenticatedAtEvent {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (tokenID != nil && eventID != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
 
-		[self JSONObjectWithModule:@"ticket" method:@"find" attributes:attributes];
+		[self objectWithModule:@"ticket" method:@"find" attributes:attributes];
 	}
 }
 
@@ -62,7 +62,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"ticketID" : [NSString stringWithFormat:@"%ld", (long)ticketID]}};
 
-		[self JSONObjectWithModule:@"ticket" method:@"get" attributes:attributes];
+		[self objectWithModule:@"ticket" method:@"get" attributes:attributes];
 	}
 }
 

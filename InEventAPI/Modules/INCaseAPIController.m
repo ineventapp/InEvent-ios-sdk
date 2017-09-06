@@ -7,7 +7,7 @@
 - (void)editAuthenticatedAtEventWithKey:(NSString *)key withValue:(NSString *)value {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (tokenID != nil && eventID != nil && key != nil && value != nil) {
 
@@ -28,7 +28,7 @@
 
 - (void)getAtEvent {
 
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (eventID != nil) {
 

@@ -4,51 +4,27 @@
 
 #pragma mark - FeedbackOption
 
-- (void)createAuthenticatedAtFeedback:(NSInteger)feedbackID withText:(NSString *)text {
+- (void)createAuthenticatedAtFeedback:(NSInteger)feedbackID withTextPT:(NSString *)textPT withTextEN:(NSString *)textEN withTextES:(NSString *)textES {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && text != nil) {
+	if (tokenID != nil && textPT != nil && textEN != nil && textES != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"feedbackID" : [NSString stringWithFormat:@"%ld", (long)feedbackID]}, @"POST" : @{@"text" : text}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"feedbackID" : [NSString stringWithFormat:@"%ld", (long)feedbackID]}, @"POST" : @{@"textPT" : textPT, @"textEN" : textEN, @"textES" : textES}};
 
-		[self JSONObjectWithModule:@"feedback.option" method:@"create" attributes:attributes];
+		[self objectWithModule:@"feedback.option" method:@"create" attributes:attributes];
 	}
 }
 
-- (void)editAuthenticatedAtFeedbackOption:(NSInteger)feedbackOptionID withText:(NSString *)text {
+- (void)editAuthenticatedAtFeedbackOption:(NSInteger)feedbackOptionID withKey:(NSString *)key withValue:(NSString *)value {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && text != nil) {
+	if (tokenID != nil && key != nil && value != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"feedbackOptionID" : [NSString stringWithFormat:@"%ld", (long)feedbackOptionID]}, @"POST" : @{@"text" : text}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"feedbackOptionID" : [NSString stringWithFormat:@"%ld", (long)feedbackOptionID], @"key" : key}, @"POST" : @{@"value" : value}};
 
-		[self JSONObjectWithModule:@"feedback.option" method:@"edit" attributes:attributes];
-	}
-}
-
-- (void)getAuthenticatedAtFeedbackOption:(NSInteger)feedbackOptionID {
-
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-
-	if (tokenID != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"feedbackOptionID" : [NSString stringWithFormat:@"%ld", (long)feedbackOptionID]}};
-
-		[self JSONObjectWithModule:@"feedback.option" method:@"get" attributes:attributes];
-	}
-}
-
-- (void)findAuthenticatedAtFeedback:(NSInteger)feedbackID {
-
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-
-	if (tokenID != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"feedbackID" : [NSString stringWithFormat:@"%ld", (long)feedbackID]}};
-
-		[self JSONObjectWithModule:@"feedback.option" method:@"find" attributes:attributes];
+		[self objectWithModule:@"feedback.option" method:@"edit" attributes:attributes];
 	}
 }
 
@@ -60,7 +36,31 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"feedbackOptionID" : [NSString stringWithFormat:@"%ld", (long)feedbackOptionID]}};
 
-		[self JSONObjectWithModule:@"feedback.option" method:@"remove" attributes:attributes];
+		[self objectWithModule:@"feedback.option" method:@"remove" attributes:attributes];
+	}
+}
+
+- (void)findAuthenticatedAtFeedback:(NSInteger)feedbackID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"feedbackID" : [NSString stringWithFormat:@"%ld", (long)feedbackID]}};
+
+		[self objectWithModule:@"feedback.option" method:@"find" attributes:attributes];
+	}
+}
+
+- (void)getAuthenticatedAtFeedbackOption:(NSInteger)feedbackOptionID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"feedbackOptionID" : [NSString stringWithFormat:@"%ld", (long)feedbackOptionID]}};
+
+		[self objectWithModule:@"feedback.option" method:@"get" attributes:attributes];
 	}
 }
 
@@ -72,7 +72,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"feedbackID" : [NSString stringWithFormat:@"%ld", (long)feedbackID]}};
 
-		[self JSONObjectWithModule:@"feedback.option" method:@"clear" attributes:attributes];
+		[self objectWithModule:@"feedback.option" method:@"clear" attributes:attributes];
 	}
 }
 

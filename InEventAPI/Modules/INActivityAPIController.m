@@ -4,29 +4,29 @@
 
 #pragma mark - Activity
 
-- (void)createAuthenticatedAtEventWithName:(NSString *)name withDescription:(NSString *)description withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd withCapacity:(NSString *)capacity {
+- (void)createAuthenticatedAtEventWithName:(NSString *)name withDescription:(NSString *)description withLocation:(NSString *)location withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd withCapacity:(NSString *)capacity {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && name != nil && description != nil && dateBegin != nil && dateEnd != nil && capacity != nil) {
+	if (tokenID != nil && eventID != nil && name != nil && description != nil && location != nil && dateBegin != nil && dateEnd != nil && capacity != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"name" : name, @"description" : description, @"dateBegin" : dateBegin, @"dateEnd" : dateEnd, @"capacity" : capacity}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"name" : name, @"description" : description, @"location" : location, @"dateBegin" : dateBegin, @"dateEnd" : dateEnd, @"capacity" : capacity}};
 
-		[self JSONObjectWithModule:@"activity" method:@"create" attributes:attributes];
+		[self objectWithModule:@"activity" method:@"create" attributes:attributes];
 	}
 }
 
 - (void)createAuthenticatedAtEventWithPath:(NSString *)path {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (tokenID != nil && eventID != nil && path != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"path" : path}};
 
-		[self JSONObjectWithModule:@"activity" method:@"create" attributes:attributes];
+		[self objectWithModule:@"activity" method:@"create" attributes:attributes];
 	}
 }
 
@@ -38,7 +38,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID], @"key" : key, @"push" : push}, @"POST" : @{@"value" : value}};
 
-		[self JSONObjectWithModule:@"activity" method:@"edit" attributes:attributes];
+		[self objectWithModule:@"activity" method:@"edit" attributes:attributes];
 	}
 }
 
@@ -50,45 +50,45 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}};
 
-		[self JSONObjectWithModule:@"activity" method:@"remove" attributes:attributes];
+		[self objectWithModule:@"activity" method:@"remove" attributes:attributes];
 	}
 }
 
-- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection forPerson:(NSInteger)personID {
+- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection forPerson:(NSInteger)personID withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && selection != nil) {
+	if (tokenID != nil && eventID != nil && selection != nil && dateBegin != nil && dateEnd != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID], @"dateBegin" : dateBegin, @"dateEnd" : dateEnd}};
 
-		[self JSONObjectWithModule:@"activity" method:@"find" attributes:attributes];
+		[self objectWithModule:@"activity" method:@"find" attributes:attributes];
 	}
 }
 
-- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection {
+- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && selection != nil) {
+	if (tokenID != nil && eventID != nil && selection != nil && dateBegin != nil && dateEnd != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection, @"dateBegin" : dateBegin, @"dateEnd" : dateEnd}};
 
-		[self JSONObjectWithModule:@"activity" method:@"find" attributes:attributes];
+		[self objectWithModule:@"activity" method:@"find" attributes:attributes];
 	}
 }
 
-- (void)findAtEvent {
+- (void)findAtEventWithDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd {
 
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (eventID != nil) {
+	if (eventID != nil && dateBegin != nil && dateEnd != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID}};
+		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID, @"dateBegin" : dateBegin, @"dateEnd" : dateEnd}};
 
-		[self JSONObjectWithModule:@"activity" method:@"find" attributes:attributes];
+		[self objectWithModule:@"activity" method:@"find" attributes:attributes];
 	}
 }
 
@@ -100,7 +100,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID], @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}};
 
-		[self JSONObjectWithModule:@"activity" method:@"get" attributes:attributes];
+		[self objectWithModule:@"activity" method:@"get" attributes:attributes];
 	}
 }
 
@@ -112,7 +112,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}};
 
-		[self JSONObjectWithModule:@"activity" method:@"get" attributes:attributes];
+		[self objectWithModule:@"activity" method:@"get" attributes:attributes];
 	}
 }
 
@@ -122,7 +122,7 @@
 
 	NSDictionary *attributes = @{@"GET" : @{@"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}};
 
-	[self JSONObjectWithModule:@"activity" method:@"get" attributes:attributes];
+	[self objectWithModule:@"activity" method:@"get" attributes:attributes];
 }
 
 - (void)copyAuthenticatedAtActivity:(NSInteger)activityID {
@@ -133,7 +133,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}};
 
-		[self JSONObjectWithModule:@"activity" method:@"copy" attributes:attributes];
+		[self objectWithModule:@"activity" method:@"copy" attributes:attributes];
 	}
 }
 
@@ -145,7 +145,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID], @"minutes" : minutes, @"subsequent" : subsequent}};
 
-		[self JSONObjectWithModule:@"activity" method:@"delay" attributes:attributes];
+		[self objectWithModule:@"activity" method:@"delay" attributes:attributes];
 	}
 }
 

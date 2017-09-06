@@ -7,25 +7,13 @@
 - (void)createAuthenticatedAtEventWithTarget:(NSString *)target atTarget:(NSInteger)targetID withDate:(NSString *)date {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (tokenID != nil && eventID != nil && target != nil && date != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"target" : target, @"targetID" : [NSString stringWithFormat:@"%ld", (long)targetID], @"date" : date}};
 
-		[self JSONObjectWithModule:@"tracking" method:@"create" attributes:attributes];
-	}
-}
-
-- (void)createAtEventWithTarget:(NSString *)target atTarget:(NSInteger)targetID withDate:(NSString *)date {
-
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
-
-	if (eventID != nil && target != nil && date != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID}, @"POST" : @{@"target" : target, @"targetID" : [NSString stringWithFormat:@"%ld", (long)targetID], @"date" : date}};
-
-		[self JSONObjectWithModule:@"tracking" method:@"create" attributes:attributes];
+		[self objectWithModule:@"tracking" method:@"create" attributes:attributes];
 	}
 }
 
@@ -37,44 +25,33 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"content" : content}};
 
-		[self JSONObjectWithModule:@"tracking" method:@"create" attributes:attributes];
-	}
-}
-
-- (void)createWithContent:(NSString *)content {
-
-
-	if (content != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{}, @"POST" : @{@"content" : content}};
-
-		[self JSONObjectWithModule:@"tracking" method:@"create" attributes:attributes];
+		[self objectWithModule:@"tracking" method:@"create" attributes:attributes];
 	}
 }
 
 - (void)findAuthenticatedAtEventWithSelection:(NSString *)selection {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (tokenID != nil && eventID != nil && selection != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection}};
 
-		[self JSONObjectWithModule:@"tracking" method:@"find" attributes:attributes];
+		[self objectWithModule:@"tracking" method:@"find" attributes:attributes];
 	}
 }
 
 - (void)findAuthenticatedAtEventWithSelection:(NSString *)selection withRoot:(NSString *)root withModule:(NSString *)module {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (tokenID != nil && eventID != nil && selection != nil && root != nil && module != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection, @"root" : root, @"module" : module}};
 
-		[self JSONObjectWithModule:@"tracking" method:@"find" attributes:attributes];
+		[self objectWithModule:@"tracking" method:@"find" attributes:attributes];
 	}
 }
 
@@ -86,7 +63,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"trackingID" : [NSString stringWithFormat:@"%ld", (long)trackingID]}};
 
-		[self JSONObjectWithModule:@"tracking" method:@"get" attributes:attributes];
+		[self objectWithModule:@"tracking" method:@"get" attributes:attributes];
 	}
 }
 

@@ -4,92 +4,79 @@
 
 #pragma mark - Event
 
-- (void)createAuthenticatedWithName:(NSString *)name withNickname:(NSString *)nickname {
-
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-
-	if (tokenID != nil && name != nil && nickname != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"name" : name, @"nickname" : nickname}};
-
-		[self JSONObjectWithModule:@"event" method:@"create" attributes:attributes];
-	}
-}
-
 - (void)editAuthenticatedAtEventWithKey:(NSString *)key withValue:(NSString *)value {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (tokenID != nil && eventID != nil && key != nil && value != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"key" : key}, @"POST" : @{@"value" : value}};
 
-		[self JSONObjectWithModule:@"event" method:@"edit" attributes:attributes];
+		[self objectWithModule:@"event" method:@"edit" attributes:attributes];
 	}
 }
 
-- (void)removeAuthenticatedAtEvent {
+- (void)getAuthenticatedAtEventForPerson:(NSInteger)personID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (tokenID != nil && eventID != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}};
 
-		[self JSONObjectWithModule:@"event" method:@"remove" attributes:attributes];
+		[self objectWithModule:@"event" method:@"get" attributes:attributes];
 	}
 }
 
 - (void)getAuthenticatedAtEvent {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (tokenID != nil && eventID != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
 
-		[self JSONObjectWithModule:@"event" method:@"get" attributes:attributes];
+		[self objectWithModule:@"event" method:@"get" attributes:attributes];
 	}
 }
 
 - (void)getAtEvent {
 
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (eventID != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID}};
 
-		[self JSONObjectWithModule:@"event" method:@"get" attributes:attributes];
+		[self objectWithModule:@"event" method:@"get" attributes:attributes];
 	}
 }
 
 - (void)checkAccessCodeAuthenticatedAtEventWithAccessCode:(NSString *)accessCode {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (tokenID != nil && eventID != nil && accessCode != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"accessCode" : accessCode}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"accessCode" : accessCode}};
 
-		[self JSONObjectWithModule:@"event" method:@"checkAccessCode" attributes:attributes];
+		[self objectWithModule:@"event" method:@"checkAccessCode" attributes:attributes];
 	}
 }
 
-- (void)statisticsAuthenticatedAtEvent {
+- (void)sendSMSAtEventWithTelephone:(NSString *)telephone {
 
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil) {
+	if (eventID != nil && telephone != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
+		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID}, @"POST" : @{@"telephone" : telephone}};
 
-		[self JSONObjectWithModule:@"event" method:@"statistics" attributes:attributes];
+		[self objectWithModule:@"event" method:@"sendSMS" attributes:attributes];
 	}
 }
 

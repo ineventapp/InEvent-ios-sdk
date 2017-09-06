@@ -4,28 +4,52 @@
 
 #pragma mark - News
 
-- (void)createAuthenticatedAtEventWithMessage:(NSString *)message {
+- (void)createAuthenticatedAtEventForPerson:(NSInteger)personID withMessage:(NSString *)message withScheduled:(NSString *)scheduled withDate:(NSString *)date {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && message != nil) {
+	if (tokenID != nil && eventID != nil && message != nil && scheduled != nil && date != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"message" : message}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}, @"POST" : @{@"message" : message, @"scheduled" : scheduled, @"date" : date}};
 
-		[self JSONObjectWithModule:@"news" method:@"create" attributes:attributes];
+		[self objectWithModule:@"news" method:@"create" attributes:attributes];
 	}
 }
 
-- (void)createAuthenticatedAtActivity:(NSInteger)activityID withMessage:(NSString *)message {
+- (void)createAuthenticatedAtEventWithMessage:(NSString *)message withScheduled:(NSString *)scheduled withDate:(NSString *)date {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && message != nil && scheduled != nil && date != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"message" : message, @"scheduled" : scheduled, @"date" : date}};
+
+		[self objectWithModule:@"news" method:@"create" attributes:attributes];
+	}
+}
+
+- (void)createAuthenticatedAtActivity:(NSInteger)activityID withMessage:(NSString *)message withScheduled:(NSString *)scheduled withDate:(NSString *)date {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && message != nil) {
+	if (tokenID != nil && message != nil && scheduled != nil && date != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}, @"POST" : @{@"message" : message}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}, @"POST" : @{@"message" : message, @"scheduled" : scheduled, @"date" : date}};
 
-		[self JSONObjectWithModule:@"news" method:@"create" attributes:attributes];
+		[self objectWithModule:@"news" method:@"create" attributes:attributes];
+	}
+}
+
+- (void)editAtNews:(NSInteger)newsID withKey:(NSString *)key withValue:(NSString *)value {
+
+
+	if (key != nil && value != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"newsID" : [NSString stringWithFormat:@"%ld", (long)newsID], @"key" : key}, @"POST" : @{@"value" : value}};
+
+		[self objectWithModule:@"news" method:@"edit" attributes:attributes];
 	}
 }
 
@@ -37,33 +61,33 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"newsID" : [NSString stringWithFormat:@"%ld", (long)newsID]}};
 
-		[self JSONObjectWithModule:@"news" method:@"remove" attributes:attributes];
+		[self objectWithModule:@"news" method:@"remove" attributes:attributes];
 	}
 }
 
 - (void)findAuthenticatedAtEventForPerson:(NSInteger)personID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (tokenID != nil && eventID != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}};
 
-		[self JSONObjectWithModule:@"news" method:@"find" attributes:attributes];
+		[self objectWithModule:@"news" method:@"find" attributes:attributes];
 	}
 }
 
 - (void)findAuthenticatedAtEventWithSelection:(NSString *)selection {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (tokenID != nil && eventID != nil && selection != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection}};
 
-		[self JSONObjectWithModule:@"news" method:@"find" attributes:attributes];
+		[self objectWithModule:@"news" method:@"find" attributes:attributes];
 	}
 }
 
@@ -75,7 +99,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}};
 
-		[self JSONObjectWithModule:@"news" method:@"find" attributes:attributes];
+		[self objectWithModule:@"news" method:@"find" attributes:attributes];
 	}
 }
 
@@ -85,7 +109,7 @@
 
 	NSDictionary *attributes = @{@"GET" : @{@"newsID" : [NSString stringWithFormat:@"%ld", (long)newsID]}};
 
-	[self JSONObjectWithModule:@"news" method:@"get" attributes:attributes];
+	[self objectWithModule:@"news" method:@"get" attributes:attributes];
 }
 
 @end

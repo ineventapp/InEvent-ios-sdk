@@ -4,14 +4,14 @@
 
 #pragma mark - Person
 
-- (void)createWithName:(NSString *)name withEmail:(NSString *)email withPassword:(NSString *)password {
+- (void)createWithName:(NSString *)name withUsername:(NSString *)username withPassword:(NSString *)password withLanguage:(NSString *)language {
 
 
-	if (name != nil && email != nil && password != nil) {
+	if (name != nil && username != nil && password != nil && language != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{}, @"POST" : @{@"name" : name, @"email" : email, @"password" : password}};
+		NSDictionary *attributes = @{@"GET" : @{}, @"POST" : @{@"name" : name, @"username" : username, @"password" : password, @"language" : language}};
 
-		[self JSONObjectWithModule:@"person" method:@"create" attributes:attributes];
+		[self objectWithModule:@"person" method:@"create" attributes:attributes];
 	}
 }
 
@@ -23,7 +23,31 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"key" : key}, @"POST" : @{@"value" : value}};
 
-		[self JSONObjectWithModule:@"person" method:@"edit" attributes:attributes];
+		[self objectWithModule:@"person" method:@"edit" attributes:attributes];
+	}
+}
+
+- (void)editAuthenticatedWithKey:(NSString *)key forPerson:(NSInteger)personID withValue:(NSString *)value {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && key != nil && value != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"key" : key, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}, @"POST" : @{@"value" : value}};
+
+		[self objectWithModule:@"person" method:@"edit" attributes:attributes];
+	}
+}
+
+- (void)editAuthenticatedWithContent:(NSString *)content {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && content != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"content" : content}};
+
+		[self objectWithModule:@"person" method:@"edit" attributes:attributes];
 	}
 }
 
@@ -35,7 +59,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}};
 
-		[self JSONObjectWithModule:@"person" method:@"get" attributes:attributes];
+		[self objectWithModule:@"person" method:@"get" attributes:attributes];
 	}
 }
 
@@ -47,40 +71,40 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}};
 
-		[self JSONObjectWithModule:@"person" method:@"get" attributes:attributes];
+		[self objectWithModule:@"person" method:@"get" attributes:attributes];
 	}
 }
 
-- (void)signInWithEmail:(NSString *)email withPassword:(NSString *)password {
+- (void)signInWithUsername:(NSString *)username atCompany:(NSInteger)companyID withPassword:(NSString *)password {
 
 
-	if (email != nil && password != nil) {
+	if (username != nil && password != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"email" : email, @"password" : password}};
+		NSDictionary *attributes = @{@"GET" : @{@"username" : username, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"password" : password}};
 
-		[self JSONObjectWithModule:@"person" method:@"signIn" attributes:attributes];
+		[self objectWithModule:@"person" method:@"signIn" attributes:attributes];
 	}
 }
 
-- (void)verifyEmailWithEmail:(NSString *)email {
+- (void)externalSignInWithUsername:(NSString *)username withCompany:(NSString *)company withPassword:(NSString *)password {
 
 
-	if (email != nil) {
+	if (username != nil && company != nil && password != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"email" : email}};
+		NSDictionary *attributes = @{@"GET" : @{@"username" : username, @"company" : company}, @"POST" : @{@"password" : password}};
 
-		[self JSONObjectWithModule:@"person" method:@"verifyEmail" attributes:attributes];
+		[self objectWithModule:@"person" method:@"externalSignIn" attributes:attributes];
 	}
 }
 
-- (void)sendRecoveryWithEmail:(NSString *)email {
+- (void)sendRecoveryWithUsername:(NSString *)username atCompany:(NSInteger)companyID {
 
 
-	if (email != nil) {
+	if (username != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"email" : email}};
+		NSDictionary *attributes = @{@"GET" : @{@"username" : username, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}};
 
-		[self JSONObjectWithModule:@"person" method:@"sendRecovery" attributes:attributes];
+		[self objectWithModule:@"person" method:@"sendRecovery" attributes:attributes];
 	}
 }
 
@@ -90,9 +114,45 @@
 
 	if (tokenID != nil && oldPassword != nil && newPassword != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"oldPassword" : oldPassword}, @"POST" : @{@"newPassword" : newPassword}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"oldPassword" : oldPassword, @"newPassword" : newPassword}};
 
-		[self JSONObjectWithModule:@"person" method:@"changePassword" attributes:attributes];
+		[self objectWithModule:@"person" method:@"changePassword" attributes:attributes];
+	}
+}
+
+- (void)changePasswordAuthenticatedWithNewPassword:(NSString *)newPassword {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && newPassword != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"newPassword" : newPassword}};
+
+		[self objectWithModule:@"person" method:@"changePassword" attributes:attributes];
+	}
+}
+
+- (void)changeLevelAuthenticatedForPerson:(NSInteger)personID withNewLevel:(NSString *)newLevel {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && newLevel != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}, @"POST" : @{@"newLevel" : newLevel}};
+
+		[self objectWithModule:@"person" method:@"changeLevel" attributes:attributes];
+	}
+}
+
+- (void)terminateAuthenticatedWithPassword:(NSString *)password {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && password != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"password" : password}};
+
+		[self objectWithModule:@"person" method:@"terminate" attributes:attributes];
 	}
 }
 
@@ -104,7 +164,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"email" : email}};
 
-		[self JSONObjectWithModule:@"person" method:@"subscribe" attributes:attributes];
+		[self objectWithModule:@"person" method:@"subscribe" attributes:attributes];
 	}
 }
 
@@ -116,19 +176,19 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"email" : email}};
 
-		[self JSONObjectWithModule:@"person" method:@"unsubscribe" attributes:attributes];
+		[self objectWithModule:@"person" method:@"unsubscribe" attributes:attributes];
 	}
 }
 
-- (void)sendFeedbackAuthenticatedWithMessage:(NSString *)message {
+- (void)sendFeedbackAuthenticatedAtCompany:(NSInteger)companyID withMessage:(NSString *)message {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
 	if (tokenID != nil && message != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"message" : message}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"message" : message}};
 
-		[self JSONObjectWithModule:@"person" method:@"sendFeedback" attributes:attributes];
+		[self objectWithModule:@"person" method:@"sendFeedback" attributes:attributes];
 	}
 }
 

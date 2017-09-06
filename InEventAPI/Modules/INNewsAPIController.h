@@ -4,8 +4,10 @@
 @interface INNewsAPIController : INAPIController
 
 #pragma mark - News
-- (void)createAuthenticatedAtEventWithMessage:(NSString *)message;
-- (void)createAuthenticatedAtActivity:(NSInteger)activityID withMessage:(NSString *)message;
+- (void)createAuthenticatedAtEventForPerson:(NSInteger)personID withMessage:(NSString *)message withScheduled:(NSString *)scheduled withDate:(NSString *)date;
+- (void)createAuthenticatedAtEventWithMessage:(NSString *)message withScheduled:(NSString *)scheduled withDate:(NSString *)date;
+- (void)createAuthenticatedAtActivity:(NSInteger)activityID withMessage:(NSString *)message withScheduled:(NSString *)scheduled withDate:(NSString *)date;
+- (void)editAtNews:(NSInteger)newsID withKey:(NSString *)key withValue:(NSString *)value;
 - (void)removeAuthenticatedAtNews:(NSInteger)newsID;
 - (void)findAuthenticatedAtEventForPerson:(NSInteger)personID;
 - (void)findAuthenticatedAtEventWithSelection:(NSString *)selection;

@@ -12,7 +12,19 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}, @"POST" : @{@"name" : name, @"email" : email}};
 
-		[self JSONObjectWithModule:@"activity.person" method:@"bind" attributes:attributes];
+		[self objectWithModule:@"activity.person" method:@"bind" attributes:attributes];
+	}
+}
+
+- (void)bindAuthenticatedAtActivity:(NSInteger)activityID forPerson:(NSInteger)personID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID], @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}};
+
+		[self objectWithModule:@"activity.person" method:@"bind" attributes:attributes];
 	}
 }
 
@@ -24,7 +36,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}, @"POST" : @{@"path" : path}};
 
-		[self JSONObjectWithModule:@"activity.person" method:@"bind" attributes:attributes];
+		[self objectWithModule:@"activity.person" method:@"bind" attributes:attributes];
 	}
 }
 
@@ -36,7 +48,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}};
 
-		[self JSONObjectWithModule:@"activity.person" method:@"bind" attributes:attributes];
+		[self objectWithModule:@"activity.person" method:@"bind" attributes:attributes];
 	}
 }
 
@@ -48,7 +60,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID], @"key" : key, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}, @"POST" : @{@"value" : value}};
 
-		[self JSONObjectWithModule:@"activity.person" method:@"operate" attributes:attributes];
+		[self objectWithModule:@"activity.person" method:@"operate" attributes:attributes];
 	}
 }
 
@@ -60,7 +72,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID], @"key" : key}, @"POST" : @{@"value" : value}};
 
-		[self JSONObjectWithModule:@"activity.person" method:@"operate" attributes:attributes];
+		[self objectWithModule:@"activity.person" method:@"operate" attributes:attributes];
 	}
 }
 
@@ -72,7 +84,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID], @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}};
 
-		[self JSONObjectWithModule:@"activity.person" method:@"dismiss" attributes:attributes];
+		[self objectWithModule:@"activity.person" method:@"dismiss" attributes:attributes];
 	}
 }
 
@@ -84,19 +96,19 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}};
 
-		[self JSONObjectWithModule:@"activity.person" method:@"dismiss" attributes:attributes];
+		[self objectWithModule:@"activity.person" method:@"dismiss" attributes:attributes];
 	}
 }
 
-- (void)findAuthenticatedAtActivity:(NSInteger)activityID withSelection:(NSString *)selection withOrder:(NSString *)order {
+- (void)findAuthenticatedAtActivity:(NSInteger)activityID withSelection:(NSString *)selection withOrder:(NSString *)order withQuery:(NSString *)query {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && selection != nil && order != nil) {
+	if (tokenID != nil && selection != nil && order != nil && query != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID], @"selection" : selection, @"order" : order}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID], @"selection" : selection, @"order" : order, @"query" : query}};
 
-		[self JSONObjectWithModule:@"activity.person" method:@"find" attributes:attributes];
+		[self objectWithModule:@"activity.person" method:@"find" attributes:attributes];
 	}
 }
 
@@ -108,7 +120,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID], @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}};
 
-		[self JSONObjectWithModule:@"activity.person" method:@"get" attributes:attributes];
+		[self objectWithModule:@"activity.person" method:@"get" attributes:attributes];
 	}
 }
 
@@ -120,7 +132,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}};
 
-		[self JSONObjectWithModule:@"activity.person" method:@"get" attributes:attributes];
+		[self objectWithModule:@"activity.person" method:@"get" attributes:attributes];
 	}
 }
 

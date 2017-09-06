@@ -12,7 +12,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"from" : from, @"subject" : subject, @"body" : body}};
 
-		[self JSONObjectWithModule:@"mailing" method:@"create" attributes:attributes];
+		[self objectWithModule:@"mailing" method:@"create" attributes:attributes];
 	}
 }
 
@@ -24,7 +24,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"mailingListID" : [NSString stringWithFormat:@"%ld", (long)mailingListID], @"key" : key}, @"POST" : @{@"value" : value}};
 
-		[self JSONObjectWithModule:@"mailing" method:@"edit" attributes:attributes];
+		[self objectWithModule:@"mailing" method:@"edit" attributes:attributes];
 	}
 }
 
@@ -36,7 +36,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"mailingListID" : [NSString stringWithFormat:@"%ld", (long)mailingListID]}};
 
-		[self JSONObjectWithModule:@"mailing" method:@"remove" attributes:attributes];
+		[self objectWithModule:@"mailing" method:@"remove" attributes:attributes];
 	}
 }
 
@@ -48,7 +48,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"mailingListID" : [NSString stringWithFormat:@"%ld", (long)mailingListID]}};
 
-		[self JSONObjectWithModule:@"mailing" method:@"get" attributes:attributes];
+		[self objectWithModule:@"mailing" method:@"get" attributes:attributes];
 	}
 }
 
@@ -60,7 +60,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}};
 
-		[self JSONObjectWithModule:@"mailing" method:@"find" attributes:attributes];
+		[self objectWithModule:@"mailing" method:@"find" attributes:attributes];
 	}
 }
 
@@ -72,7 +72,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"mailingListID" : [NSString stringWithFormat:@"%ld", (long)mailingListID]}};
 
-		[self JSONObjectWithModule:@"mailing" method:@"findSubscribers" attributes:attributes];
+		[self objectWithModule:@"mailing" method:@"findSubscribers" attributes:attributes];
 	}
 }
 
@@ -84,7 +84,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}};
 
-		[self JSONObjectWithModule:@"mailing" method:@"findSubscribers" attributes:attributes];
+		[self objectWithModule:@"mailing" method:@"findSubscribers" attributes:attributes];
 	}
 }
 
@@ -96,7 +96,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"name" : name, @"email" : email, @"company" : company}};
 
-		[self JSONObjectWithModule:@"mailing" method:@"subscribe" attributes:attributes];
+		[self objectWithModule:@"mailing" method:@"subscribe" attributes:attributes];
 	}
 }
 
@@ -108,7 +108,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"path" : path}};
 
-		[self JSONObjectWithModule:@"mailing" method:@"subscribe" attributes:attributes];
+		[self objectWithModule:@"mailing" method:@"subscribe" attributes:attributes];
 	}
 }
 
@@ -120,7 +120,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"mailingListID" : [NSString stringWithFormat:@"%ld", (long)mailingListID], @"mailingSubscriberID" : [NSString stringWithFormat:@"%ld", (long)mailingSubscriberID]}};
 
-		[self JSONObjectWithModule:@"mailing" method:@"bind" attributes:attributes];
+		[self objectWithModule:@"mailing" method:@"bind" attributes:attributes];
 	}
 }
 
@@ -132,7 +132,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"mailingListID" : [NSString stringWithFormat:@"%ld", (long)mailingListID]}, @"POST" : @{@"content" : content}};
 
-		[self JSONObjectWithModule:@"mailing" method:@"bind" attributes:attributes];
+		[self objectWithModule:@"mailing" method:@"bind" attributes:attributes];
 	}
 }
 
@@ -144,7 +144,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"mailingListID" : [NSString stringWithFormat:@"%ld", (long)mailingListID], @"mailingSubscriberID" : [NSString stringWithFormat:@"%ld", (long)mailingSubscriberID]}};
 
-		[self JSONObjectWithModule:@"mailing" method:@"dismiss" attributes:attributes];
+		[self objectWithModule:@"mailing" method:@"dismiss" attributes:attributes];
 	}
 }
 
@@ -156,7 +156,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"mailingListID" : [NSString stringWithFormat:@"%ld", (long)mailingListID]}, @"POST" : @{@"content" : content}};
 
-		[self JSONObjectWithModule:@"mailing" method:@"dismiss" attributes:attributes];
+		[self objectWithModule:@"mailing" method:@"dismiss" attributes:attributes];
 	}
 }
 
@@ -168,7 +168,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"mailingListID" : [NSString stringWithFormat:@"%ld", (long)mailingListID]}};
 
-		[self JSONObjectWithModule:@"mailing" method:@"copy" attributes:attributes];
+		[self objectWithModule:@"mailing" method:@"copy" attributes:attributes];
 	}
 }
 
@@ -180,7 +180,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"mailingListID" : [NSString stringWithFormat:@"%ld", (long)mailingListID]}};
 
-		[self JSONObjectWithModule:@"mailing" method:@"dispatch" attributes:attributes];
+		[self objectWithModule:@"mailing" method:@"dispatch" attributes:attributes];
 	}
 }
 

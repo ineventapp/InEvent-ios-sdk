@@ -4,16 +4,29 @@
 
 #pragma mark - Speaker
 
-- (void)createAuthenticatedAtEventWithName:(NSString *)name {
+- (void)createAuthenticatedAtEventWithName:(NSString *)name withHeadline:(NSString *)headline withImage:(NSString *)image {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && name != nil) {
+	if (tokenID != nil && eventID != nil && name != nil && headline != nil && image != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"name" : name}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"name" : name, @"headline" : headline, @"image" : image}};
 
-		[self JSONObjectWithModule:@"speaker" method:@"create" attributes:attributes];
+		[self objectWithModule:@"speaker" method:@"create" attributes:attributes];
+	}
+}
+
+- (void)createAuthenticatedAtEventWithPath:(NSString *)path {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && path != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"path" : path}};
+
+		[self objectWithModule:@"speaker" method:@"create" attributes:attributes];
 	}
 }
 
@@ -25,7 +38,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"speakerID" : [NSString stringWithFormat:@"%ld", (long)speakerID], @"key" : key}, @"POST" : @{@"value" : value}};
 
-		[self JSONObjectWithModule:@"speaker" method:@"edit" attributes:attributes];
+		[self objectWithModule:@"speaker" method:@"edit" attributes:attributes];
 	}
 }
 
@@ -37,20 +50,20 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"speakerID" : [NSString stringWithFormat:@"%ld", (long)speakerID]}};
 
-		[self JSONObjectWithModule:@"speaker" method:@"remove" attributes:attributes];
+		[self objectWithModule:@"speaker" method:@"remove" attributes:attributes];
 	}
 }
 
 - (void)findAuthenticatedAtEvent {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (tokenID != nil && eventID != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
 
-		[self JSONObjectWithModule:@"speaker" method:@"find" attributes:attributes];
+		[self objectWithModule:@"speaker" method:@"find" attributes:attributes];
 	}
 }
 
@@ -62,7 +75,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"speakerID" : [NSString stringWithFormat:@"%ld", (long)speakerID]}};
 
-		[self JSONObjectWithModule:@"speaker" method:@"get" attributes:attributes];
+		[self objectWithModule:@"speaker" method:@"get" attributes:attributes];
 	}
 }
 

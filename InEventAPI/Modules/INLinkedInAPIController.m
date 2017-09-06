@@ -1,8 +1,8 @@
-#import "INLinkedInAPIController.h"
+#import "INLinkedinAPIController.h"
 
-@implementation INLinkedInAPIController
+@implementation INLinkedinAPIController
 
-#pragma mark - LinkedIn
+#pragma mark - Linkedin
 
 - (void)signInWithLinkedInToken:(NSString *)linkedInToken {
 
@@ -11,7 +11,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"linkedInToken" : linkedInToken}};
 
-		[self JSONObjectWithModule:@"linkedIn" method:@"signIn" attributes:attributes];
+		[self objectWithModule:@"linkedin" method:@"signIn" attributes:attributes];
 	}
 }
 
@@ -23,20 +23,20 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"linkedInToken" : linkedInToken, @"selection" : selection}};
 
-		[self JSONObjectWithModule:@"linkedIn" method:@"update" attributes:attributes];
+		[self objectWithModule:@"linkedin" method:@"update" attributes:attributes];
 	}
 }
 
 - (void)generateAuthenticatedAtEvent {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (tokenID != nil && eventID != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
 
-		[self JSONObjectWithModule:@"linkedIn" method:@"generate" attributes:attributes];
+		[self objectWithModule:@"linkedin" method:@"generate" attributes:attributes];
 	}
 }
 

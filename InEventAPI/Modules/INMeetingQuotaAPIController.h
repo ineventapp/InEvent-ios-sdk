@@ -8,5 +8,5 @@
 - (void)getAuthenticatedAtMeetingQuota:(NSInteger)meetingQuotaID;
 - (void)findAuthenticatedAtEvent;
 - (void)editAuthenticatedAtMeetingQuota:(NSInteger)meetingQuotaID withKey:(NSString *)key withValue:(NSString *)value;
-- (void)removeAuthenticatedAtMeetingQuota:(NSInteger)meetingQuotaID;
+- (void)removeAuthenticatedAtEventAtMeetingQuota:(NSInteger)meetingQuotaID;
 @end

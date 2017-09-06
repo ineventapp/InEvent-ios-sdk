@@ -12,7 +12,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"name" : name, @"email" : email}};
 
-		[self JSONObjectWithModule:@"company.person" method:@"bind" attributes:attributes];
+		[self objectWithModule:@"company.person" method:@"bind" attributes:attributes];
 	}
 }
 
@@ -24,7 +24,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"key" : key, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}, @"POST" : @{@"value" : value}};
 
-		[self JSONObjectWithModule:@"company.person" method:@"operate" attributes:attributes];
+		[self objectWithModule:@"company.person" method:@"operate" attributes:attributes];
 	}
 }
 
@@ -36,7 +36,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}};
 
-		[self JSONObjectWithModule:@"company.person" method:@"dismiss" attributes:attributes];
+		[self objectWithModule:@"company.person" method:@"dismiss" attributes:attributes];
 	}
 }
 
@@ -48,7 +48,19 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"selection" : selection, @"order" : order}};
 
-		[self JSONObjectWithModule:@"company.person" method:@"find" attributes:attributes];
+		[self objectWithModule:@"company.person" method:@"find" attributes:attributes];
+	}
+}
+
+- (void)syncAuthenticated {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}};
+
+		[self objectWithModule:@"company.person" method:@"sync" attributes:attributes];
 	}
 }
 

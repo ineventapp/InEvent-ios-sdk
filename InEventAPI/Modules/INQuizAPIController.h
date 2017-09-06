@@ -8,6 +8,7 @@
 - (void)editAuthenticatedAtQuiz:(NSInteger)quizID withKey:(NSString *)key withValue:(NSString *)value;
 - (void)removeAuthenticatedAtQuiz:(NSInteger)quizID;
 - (void)findAuthenticatedAtActivity:(NSInteger)activityID;
+- (void)findAuthenticatedAtEvent;
 - (void)getAuthenticatedAtQuiz:(NSInteger)quizID;
-- (void)respondAuthenticatedAtQuiz:(NSInteger)quizID atQuizOption:(NSInteger)quizOptionID;
+- (void)respondAuthenticatedAtQuizOption:(NSInteger)quizOptionID;
 @end

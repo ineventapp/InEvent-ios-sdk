@@ -12,7 +12,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}, @"POST" : @{@"text" : text}};
 
-		[self JSONObjectWithModule:@"question" method:@"create" attributes:attributes];
+		[self objectWithModule:@"question" method:@"create" attributes:attributes];
 	}
 }
 
@@ -24,7 +24,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"questionID" : [NSString stringWithFormat:@"%ld", (long)questionID], @"key" : key}, @"POST" : @{@"value" : value}};
 
-		[self JSONObjectWithModule:@"question" method:@"edit" attributes:attributes];
+		[self objectWithModule:@"question" method:@"edit" attributes:attributes];
 	}
 }
 
@@ -36,7 +36,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"questionID" : [NSString stringWithFormat:@"%ld", (long)questionID]}};
 
-		[self JSONObjectWithModule:@"question" method:@"remove" attributes:attributes];
+		[self objectWithModule:@"question" method:@"remove" attributes:attributes];
 	}
 }
 
@@ -48,20 +48,20 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID], @"selection" : selection}};
 
-		[self JSONObjectWithModule:@"question" method:@"find" attributes:attributes];
+		[self objectWithModule:@"question" method:@"find" attributes:attributes];
 	}
 }
 
 - (void)findAuthenticatedAtEvent {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[[INEventToken sharedInstance] objectForKey:@"eventID"] stringValue];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (tokenID != nil && eventID != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
 
-		[self JSONObjectWithModule:@"question" method:@"find" attributes:attributes];
+		[self objectWithModule:@"question" method:@"find" attributes:attributes];
 	}
 }
 
@@ -73,7 +73,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"questionID" : [NSString stringWithFormat:@"%ld", (long)questionID]}};
 
-		[self JSONObjectWithModule:@"question" method:@"get" attributes:attributes];
+		[self objectWithModule:@"question" method:@"get" attributes:attributes];
 	}
 }
 
@@ -85,7 +85,19 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"questionID" : [NSString stringWithFormat:@"%ld", (long)questionID]}};
 
-		[self JSONObjectWithModule:@"question" method:@"upvote" attributes:attributes];
+		[self objectWithModule:@"question" method:@"upvote" attributes:attributes];
+	}
+}
+
+- (void)downvoteAuthenticatedAtQuestion:(NSInteger)questionID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"questionID" : [NSString stringWithFormat:@"%ld", (long)questionID]}};
+
+		[self objectWithModule:@"question" method:@"downvote" attributes:attributes];
 	}
 }
 

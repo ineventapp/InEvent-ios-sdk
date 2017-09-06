@@ -4,9 +4,9 @@
 @interface INAdAPIController : INAPIController
 
 #pragma mark - Ad
-- (void)createAuthenticatedAtSponsorship:(NSInteger)sponsorshipID;
+- (void)createAuthenticatedAtEventAtSponsor:(NSInteger)sponsorID;
 - (void)editAuthenticatedAtAd:(NSInteger)adID withKey:(NSString *)key withValue:(NSString *)value;
 - (void)removeAuthenticatedAtAd:(NSInteger)adID;
-- (void)findAtSponsorship:(NSInteger)sponsorshipID;
-- (void)findAtEvent;
+- (void)findAtEventAtSponsor:(NSInteger)sponsorID;
+- (void)findAtEventWithSelection:(NSString *)selection;
 @end

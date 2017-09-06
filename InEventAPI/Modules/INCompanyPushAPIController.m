@@ -12,7 +12,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"androidKey" : androidKey, @"iosPath" : iosPath}};
 
-		[self JSONObjectWithModule:@"company.push" method:@"bind" attributes:attributes];
+		[self objectWithModule:@"company.push" method:@"bind" attributes:attributes];
 	}
 }
 
@@ -24,7 +24,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}};
 
-		[self JSONObjectWithModule:@"company.push" method:@"dismiss" attributes:attributes];
+		[self objectWithModule:@"company.push" method:@"dismiss" attributes:attributes];
 	}
 }
 
@@ -36,7 +36,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}};
 
-		[self JSONObjectWithModule:@"company.push" method:@"find" attributes:attributes];
+		[self objectWithModule:@"company.push" method:@"find" attributes:attributes];
 	}
 }
 

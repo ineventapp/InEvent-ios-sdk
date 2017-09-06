@@ -15,11 +15,10 @@ typedef enum {
 } INPersonState;
 
 typedef enum {
-    INPersonRoleUnknown = 0,
-    INPersonRoleAttendee = 1,
-    INPersonRoleStaff = 2,
-    INPersonRoleCoordinator = 4
-} INPersonRole;
+    INPersonLevelUnknown = 0,
+    INPersonLevelUser = 1,
+    INPersonLevelAdmin = 4
+} INPersonLevel;
 
 typedef enum {
     INPersonPermissionWorking = 6

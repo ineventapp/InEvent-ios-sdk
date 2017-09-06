@@ -9,7 +9,6 @@
 #import "INAPIController.h"
 #import "NSString+Encoding.h"
 #import "ETAlertView.h"
-#import "CompanyMacro.h"
 
 #define kGlobalQueue dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
 
@@ -28,7 +27,9 @@
         self.force = [[aDecoder decodeObjectForKey:@"force"] boolValue];
         self.saveForLater = [[aDecoder decodeObjectForKey:@"saveForLater"] boolValue];
         self.returnPreviousSave = [[aDecoder decodeObjectForKey:@"returnPreviousSave"] boolValue];
-        self.maxAge = [[aDecoder decodeObjectForKey:@"maxAge"] doubleValue];
+        _maxAge = [[aDecoder decodeObjectForKey:@"maxAge"] doubleValue];
+        _offset = [[aDecoder decodeObjectForKey:@"offset"] integerValue];
+        _limit = [[aDecoder decodeObjectForKey:@"limit"] integerValue];
         self.userInfo = [aDecoder decodeObjectForKey:@"userInfo"];
         _version = [aDecoder decodeObjectForKey:@"version"];
         _module = [aDecoder decodeObjectForKey:@"module"];
@@ -44,6 +45,8 @@
     [aCoder encodeObject:[NSNumber numberWithBool:self.saveForLater] forKey:@"saveForLater"];
     [aCoder encodeObject:[NSNumber numberWithBool:self.returnPreviousSave] forKey:@"returnPreviousSave"];
     [aCoder encodeObject:[NSNumber numberWithDouble:self.maxAge] forKey:@"maxAge"];
+    [aCoder encodeObject:[NSNumber numberWithInteger:self.offset] forKey:@"offset"];
+    [aCoder encodeObject:[NSNumber numberWithInteger:self.limit] forKey:@"limit"];
     [aCoder encodeObject:self.userInfo forKey:@"userInfo"];
     [aCoder encodeObject:_version forKey:@"version"];
     [aCoder encodeObject:_module forKey:@"module"];
@@ -51,17 +54,47 @@
     [aCoder encodeObject:_attributes forKey:@"attributes"];
 }
 
-#pragma mark - Initializers
+#pragma mark - Block Initializers
 
+- (id)initWithSuccessCallback:(INSuccessBlock)aSuccessBlock failureCallback:(INFailureBlock)aFailureBlock returnPreviousSave:(BOOL)aReturnPreviousSave; {
+    
+    self = [self initWithDelegate:nil returnPreviousSave:aReturnPreviousSave withOffset:0 withUserInfo:nil];
+    if (self) {
+        self.successBlock = aSuccessBlock;
+        self.failureBlock = aFailureBlock;
+    }
+    return self;
+}
+
+- (id)initWithSuccessCallback:(INSuccessBlock)aSuccessBlock progressCallback:(INProgressBlock)aProgressBlock failureCallback:(INFailureBlock)aFailureBlock returnPreviousSave:(BOOL)aReturnPreviousSave {
+    
+    self = [self initWithDelegate:nil returnPreviousSave:aReturnPreviousSave withOffset:0 withUserInfo:nil];
+    if (self) {
+        self.successBlock = aSuccessBlock;
+        self.progressBlock = aProgressBlock;
+        self.failureBlock = aFailureBlock;
+    }
+    return self;
+}
+
+#pragma mark - Delegate Initializers
 - (id)initWithDelegate:(id<INAPIControllerDelegate>)aDelegate {
-    return [self initWithDelegate:aDelegate returnPreviousSave:NO withUserInfo:nil];
+    return [self initWithDelegate:aDelegate returnPreviousSave:NO withOffset:0 withUserInfo:nil];
 }
 
 - (id)initWithDelegate:(id<INAPIControllerDelegate>)aDelegate returnPreviousSave:(BOOL)aReturnPreviousSave {
-    return [self initWithDelegate:aDelegate returnPreviousSave:aReturnPreviousSave withUserInfo:nil];
+    return [self initWithDelegate:aDelegate returnPreviousSave:aReturnPreviousSave withOffset:0 withUserInfo:nil];
+}
+
+- (id)initWithDelegate:(id<INAPIControllerDelegate>)aDelegate returnPreviousSave:(BOOL)aReturnPreviousSave withOffset:(NSInteger)aOffset {
+    return [self initWithDelegate:aDelegate returnPreviousSave:aReturnPreviousSave withOffset:aOffset withUserInfo:nil];
 }
 
 - (id)initWithDelegate:(id<INAPIControllerDelegate>)aDelegate returnPreviousSave:(BOOL)aReturnPreviousSave withUserInfo:(NSDictionary *)aUserInfo {
+    return [self initWithDelegate:aDelegate returnPreviousSave:aReturnPreviousSave withOffset:0 withUserInfo:aUserInfo];
+}
+
+- (id)initWithDelegate:(id<INAPIControllerDelegate>)aDelegate returnPreviousSave:(BOOL)aReturnPreviousSave withOffset:(NSInteger)aOffset withUserInfo:(NSDictionary *)aUserInfo {
     
     self = [super init];
     if (self) {
@@ -70,22 +103,28 @@
         self.force = YES;
         self.saveForLater = YES;
         self.returnPreviousSave = aReturnPreviousSave;
-        self.maxAge = 604800.0;
+        _maxAge = 604800.0;
+        self.offset = aOffset;
+        self.limit = 20;
         self.userInfo = aUserInfo;
         _version = @"2";
     }
     return self;
 }
 
-#pragma mark - Setters
+#pragma mark - Properties
 
 - (NSString *)path {
     return [self generatePath];
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%@ %@", _module, _method];
+}
+
 #pragma mark - Setup Methods
 
-- (void)JSONObjectWithModule:(NSString *)module method:(NSString *)method attributes:(NSDictionary *)attributes {
+- (void)objectWithModule:(NSString *)module method:(NSString *)method attributes:(NSDictionary *)attributes {
     
     // Set our properties
     _module = module;
@@ -101,7 +140,7 @@
     [self startAsyncronousDownload];
 }
 
-- (NSString *)genRandStringLength:(int)len {
+- (NSString *)generateRandomStringForLength:(int)len {
     
     NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     NSMutableString *randomString = [NSMutableString stringWithCapacity:len];
@@ -116,39 +155,111 @@
 - (NSString *)generatePath {
     
     NSMutableDictionary *simplifiedGETAttributes = [NSMutableDictionary dictionaryWithDictionary:[self.attributes objectForKey:@"GET"]];
-    NSArray *simplifiedKeys = [simplifiedGETAttributes allKeys];
     
-    for (int i = 0; i < [simplifiedKeys count]; i++) {
-        if ([[simplifiedKeys objectAtIndex:i] rangeOfString:@"date"].location != NSNotFound) {
-            [simplifiedGETAttributes removeObjectForKey:[simplifiedKeys objectAtIndex:i]];
+    // Remove extremely variable attributes
+    NSArray *simplifiedGETKeys = [simplifiedGETAttributes allKeys];
+    for (int i = 0; i < [simplifiedGETKeys count]; i++) {
+        if ([[simplifiedGETKeys objectAtIndex:i] rangeOfString:@"date"].location != NSNotFound) {
+            [simplifiedGETAttributes removeObjectForKey:[simplifiedGETKeys objectAtIndex:i]];
         }
     }
     
-    NSString *description = [[[simplifiedGETAttributes description] stringByReplacingOccurrencesOfString:@"\n" withString:@""] stringByReplacingOccurrencesOfString:@" " withString:@""];
+    // Append parts to create an unique identifier
+    NSMutableString *rawFilename = [NSMutableString string];
+    for (NSString *part in @[
+                             self.module,
+                             self.method,
+                             self.version,
+                             [NSString stringWithFormat:@"%ld", (long)self.offset],
+                             [simplifiedGETAttributes description] ?: @"",
+                             [self.userInfo description] ?: @""]) {
+        
+        [rawFilename appendString:[[part stringByReplacingOccurrencesOfString:@"\n" withString:@""] stringByReplacingOccurrencesOfString:@" " withString:@""]];
+    }
+    [rawFilename appendString:@".json"];
     
-    NSString *filename = [NSString stringWithFormat:@"%@_%@_v%@_%@.json", self.module, self.method, self.version, description];
-    
+    // Remove anything which is illegal
     NSCharacterSet *illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>"];
-    NSString *cleanFilename = [[filename componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
+    NSString *cleanFilename = [[rawFilename componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
     
     NSString *path = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:cleanFilename];
     
     return path;
 }
 
-- (BOOL)cacheFileForLaterSync {
-    NSString *filename = [NSString stringWithFormat:@"%f.bin", [[NSDate date] timeIntervalSince1970]];
+#pragma mark - Clean Singletons
+
++ (void)cleanStoredQueue {
+    NSString *directory = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"queue"];
+    [INAPIController removeAllFilesAtDirectory:directory withExtension:@"bin"];
+}
+
++ (void)cleanCurrentCache {
+    NSString *directory = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    [INAPIController removeAllFilesAtDirectory:directory withExtension:@"json"];
+}
+
++ (void)removeAllFilesAtDirectory:(NSString *)directory withExtension:(NSString *)extension {
     
+    // Enumerate all available files
+    NSString *filename;
+    NSDirectoryEnumerator *queueFiles = [[NSFileManager defaultManager] enumeratorAtPath:directory];
+    
+    // Loop through existing files
+    while (filename = [queueFiles nextObject]) {
+        if ([[filename pathExtension] isEqualToString:extension]) {
+            NSString *path = [directory stringByAppendingPathComponent:filename];
+            [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+        }
+    }
+}
+
+#pragma mark - Processing Methods
+
+- (BOOL)cacheFileForLaterSync {
+    
+    // Create filename and directory
+    NSString *filename = [NSString stringWithFormat:@"%f.bin", [[NSDate date] timeIntervalSince1970]];
     NSString *directory = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"queue"];
     
     // Create directory if necessary
-    BOOL isDir;
-    BOOL existance = [[NSFileManager defaultManager] fileExistsAtPath:directory isDirectory:&isDir];
-    if (!existance && isDir) [[NSFileManager defaultManager] createDirectoryAtPath:directory withIntermediateDirectories:NO attributes:nil error:nil];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:directory]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:directory withIntermediateDirectories:NO attributes:nil error:nil];
+    }
     
+    // Assemble final path for metadata
     NSString *path = [directory stringByAppendingPathComponent:filename];
     
     return [NSKeyedArchiver archiveRootObject:self toFile:path];
+}
+
+- (void)deliverSuccessfulDictionary:(NSDictionary *)dictionary {
+    
+    if (self.successBlock) {
+        if ([[dictionary objectForKey:@"data"] count] > 0) {
+            NSDictionary *firstChild = [[dictionary objectForKey:@"data"] firstObject];
+            if ([firstChild isKindOfClass:[NSDictionary class]]) {
+                self.successBlock(firstChild);
+            }
+        }
+        self.successBlock = nil;
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(apiController:didLoadDictionaryFromServer:)]) {
+        [self.delegate apiController:self didLoadDictionaryFromServer:dictionary];
+    }
+}
+
+- (void)notifyFailureWithError:(NSError *)error {
+    
+    if (self.failureBlock) {
+        self.failureBlock(error);
+        self.failureBlock = nil;
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(apiController:didFailWithError:)]) {
+        [self.delegate apiController:self didFailWithError:error];
+    }
 }
 
 #pragma mark - Connection Support
@@ -192,10 +303,8 @@
             // Load it from the filesystem
             NSDictionary *archivedDictionary = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
             
-            // See if there is a delegate to answer this request
-            if ([self.delegate respondsToSelector:@selector(apiController:didLoadDictionaryFromServer:)]) {
-                [self.delegate apiController:self didLoadDictionaryFromServer:archivedDictionary];
-            }
+            // Return call to our delegate if any are available
+            [self deliverSuccessfulDictionary:archivedDictionary];
         }
         @catch (NSException *exception) {
             // Refuse our object
@@ -213,8 +322,17 @@
         // Define our API url
         NSMutableString *url = [NSMutableString stringWithFormat:@"%@?action=%@.%@", IN_URL_API, self.module, self.method];
         
-        // Append our version number
-        [url appendFormat:@"&version=%@", self.version];
+        // Append our API version number
+        [url appendFormat:@"&apiVersion=%@", self.version];
+        
+        // Append our offset
+        [url appendFormat:@"&offset=%@", [NSString stringWithFormat:@"%ld", (long)self.offset]];
+        
+        // Append our limit
+        [url appendFormat:@"&limit=%@", [NSString stringWithFormat:@"%ld", (long)self.limit]];
+        
+        // Append our app version number
+        [url appendFormat:@"&appVersion=%@", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
 
         // Append our system default language
         [url appendFormat:@"&lang=%@", ([[NSLocale preferredLanguages] count] > 0 ? [[NSLocale preferredLanguages] objectAtIndex:0] : @"")];
@@ -227,10 +345,6 @@
             [url appendFormat:@"&%@=%@", key, [[getObjects objectForKey:key] stringByEncodingURLWithEncoding:NSUTF8StringEncoding]];
         }
         
-#ifdef DEBUG
-        NSLog(@"%@", url);
-#endif
-        
         // Create a requisition
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
@@ -240,7 +354,7 @@
         [request setURL:[NSURL URLWithString:url]];
         
         // Define our boundaries
-        NSString *boundary = [self genRandStringLength:14];
+        NSString *boundary = [self generateRandomStringForLength:14];
         
         // See if we have a single module for creating files
         NSString *contentType = ([_module isEqualToString:@"file"] && [_method isEqualToString:@"create"]) ? @"image/png" : nil;
@@ -323,18 +437,17 @@
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         
         // Create a connection
-        NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
-        [connection scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
-        [connection start];
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:configuration delegate:self delegateQueue:nil];
+        NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request];
+        [dataTask resume];
         
         // Alloc object if true
-        if (connection) {
-            _JSONData = [NSMutableData data];
-        }
+        if (dataTask) _JSONData = [NSMutableData data];
     }
 }
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
     
     // Only validate 2xx requests
     if ((int)([((NSHTTPURLResponse *)response) statusCode] / 100) == 2) {
@@ -342,132 +455,153 @@
         // Reset our data object
         [self.JSONData setLength:0];
         
-        // Send notification to the delegate
-        if ([self.delegate respondsToSelector:@selector(apiController:didReceiveStatusCodeFromServer:)]) {
-            [self.delegate apiController:self didReceiveStatusCodeFromServer:[((NSHTTPURLResponse *)response) statusCode]];
-        }
+        // Call back on our main thread
+        dispatch_async(dispatch_get_main_queue(), ^{
+        
+            // Send notification to the delegate
+            if ([self.delegate respondsToSelector:@selector(apiController:didReceiveStatusCodeFromServer:)]) {
+                [self.delegate apiController:self didReceiveStatusCodeFromServer:[((NSHTTPURLResponse *)response) statusCode]];
+            }
+        });
+        
+        // Allow connection
+        completionHandler(NSURLSessionResponseAllow);
         
     } else {
         
         // Kill the connection
-        [connection cancel];
+        completionHandler(NSURLSessionResponseCancel);
         
-        // Send a notification to the delegate
-        if ([self.delegate respondsToSelector:@selector(apiController:didFailWithError:)]) {
-            // Create a custom http error
-            NSError *error = [NSError errorWithDomain:@"HTTP Code Error" code:[((NSHTTPURLResponse *)response) statusCode] userInfo:nil];
-#ifdef DEBUG
-            NSLog(@"%@", ((NSHTTPURLResponse *)response));
-#endif
-            [self.delegate apiController:self didFailWithError:error];
-        }
-    }
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-    // Append data to the main object
-    [self.JSONData appendData:data];
-}
-
-- (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
-    // Notify delegate about our current load status
-    if ([self.delegate respondsToSelector:@selector(apiController:didPartiallyReceiveDictionaryFromServer:)]) {
-        [self.delegate apiController:self didPartiallyReceiveDictionaryFromServer:((CGFloat)totalBytesWritten / (CGFloat)totalBytesExpectedToWrite)];
-    }
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    // Should save for later?
-    if (self.saveForLater) {
+        // Call back on our main thread
+        dispatch_async(dispatch_get_main_queue(), ^{
         
-        // Save the file for later
-        [self cacheFileForLaterSync];
-    
-        // Notify the delegate about the error
-        if ([self.delegate respondsToSelector:@selector(apiController:didSaveForLaterWithError:)]) {
-            [self.delegate apiController:self didSaveForLaterWithError:error];
-        }
-        
-    } else if (!self.returnPreviousSave) {
-        
-        // Notify as a standard error
-        if ([self.delegate respondsToSelector:@selector(apiController:didFailWithError:)]) {
-            [self.delegate apiController:self didFailWithError:error];
-        }
-    }
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    
-    // Deactivate status bar indicator
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
- 
-#ifdef DEBUG
-    NSLog(@"%@", [[NSString alloc] initWithData:self.JSONData encoding:NSUTF8StringEncoding]);
-#endif
-    
-    // Check for integrity
-    if (self.JSONData) {
-        dispatch_async(kGlobalQueue, ^{
-            NSError *error = nil;
-            NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:self.JSONData options:0 error:&error];
-            [self performSelectorOnMainThread:@selector(processDownload:) withObject:JSON waitUntilDone:YES];
+            // Send a notification to the delegate
+            [self notifyFailureWithError:[NSError errorWithDomain:[response description] code:[((NSHTTPURLResponse *)response) statusCode] userInfo:nil]];
         });
     }
 }
 
-- (void)processDownload:(NSDictionary *)JSON {
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
+    
+    // Append data to the main object
+    [self.JSONData appendData:data];
+}
 
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend {
+    
+    // Call back on our main thread
     dispatch_async(dispatch_get_main_queue(), ^{
-        // Some typo checking
-        if (!JSON || !([JSON isKindOfClass:[NSDictionary class]])) {
-            // Notify the delegate about the error
-            if ([self.delegate respondsToSelector:@selector(apiController:didFailWithError:)]) {
-                [self.delegate apiController:self didFailWithError:[NSError errorWithDomain:@"self" code:3840 userInfo:nil]];
-            }
-            
-        } else {
-            // Let's also save our JSON object inside a file
-            [NSKeyedArchiver archiveRootObject:JSON toFile:[self generatePath]];
-            
-            // Return our parsed object
-            if ([self.delegate respondsToSelector:@selector(apiController:didLoadDictionaryFromServer:)]) {
-                [self.delegate apiController:self didLoadDictionaryFromServer:JSON];
-            }
+        
+        // Notify delegate about our current load status
+        CGFloat percentage = ((CGFloat)totalBytesSent / (CGFloat)totalBytesExpectedToSend);
+        
+        if (self.progressBlock) {
+            self.progressBlock(@(percentage));
         }
         
-        // Try to send older cached files still on the queue
-        NSString *directory = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"queue"];
-        
-        NSString *path;
-        NSDirectoryEnumerator *queueFiles = [[NSFileManager defaultManager] enumeratorAtPath:directory];
-        
-        // Loop through existing files
-        while (path = [queueFiles nextObject]) {
-            
-            // Find our stored controllers
-            if ([[path pathExtension] isEqualToString:@"bin"]) {
-                
-                // Load the object from the filesystem
-                INAPIController *apiController = [NSKeyedUnarchiver unarchiveObjectWithFile:[directory stringByAppendingPathComponent:path]];
-                
-                // Remove the reference from the filesystem
-                NSError *error;
-                [[NSFileManager defaultManager] removeItemAtPath:[directory stringByAppendingPathComponent:path] error:&error];
-                
-#ifdef DEBUG
-                if (error) NSLog(@"%@", error.description);
-#endif
-                
-                // Define a new delegate and launch it
-                [apiController setDelegate:nil];
-                [apiController startAsyncronousDownload];
-                
-                // Finish loop
-                break;
-            }
+        if ([self.delegate respondsToSelector:@selector(apiController:didPartiallyReceiveDictionaryFromServer:)]) {
+            [self.delegate apiController:self didPartiallyReceiveDictionaryFromServer:percentage];
         }
     });
 }
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
+    
+    // Deactivate status bar indicator
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    // Has task failed?
+    if (error) {
+        
+        // User has canceled task
+        if (error.code == NSURLErrorCancelled) {
+            return;
+
+        } else if (self.saveForLater) {
+            
+            // Save the file for later
+            [self cacheFileForLaterSync];
+                
+            // Call back on our main thread
+            dispatch_async(dispatch_get_main_queue(), ^{
+            
+                // Notify the delegate about the error
+                [self notifyFailureWithError:error];
+            });
+                
+        } else if (!self.returnPreviousSave) {
+                
+            // Call back on our main thread
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                // Notify as a standard error
+                [self notifyFailureWithError:error];
+            });
+        }
+        
+    } else {
+ 
+#ifdef DEBUG
+    NSLog(@"%@", [[NSString alloc] initWithData:self.JSONData encoding:NSUTF8StringEncoding]);
+#endif
+        
+        // Check for integrity
+        if (self.JSONData) {
+            
+            // Run on background
+            dispatch_async(kGlobalQueue, ^{
+                
+                // Parse json object into dictionary
+                NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:self.JSONData options:0 error:nil];
+                
+                // Call back on our main thread
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    // Some typo checking
+                    if (JSON && [JSON isKindOfClass:[NSDictionary class]]) {
+                        
+                        // Let's also save our JSON object inside a file
+                        [NSKeyedArchiver archiveRootObject:JSON toFile:[self generatePath]];
+                        
+                        // And deliver it to our delegates
+                        [self deliverSuccessfulDictionary:JSON];
+                        
+                    } else {
+                        
+                        // Notify the delegate about the error
+                        [self notifyFailureWithError:[NSError errorWithDomain:@"self" code:3840 userInfo:nil]];
+                    }
+                    
+                    // Try to send older cached files still on the queue
+                    NSString *directory = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"queue"];
+                    
+                    NSString *filename;
+                    NSDirectoryEnumerator *queueFiles = [[NSFileManager defaultManager] enumeratorAtPath:directory];
+                    
+                    // Loop through existing files
+                    while (filename = [queueFiles nextObject]) {
+                        
+                        // Find our stored controllers
+                        if ([[filename pathExtension] isEqualToString:@"bin"]) {
+                            
+                            NSString *path = [directory stringByAppendingPathComponent:filename];
+                            
+                            // Load the object from the filesystem
+                            INAPIController *apiController = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+                            
+                            // Remove the reference from the filesystem
+                            [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+                            
+                            // Define a new delegate and launch it
+                            [apiController setDelegate:nil];
+                            [apiController startAsyncronousDownload];
+                        }
+                    }
+                });
+            });
+        }
+    }
+}
+
 
 @end

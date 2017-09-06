@@ -10,7 +10,7 @@
 
 	NSDictionary *attributes = @{@"GET" : @{}};
 
-	[self JSONObjectWithModule:@"theme" method:@"find" attributes:attributes];
+	[self objectWithModule:@"theme" method:@"find" attributes:attributes];
 }
 
 - (void)findWithName:(NSString *)name {
@@ -20,7 +20,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"name" : name}};
 
-		[self JSONObjectWithModule:@"theme" method:@"find" attributes:attributes];
+		[self objectWithModule:@"theme" method:@"find" attributes:attributes];
 	}
 }
 
@@ -30,7 +30,7 @@
 
 	NSDictionary *attributes = @{@"GET" : @{@"themeID" : [NSString stringWithFormat:@"%ld", (long)themeID]}};
 
-	[self JSONObjectWithModule:@"theme" method:@"get" attributes:attributes];
+	[self objectWithModule:@"theme" method:@"get" attributes:attributes];
 }
 
 @end

@@ -12,7 +12,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID], @"tagID" : [NSString stringWithFormat:@"%ld", (long)tagID]}};
 
-		[self JSONObjectWithModule:@"activity.tag" method:@"bind" attributes:attributes];
+		[self objectWithModule:@"activity.tag" method:@"bind" attributes:attributes];
 	}
 }
 
@@ -24,7 +24,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID], @"tagID" : [NSString stringWithFormat:@"%ld", (long)tagID]}};
 
-		[self JSONObjectWithModule:@"activity.tag" method:@"dismiss" attributes:attributes];
+		[self objectWithModule:@"activity.tag" method:@"dismiss" attributes:attributes];
 	}
 }
 
@@ -34,7 +34,7 @@
 
 	NSDictionary *attributes = @{@"GET" : @{@"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}};
 
-	[self JSONObjectWithModule:@"activity.tag" method:@"find" attributes:attributes];
+	[self objectWithModule:@"activity.tag" method:@"find" attributes:attributes];
 }
 
 @end
