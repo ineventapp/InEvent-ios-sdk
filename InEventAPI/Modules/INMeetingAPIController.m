@@ -67,18 +67,6 @@
 	}
 }
 
-- (void)getAuthenticatedAtMeeting:(NSInteger)meetingID {
-
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-
-	if (tokenID != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"meetingID" : [NSString stringWithFormat:@"%ld", (long)meetingID]}};
-
-		[self objectWithModule:@"meeting" method:@"get" attributes:attributes];
-	}
-}
-
 - (void)findAuthenticatedAtEventForPerson:(NSInteger)personID withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
@@ -102,6 +90,18 @@
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"dateBegin" : dateBegin, @"dateEnd" : dateEnd}};
 
 		[self objectWithModule:@"meeting" method:@"find" attributes:attributes];
+	}
+}
+
+- (void)getAuthenticatedAtMeeting:(NSInteger)meetingID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"meetingID" : [NSString stringWithFormat:@"%ld", (long)meetingID]}};
+
+		[self objectWithModule:@"meeting" method:@"get" attributes:attributes];
 	}
 }
 

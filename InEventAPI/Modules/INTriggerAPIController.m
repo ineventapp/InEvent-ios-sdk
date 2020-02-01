@@ -17,6 +17,31 @@
 	}
 }
 
+- (void)removeAuthenticatedAtTrigger:(NSInteger)triggerID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"triggerID" : [NSString stringWithFormat:@"%ld", (long)triggerID]}};
+
+		[self objectWithModule:@"trigger" method:@"remove" attributes:attributes];
+	}
+}
+
+- (void)removeAuthenticatedAtEventWithReaction:(NSString *)reaction atReaction:(NSInteger)reactionID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && reaction != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"reaction" : reaction, @"reactionID" : [NSString stringWithFormat:@"%ld", (long)reactionID]}};
+
+		[self objectWithModule:@"trigger" method:@"remove" attributes:attributes];
+	}
+}
+
 - (void)findAuthenticatedAtEvent {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
@@ -27,18 +52,6 @@
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
 
 		[self objectWithModule:@"trigger" method:@"find" attributes:attributes];
-	}
-}
-
-- (void)removeAuthenticatedAtTrigger:(NSInteger)triggerID {
-
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-
-	if (tokenID != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"triggerID" : [NSString stringWithFormat:@"%ld", (long)triggerID]}};
-
-		[self objectWithModule:@"trigger" method:@"remove" attributes:attributes];
 	}
 }
 

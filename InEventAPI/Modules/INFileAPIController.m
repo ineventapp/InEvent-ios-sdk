@@ -27,4 +27,16 @@
 	}
 }
 
+- (void)cropAuthenticatedAtCompany:(NSInteger)companyID withUrl:(NSString *)url withWidth:(NSString *)width withHeight:(NSString *)height withXpos:(NSString *)xpos withYpos:(NSString *)ypos {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && url != nil && width != nil && height != nil && xpos != nil && ypos != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"url" : url, @"width" : width, @"height" : height, @"xpos" : xpos, @"ypos" : ypos}};
+
+		[self objectWithModule:@"file" method:@"crop" attributes:attributes];
+	}
+}
+
 @end

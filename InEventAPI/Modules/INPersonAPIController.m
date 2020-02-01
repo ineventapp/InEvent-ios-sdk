@@ -4,12 +4,12 @@
 
 #pragma mark - Person
 
-- (void)createWithName:(NSString *)name withUsername:(NSString *)username withPassword:(NSString *)password withLanguage:(NSString *)language {
+- (void)createWithUsername:(NSString *)username withPassword:(NSString *)password withLanguage:(NSString *)language {
 
 
-	if (name != nil && username != nil && password != nil && language != nil) {
+	if (username != nil && password != nil && language != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{}, @"POST" : @{@"name" : name, @"username" : username, @"password" : password, @"language" : language}};
+		NSDictionary *attributes = @{@"GET" : @{}, @"POST" : @{@"username" : username, @"password" : password, @"language" : language}};
 
 		[self objectWithModule:@"person" method:@"create" attributes:attributes];
 	}
@@ -51,27 +51,38 @@
 	}
 }
 
-- (void)getAuthenticated {
+- (void)getAuthenticatedAtCompany:(NSInteger)companyID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
 	if (tokenID != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}};
 
 		[self objectWithModule:@"person" method:@"get" attributes:attributes];
 	}
 }
 
-- (void)getAuthenticatedForPerson:(NSInteger)personID {
+- (void)getAuthenticatedForPerson:(NSInteger)personID atCompany:(NSInteger)companyID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
 	if (tokenID != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID], @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}};
 
 		[self objectWithModule:@"person" method:@"get" attributes:attributes];
+	}
+}
+
+- (void)signInWithUsername:(NSString *)username withSecretCode:(NSString *)secretCode {
+
+
+	if (username != nil && secretCode != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"username" : username}, @"POST" : @{@"secretCode" : secretCode}};
+
+		[self objectWithModule:@"person" method:@"signIn" attributes:attributes];
 	}
 }
 
@@ -81,6 +92,28 @@
 	if (username != nil && password != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"username" : username, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"password" : password}};
+
+		[self objectWithModule:@"person" method:@"signIn" attributes:attributes];
+	}
+}
+
+- (void)signInWithUsername:(NSString *)username atCompany:(NSInteger)companyID withVerifyBy:(NSString *)verifyBy withPassword:(NSString *)password {
+
+
+	if (username != nil && verifyBy != nil && password != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"username" : username, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"verifyBy" : verifyBy}, @"POST" : @{@"password" : password}};
+
+		[self objectWithModule:@"person" method:@"signIn" attributes:attributes];
+	}
+}
+
+- (void)signInWithUsername:(NSString *)username atCompany:(NSInteger)companyID withVerifyBy:(NSString *)verifyBy withCode:(NSString *)code withPassword:(NSString *)password {
+
+
+	if (username != nil && verifyBy != nil && code != nil && password != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"username" : username, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"verifyBy" : verifyBy, @"code" : code}, @"POST" : @{@"password" : password}};
 
 		[self objectWithModule:@"person" method:@"signIn" attributes:attributes];
 	}
@@ -97,12 +130,97 @@
 	}
 }
 
+- (void)enableTwoFactorAuthenticatedWithVerifyBy:(NSString *)verifyBy {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && verifyBy != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"verifyBy" : verifyBy}};
+
+		[self objectWithModule:@"person" method:@"enableTwoFactor" attributes:attributes];
+	}
+}
+
+- (void)enableTwoFactorAuthenticatedWithVerifyBy:(NSString *)verifyBy withCode:(NSString *)code {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && verifyBy != nil && code != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"verifyBy" : verifyBy, @"code" : code}};
+
+		[self objectWithModule:@"person" method:@"enableTwoFactor" attributes:attributes];
+	}
+}
+
+- (void)disableTwoFactorAuthenticated {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}};
+
+		[self objectWithModule:@"person" method:@"disableTwoFactor" attributes:attributes];
+	}
+}
+
+- (void)requestTrialAuthenticated {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}};
+
+		[self objectWithModule:@"person" method:@"requestTrial" attributes:attributes];
+	}
+}
+
+- (void)sendRecoveryAuthenticatedAtCompany:(NSInteger)companyID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}};
+
+		[self objectWithModule:@"person" method:@"sendRecovery" attributes:attributes];
+	}
+}
+
+- (void)sendRecoveryAuthenticatedAtEvent {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
+
+		[self objectWithModule:@"person" method:@"sendRecovery" attributes:attributes];
+	}
+}
+
 - (void)sendRecoveryWithUsername:(NSString *)username atCompany:(NSInteger)companyID {
 
 
 	if (username != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"username" : username, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}};
+
+		[self objectWithModule:@"person" method:@"sendRecovery" attributes:attributes];
+	}
+}
+
+- (void)sendRecoveryAtEventWithUsername:(NSString *)username {
+
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (username != nil && eventID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"username" : username, @"eventID" : eventID}};
 
 		[self objectWithModule:@"person" method:@"sendRecovery" attributes:attributes];
 	}
@@ -144,7 +262,31 @@
 	}
 }
 
-- (void)terminateAuthenticatedWithPassword:(NSString *)password {
+- (void)changeLevelAuthenticatedWithUsername:(NSString *)username withNewLevel:(NSString *)newLevel {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && username != nil && newLevel != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"username" : username}, @"POST" : @{@"newLevel" : newLevel}};
+
+		[self objectWithModule:@"person" method:@"changeLevel" attributes:attributes];
+	}
+}
+
+- (void)exportDataAuthenticatedAtCompany:(NSInteger)companyID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}};
+
+		[self objectWithModule:@"person" method:@"exportData" attributes:attributes];
+	}
+}
+
+- (void)terminateAccountAuthenticatedWithPassword:(NSString *)password {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
@@ -152,31 +294,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"password" : password}};
 
-		[self objectWithModule:@"person" method:@"terminate" attributes:attributes];
-	}
-}
-
-- (void)subscribeAuthenticatedWithEmail:(NSString *)email {
-
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-
-	if (tokenID != nil && email != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"email" : email}};
-
-		[self objectWithModule:@"person" method:@"subscribe" attributes:attributes];
-	}
-}
-
-- (void)unsubscribeAuthenticatedWithEmail:(NSString *)email {
-
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-
-	if (tokenID != nil && email != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"email" : email}};
-
-		[self objectWithModule:@"person" method:@"unsubscribe" attributes:attributes];
+		[self objectWithModule:@"person" method:@"terminateAccount" attributes:attributes];
 	}
 }
 
@@ -189,6 +307,19 @@
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"message" : message}};
 
 		[self objectWithModule:@"person" method:@"sendFeedback" attributes:attributes];
+	}
+}
+
+- (void)sendBugAuthenticatedAtEventAtCompany:(NSInteger)companyID withPlatform:(NSString *)platform withPagelink:(NSString *)pagelink withBug:(NSString *)bug withSteps:(NSString *)steps withExtra:(NSString *)extra {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && platform != nil && pagelink != nil && bug != nil && steps != nil && extra != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"eventID" : eventID}, @"POST" : @{@"platform" : platform, @"pagelink" : pagelink, @"bug" : bug, @"steps" : steps, @"extra" : extra}};
+
+		[self objectWithModule:@"person" method:@"sendBug" attributes:attributes];
 	}
 }
 

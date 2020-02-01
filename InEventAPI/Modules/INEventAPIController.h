@@ -10,4 +10,5 @@
 - (void)getAtEvent;
 - (void)checkAccessCodeAuthenticatedAtEventWithAccessCode:(NSString *)accessCode;
 - (void)sendSMSAtEventWithTelephone:(NSString *)telephone;
+- (void)searchAuthenticatedAtEventWithQuery:(NSString *)query;
 @end

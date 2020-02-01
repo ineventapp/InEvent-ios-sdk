@@ -17,6 +17,18 @@
 	}
 }
 
+- (void)removeAuthenticatedAtWebhook:(NSInteger)webhookID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"webhookID" : [NSString stringWithFormat:@"%ld", (long)webhookID]}};
+
+		[self objectWithModule:@"webhook" method:@"remove" attributes:attributes];
+	}
+}
+
 - (void)findAuthenticatedAtEvent {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
@@ -27,18 +39,6 @@
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
 
 		[self objectWithModule:@"webhook" method:@"find" attributes:attributes];
-	}
-}
-
-- (void)removeAuthenticatedAtWebhook:(NSInteger)webhookID {
-
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-
-	if (tokenID != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"webhookID" : [NSString stringWithFormat:@"%ld", (long)webhookID]}};
-
-		[self objectWithModule:@"webhook" method:@"remove" attributes:attributes];
 	}
 }
 

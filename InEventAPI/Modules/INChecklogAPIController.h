@@ -9,5 +9,7 @@
 - (void)checkOutAuthenticatedAtEventAtActivity:(NSInteger)activityID withCode:(NSString *)code withDate:(NSString *)date;
 - (void)checkOutAuthenticatedAtEventWithCode:(NSString *)code withDate:(NSString *)date;
 - (void)statsAuthenticatedAtEvent;
-- (void)exportAuthenticatedAtEvent;
+- (void)checkedInAuthenticatedAtEvent;
+- (void)checkedInAuthenticatedAtEventAtActivity:(NSInteger)activityID;
+- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection withQuery:(NSString *)query;
 @end

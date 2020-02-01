@@ -4,26 +4,26 @@
 
 #pragma mark - EventTool
 
-- (void)operateAuthenticatedAtEventWithFeature:(NSString *)feature withKey:(NSString *)key withValue:(NSString *)value {
+- (void)editAuthenticatedAtEventWithKey:(NSString *)key withValue:(NSString *)value {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && feature != nil && key != nil && value != nil) {
+	if (tokenID != nil && eventID != nil && key != nil && value != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"feature" : feature, @"key" : key}, @"POST" : @{@"value" : value}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"key" : key}, @"POST" : @{@"value" : value}};
 
-		[self objectWithModule:@"event.tool" method:@"operate" attributes:attributes];
+		[self objectWithModule:@"event.tool" method:@"edit" attributes:attributes];
 	}
 }
 
-- (void)getAtEventWithFeature:(NSString *)feature {
+- (void)getAtEvent {
 
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (eventID != nil && feature != nil) {
+	if (eventID != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID, @"feature" : feature}};
+		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID}};
 
 		[self objectWithModule:@"event.tool" method:@"get" attributes:attributes];
 	}

@@ -4,24 +4,27 @@
 
 #pragma mark - Coupon
 
-- (void)createAuthenticatedWithCode:(NSString *)code withFeature:(NSString *)feature withDiscount:(NSString *)discount {
+- (void)createAuthenticatedAtEventWithDiscount:(NSString *)discount {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && code != nil && feature != nil && discount != nil) {
+	if (tokenID != nil && eventID != nil && discount != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"code" : code, @"feature" : feature, @"discount" : discount}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"discount" : discount}};
 
 		[self objectWithModule:@"coupon" method:@"create" attributes:attributes];
 	}
 }
 
-- (void)getWithCode:(NSString *)code {
+- (void)getAuthenticatedAtEventWithCode:(NSString *)code {
 
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (code != nil) {
+	if (tokenID != nil && eventID != nil && code != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"code" : code}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"code" : code}};
 
 		[self objectWithModule:@"coupon" method:@"get" attributes:attributes];
 	}

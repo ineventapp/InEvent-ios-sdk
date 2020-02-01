@@ -69,7 +69,7 @@
 	}
 }
 
-- (void)exportAuthenticatedAtEvent {
+- (void)checkedInAuthenticatedAtEvent {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
@@ -78,7 +78,33 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
 
-		[self objectWithModule:@"checklog" method:@"export" attributes:attributes];
+		[self objectWithModule:@"checklog" method:@"checkedIn" attributes:attributes];
+	}
+}
+
+- (void)checkedInAuthenticatedAtEventAtActivity:(NSInteger)activityID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}};
+
+		[self objectWithModule:@"checklog" method:@"checkedIn" attributes:attributes];
+	}
+}
+
+- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection withQuery:(NSString *)query {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && selection != nil && query != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection, @"query" : query}};
+
+		[self objectWithModule:@"checklog" method:@"find" attributes:attributes];
 	}
 }
 

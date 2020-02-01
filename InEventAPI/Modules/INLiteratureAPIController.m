@@ -37,16 +37,4 @@
 	[self objectWithModule:@"literature" method:@"find" attributes:attributes];
 }
 
-- (void)editAuthenticatedAtLiterature:(NSInteger)literatureID withKey:(NSString *)key withValue:(NSString *)value {
-
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-
-	if (tokenID != nil && key != nil && value != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"literatureID" : [NSString stringWithFormat:@"%ld", (long)literatureID], @"key" : key}, @"POST" : @{@"value" : value}};
-
-		[self objectWithModule:@"literature" method:@"edit" attributes:attributes];
-	}
-}
-
 @end

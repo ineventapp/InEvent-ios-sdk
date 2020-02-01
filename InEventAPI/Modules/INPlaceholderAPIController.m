@@ -4,14 +4,26 @@
 
 #pragma mark - Placeholder
 
-- (void)createAuthenticatedAtEventWithType:(NSString *)type withValue:(NSString *)value {
+- (void)createAuthenticatedAtEventWithType:(NSString *)type withValue:(NSString *)value withMask:(NSString *)mask {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && type != nil && value != nil) {
+	if (tokenID != nil && eventID != nil && type != nil && value != nil && mask != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"type" : type, @"value" : value}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"type" : type, @"value" : value, @"mask" : mask}};
+
+		[self objectWithModule:@"placeholder" method:@"create" attributes:attributes];
+	}
+}
+
+- (void)createAuthenticatedAtCompany:(NSInteger)companyID withType:(NSString *)type withValue:(NSString *)value {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && type != nil && value != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"type" : type, @"value" : value}};
 
 		[self objectWithModule:@"placeholder" method:@"create" attributes:attributes];
 	}
@@ -29,26 +41,22 @@
 	}
 }
 
-- (void)findAuthenticatedAtCompany:(NSInteger)companyID {
+- (void)findAtCompany:(NSInteger)companyID {
 
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}};
+	NSDictionary *attributes = @{@"GET" : @{@"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}};
 
-		[self objectWithModule:@"placeholder" method:@"find" attributes:attributes];
-	}
+	[self objectWithModule:@"placeholder" method:@"find" attributes:attributes];
 }
 
-- (void)findAuthenticatedAtEvent {
+- (void)findAtEvent {
 
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil) {
+	if (eventID != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
+		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID}};
 
 		[self objectWithModule:@"placeholder" method:@"find" attributes:attributes];
 	}

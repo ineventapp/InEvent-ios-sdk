@@ -17,18 +17,6 @@
 	}
 }
 
-- (void)createAuthenticatedAtCompany:(NSInteger)companyID withTitle:(NSString *)title withText:(NSString *)text withPicture:(NSString *)picture withVideo:(NSString *)video withActionTitle:(NSString *)actionTitle withActionUrl:(NSString *)actionUrl withExternalUrl:(NSString *)externalUrl {
-
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-
-	if (tokenID != nil && title != nil && text != nil && picture != nil && video != nil && actionTitle != nil && actionUrl != nil && externalUrl != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"title" : title, @"text" : text, @"picture" : picture, @"video" : video, @"actionTitle" : actionTitle, @"actionUrl" : actionUrl, @"externalUrl" : externalUrl}};
-
-		[self objectWithModule:@"feed" method:@"create" attributes:attributes];
-	}
-}
-
 - (void)editAuthenticatedAtFeed:(NSInteger)feedID withKey:(NSString *)key withValue:(NSString *)value {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
@@ -66,18 +54,6 @@
 	}
 }
 
-- (void)findAuthenticatedAtCompany:(NSInteger)companyID withSelection:(NSString *)selection withQuery:(NSString *)query {
-
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-
-	if (tokenID != nil && selection != nil && query != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"selection" : selection, @"query" : query}};
-
-		[self objectWithModule:@"feed" method:@"find" attributes:attributes];
-	}
-}
-
 - (void)findAtEventWithQuery:(NSString *)query {
 
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
@@ -85,17 +61,6 @@
 	if (eventID != nil && query != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID, @"query" : query}};
-
-		[self objectWithModule:@"feed" method:@"find" attributes:attributes];
-	}
-}
-
-- (void)findAtCompany:(NSInteger)companyID withQuery:(NSString *)query {
-
-
-	if (query != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"query" : query}};
 
 		[self objectWithModule:@"feed" method:@"find" attributes:attributes];
 	}

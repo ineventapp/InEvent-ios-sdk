@@ -4,6 +4,6 @@
 @interface INCouponAPIController : INAPIController
 
 #pragma mark - Coupon
-- (void)createAuthenticatedWithCode:(NSString *)code withFeature:(NSString *)feature withDiscount:(NSString *)discount;
-- (void)getWithCode:(NSString *)code;
+- (void)createAuthenticatedAtEventWithDiscount:(NSString *)discount;
+- (void)getAuthenticatedAtEventWithCode:(NSString *)code;
 @end

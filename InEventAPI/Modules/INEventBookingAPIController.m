@@ -17,25 +17,27 @@
 	}
 }
 
-- (void)findAtEventWithSelection:(NSString *)selection withQuery:(NSString *)query {
+- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection withQuery:(NSString *)query {
 
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (eventID != nil && selection != nil && query != nil) {
+	if (tokenID != nil && eventID != nil && selection != nil && query != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID, @"selection" : selection, @"query" : query}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection, @"query" : query}};
 
 		[self objectWithModule:@"event.booking" method:@"find" attributes:attributes];
 	}
 }
 
-- (void)getAtEventWithValue:(NSString *)value {
+- (void)getAuthenticatedAtEventWithValue:(NSString *)value {
 
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (eventID != nil && value != nil) {
+	if (tokenID != nil && eventID != nil && value != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID, @"value" : value}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"value" : value}};
 
 		[self objectWithModule:@"event.booking" method:@"get" attributes:attributes];
 	}

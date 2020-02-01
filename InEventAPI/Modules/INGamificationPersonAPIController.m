@@ -4,6 +4,18 @@
 
 #pragma mark - GamificationPerson
 
+- (void)bindAuthenticatedAtGamification:(NSInteger)gamificationID withName:(NSString *)name withUsername:(NSString *)username {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && name != nil && username != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"gamificationID" : [NSString stringWithFormat:@"%ld", (long)gamificationID]}, @"POST" : @{@"name" : name, @"username" : username}};
+
+		[self objectWithModule:@"gamification.person" method:@"bind" attributes:attributes];
+	}
+}
+
 - (void)bindAuthenticatedAtGamification:(NSInteger)gamificationID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
@@ -16,13 +28,13 @@
 	}
 }
 
-- (void)operateAuthenticatedAtGamification:(NSInteger)gamificationID forPerson:(NSInteger)personID withKey:(NSString *)key withValue:(NSString *)value {
+- (void)operateAuthenticatedAtGamification:(NSInteger)gamificationID withKey:(NSString *)key forPerson:(NSInteger)personID withValue:(NSString *)value {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
 	if (tokenID != nil && key != nil && value != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"gamificationID" : [NSString stringWithFormat:@"%ld", (long)gamificationID], @"personID" : [NSString stringWithFormat:@"%ld", (long)personID], @"key" : key}, @"POST" : @{@"value" : value}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"gamificationID" : [NSString stringWithFormat:@"%ld", (long)gamificationID], @"key" : key, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}, @"POST" : @{@"value" : value}};
 
 		[self objectWithModule:@"gamification.person" method:@"operate" attributes:attributes];
 	}

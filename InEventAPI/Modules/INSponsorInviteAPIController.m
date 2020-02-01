@@ -17,6 +17,19 @@
 	}
 }
 
+- (void)bindAuthenticatedAtEventAtSponsor:(NSInteger)sponsorID atList:(NSInteger)listID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"sponsorID" : [NSString stringWithFormat:@"%ld", (long)sponsorID], @"listID" : [NSString stringWithFormat:@"%ld", (long)listID]}};
+
+		[self objectWithModule:@"sponsor.invite" method:@"bind" attributes:attributes];
+	}
+}
+
 - (void)dismissAuthenticatedAtEventAtSponsor:(NSInteger)sponsorID forPerson:(NSInteger)personID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];

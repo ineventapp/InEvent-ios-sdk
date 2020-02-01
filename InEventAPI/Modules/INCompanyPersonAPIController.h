@@ -9,4 +9,5 @@
 - (void)dismissAuthenticatedAtCompany:(NSInteger)companyID forPerson:(NSInteger)personID;
 - (void)findAuthenticatedAtCompany:(NSInteger)companyID withSelection:(NSString *)selection withOrder:(NSString *)order;
 - (void)syncAuthenticated;
+- (void)journeyAuthenticatedAtCompany:(NSInteger)companyID forPerson:(NSInteger)personID;
 @end

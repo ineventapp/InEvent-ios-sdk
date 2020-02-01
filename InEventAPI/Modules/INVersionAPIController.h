@@ -4,6 +4,6 @@
 @interface INVersionAPIController : INAPIController
 
 #pragma mark - Version
-- (void)createAuthenticatedAtCompany:(NSInteger)companyID withPlatform:(NSString *)platform withVersion:(NSString *)version;
+- (void)createAuthenticatedAtCompany:(NSInteger)companyID withPlatform:(NSString *)platform withVersion:(NSString *)version withBuild:(NSString *)build;
 - (void)getAtCompany:(NSInteger)companyID withPlatform:(NSString *)platform;
 @end

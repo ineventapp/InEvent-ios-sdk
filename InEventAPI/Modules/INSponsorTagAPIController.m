@@ -28,6 +28,18 @@
 	}
 }
 
+- (void)findAuthenticatedAtSponsor:(NSInteger)sponsorID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"sponsorID" : [NSString stringWithFormat:@"%ld", (long)sponsorID]}};
+
+		[self objectWithModule:@"sponsor.tag" method:@"find" attributes:attributes];
+	}
+}
+
 - (void)findAtSponsor:(NSInteger)sponsorID {
 
 

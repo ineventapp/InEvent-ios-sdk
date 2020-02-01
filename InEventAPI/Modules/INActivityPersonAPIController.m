@@ -4,13 +4,13 @@
 
 #pragma mark - ActivityPerson
 
-- (void)bindAuthenticatedAtActivity:(NSInteger)activityID withName:(NSString *)name withEmail:(NSString *)email {
+- (void)bindAuthenticatedAtActivity:(NSInteger)activityID withBypassWebhook:(NSString *)bypassWebhook withName:(NSString *)name withEmail:(NSString *)email {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && name != nil && email != nil) {
+	if (tokenID != nil && bypassWebhook != nil && name != nil && email != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}, @"POST" : @{@"name" : name, @"email" : email}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID], @"bypassWebhook" : bypassWebhook}, @"POST" : @{@"name" : name, @"email" : email}};
 
 		[self objectWithModule:@"activity.person" method:@"bind" attributes:attributes];
 	}
@@ -28,6 +28,18 @@
 	}
 }
 
+- (void)bindAuthenticatedAtActivity:(NSInteger)activityID forPerson:(NSInteger)personID withBypassWebhook:(NSString *)bypassWebhook {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && bypassWebhook != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID], @"personID" : [NSString stringWithFormat:@"%ld", (long)personID], @"bypassWebhook" : bypassWebhook}};
+
+		[self objectWithModule:@"activity.person" method:@"bind" attributes:attributes];
+	}
+}
+
 - (void)bindAuthenticatedAtActivity:(NSInteger)activityID withPath:(NSString *)path {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
@@ -35,6 +47,19 @@
 	if (tokenID != nil && path != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}, @"POST" : @{@"path" : path}};
+
+		[self objectWithModule:@"activity.person" method:@"bind" attributes:attributes];
+	}
+}
+
+- (void)bindAuthenticatedAtEventWithBypassWebhook:(NSString *)bypassWebhook withContent:(NSString *)content {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && bypassWebhook != nil && content != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"bypassWebhook" : bypassWebhook}, @"POST" : @{@"content" : content}};
 
 		[self objectWithModule:@"activity.person" method:@"bind" attributes:attributes];
 	}
@@ -88,6 +113,31 @@
 	}
 }
 
+- (void)dismissAuthenticatedAtActivity:(NSInteger)activityID forPerson:(NSInteger)personID withBypassWebhook:(NSString *)bypassWebhook {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && bypassWebhook != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID], @"personID" : [NSString stringWithFormat:@"%ld", (long)personID], @"bypassWebhook" : bypassWebhook}};
+
+		[self objectWithModule:@"activity.person" method:@"dismiss" attributes:attributes];
+	}
+}
+
+- (void)dismissAuthenticatedAtEventWithBypassWebhook:(NSString *)bypassWebhook withContent:(NSString *)content {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && bypassWebhook != nil && content != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"bypassWebhook" : bypassWebhook}, @"POST" : @{@"content" : content}};
+
+		[self objectWithModule:@"activity.person" method:@"dismiss" attributes:attributes];
+	}
+}
+
 - (void)dismissAuthenticatedAtActivity:(NSInteger)activityID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
@@ -133,6 +183,18 @@
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}};
 
 		[self objectWithModule:@"activity.person" method:@"get" attributes:attributes];
+	}
+}
+
+- (void)calculateAuthenticatedAtActivity:(NSInteger)activityID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}};
+
+		[self objectWithModule:@"activity.person" method:@"calculate" attributes:attributes];
 	}
 }
 

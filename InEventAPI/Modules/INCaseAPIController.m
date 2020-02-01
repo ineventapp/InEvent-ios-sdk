@@ -13,7 +13,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"key" : key}, @"POST" : @{@"value" : value}};
 
-		[self JSONObjectWithModule:@"case" method:@"edit" attributes:attributes];
+		[self objectWithModule:@"case" method:@"edit" attributes:attributes];
 	}
 }
 
@@ -23,7 +23,7 @@
 
 	NSDictionary *attributes = @{@"GET" : @{}};
 
-	[self JSONObjectWithModule:@"case" method:@"find" attributes:attributes];
+	[self objectWithModule:@"case" method:@"find" attributes:attributes];
 }
 
 - (void)getAtEvent {
@@ -34,7 +34,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID}};
 
-		[self JSONObjectWithModule:@"case" method:@"get" attributes:attributes];
+		[self objectWithModule:@"case" method:@"get" attributes:attributes];
 	}
 }
 

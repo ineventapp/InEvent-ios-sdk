@@ -54,14 +54,38 @@
 	}
 }
 
-- (void)findAuthenticatedAtEvent {
+- (void)findAuthenticatedAtCompany:(NSInteger)companyID withCategorized:(NSString *)categorized {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && categorized != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"categorized" : categorized}};
+
+		[self objectWithModule:@"speaker" method:@"find" attributes:attributes];
+	}
+}
+
+- (void)findAuthenticatedAtEventWithCategorized:(NSString *)categorized {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil) {
+	if (tokenID != nil && eventID != nil && categorized != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"categorized" : categorized}};
+
+		[self objectWithModule:@"speaker" method:@"find" attributes:attributes];
+	}
+}
+
+- (void)findAtEventWithCategorized:(NSString *)categorized {
+
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (eventID != nil && categorized != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID, @"categorized" : categorized}};
 
 		[self objectWithModule:@"speaker" method:@"find" attributes:attributes];
 	}
@@ -77,6 +101,15 @@
 
 		[self objectWithModule:@"speaker" method:@"get" attributes:attributes];
 	}
+}
+
+- (void)getAtSpeaker:(NSInteger)speakerID {
+
+
+
+	NSDictionary *attributes = @{@"GET" : @{@"speakerID" : [NSString stringWithFormat:@"%ld", (long)speakerID]}};
+
+	[self objectWithModule:@"speaker" method:@"get" attributes:attributes];
 }
 
 @end

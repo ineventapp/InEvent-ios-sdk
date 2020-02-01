@@ -25,4 +25,16 @@
 	[self objectWithModule:@"company.tool" method:@"get" attributes:attributes];
 }
 
+- (void)availableAuthenticated {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}};
+
+		[self objectWithModule:@"company.tool" method:@"available" attributes:attributes];
+	}
+}
+
 @end

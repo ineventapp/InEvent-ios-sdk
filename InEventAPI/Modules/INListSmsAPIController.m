@@ -4,27 +4,15 @@
 
 #pragma mark - ListSms
 
-- (void)createAuthenticatedAtList:(NSInteger)listID withText:(NSString *)text {
+- (void)createAuthenticatedAtList:(NSInteger)listID withSelection:(NSString *)selection withText:(NSString *)text {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && text != nil) {
+	if (tokenID != nil && selection != nil && text != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"listID" : [NSString stringWithFormat:@"%ld", (long)listID]}, @"POST" : @{@"text" : text}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"listID" : [NSString stringWithFormat:@"%ld", (long)listID], @"selection" : selection}, @"POST" : @{@"text" : text}};
 
 		[self objectWithModule:@"list.sms" method:@"create" attributes:attributes];
-	}
-}
-
-- (void)removeAuthenticatedAtListSms:(NSInteger)listSmsID {
-
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-
-	if (tokenID != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"listSmsID" : [NSString stringWithFormat:@"%ld", (long)listSmsID]}};
-
-		[self objectWithModule:@"list.sms" method:@"remove" attributes:attributes];
 	}
 }
 
@@ -37,6 +25,18 @@
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"listSmsID" : [NSString stringWithFormat:@"%ld", (long)listSmsID], @"key" : key}, @"POST" : @{@"value" : value}};
 
 		[self objectWithModule:@"list.sms" method:@"edit" attributes:attributes];
+	}
+}
+
+- (void)removeAuthenticatedAtListSms:(NSInteger)listSmsID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"listSmsID" : [NSString stringWithFormat:@"%ld", (long)listSmsID]}};
+
+		[self objectWithModule:@"list.sms" method:@"remove" attributes:attributes];
 	}
 }
 

@@ -1,0 +1,93 @@
+#import "INTicketPersonAPIController.h"
+
+@implementation INTicketPersonAPIController
+
+#pragma mark - TicketPerson
+
+- (void)findAuthenticatedAtEventForPerson:(NSInteger)personID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}};
+
+		[self objectWithModule:@"ticket.person" method:@"find" attributes:attributes];
+	}
+}
+
+- (void)findAuthenticatedAtEvent {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
+
+		[self objectWithModule:@"ticket.person" method:@"find" attributes:attributes];
+	}
+}
+
+- (void)inviteAuthenticatedAtTicketPerson:(NSInteger)ticketPersonID withImmediateFill:(NSString *)immediateFill withName:(NSString *)name withEmail:(NSString *)email {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && immediateFill != nil && name != nil && email != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"ticketPersonID" : [NSString stringWithFormat:@"%ld", (long)ticketPersonID]}, @"POST" : @{@"immediateFill" : immediateFill, @"name" : name, @"email" : email}};
+
+		[self objectWithModule:@"ticket.person" method:@"invite" attributes:attributes];
+	}
+}
+
+- (void)acceptInviteAuthenticatedAtTicketPerson:(NSInteger)ticketPersonID withTicketToken:(NSString *)ticketToken withPassword:(NSString *)password withName:(NSString *)name withUsername:(NSString *)username withRole:(NSString *)role withCompany:(NSString *)company {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && ticketToken != nil && password != nil && name != nil && username != nil && role != nil && company != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"ticketPersonID" : [NSString stringWithFormat:@"%ld", (long)ticketPersonID]}, @"POST" : @{@"ticketToken" : ticketToken, @"password" : password, @"name" : name, @"username" : username, @"role" : role, @"company" : company}};
+
+		[self objectWithModule:@"ticket.person" method:@"acceptInvite" attributes:attributes];
+	}
+}
+
+- (void)cancelInviteAuthenticatedAtTicketPerson:(NSInteger)ticketPersonID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"ticketPersonID" : [NSString stringWithFormat:@"%ld", (long)ticketPersonID]}};
+
+		[self objectWithModule:@"ticket.person" method:@"cancelInvite" attributes:attributes];
+	}
+}
+
+- (void)makeDefaultAuthenticatedAtTicketPerson:(NSInteger)ticketPersonID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"ticketPersonID" : [NSString stringWithFormat:@"%ld", (long)ticketPersonID]}};
+
+		[self objectWithModule:@"ticket.person" method:@"makeDefault" attributes:attributes];
+	}
+}
+
+- (void)undoDefaultAuthenticatedAtTicketPerson:(NSInteger)ticketPersonID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"ticketPersonID" : [NSString stringWithFormat:@"%ld", (long)ticketPersonID]}};
+
+		[self objectWithModule:@"ticket.person" method:@"undoDefault" attributes:attributes];
+	}
+}
+
+@end

@@ -52,20 +52,32 @@
 	}
 }
 
-- (void)findAuthenticatedAtEvent {
+- (void)findAuthenticatedAtEventWithAnswers:(NSString *)answers {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil) {
+	if (tokenID != nil && eventID != nil && answers != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"answers" : answers}};
 
 		[self objectWithModule:@"quiz" method:@"find" attributes:attributes];
 	}
 }
 
-- (void)getAuthenticatedAtQuiz:(NSInteger)quizID {
+- (void)getAuthenticatedAtQuiz:(NSInteger)quizID withAnswers:(NSString *)answers {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && answers != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"quizID" : [NSString stringWithFormat:@"%ld", (long)quizID], @"answers" : answers}};
+
+		[self objectWithModule:@"quiz" method:@"get" attributes:attributes];
+	}
+}
+
+- (void)pushNotificationAuthenticatedAtQuiz:(NSInteger)quizID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
@@ -73,7 +85,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"quizID" : [NSString stringWithFormat:@"%ld", (long)quizID]}};
 
-		[self objectWithModule:@"quiz" method:@"get" attributes:attributes];
+		[self objectWithModule:@"quiz" method:@"pushNotification" attributes:attributes];
 	}
 }
 

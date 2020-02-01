@@ -16,4 +16,16 @@
 	}
 }
 
+- (void)createAuthenticatedWithJson:(NSString *)json {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && json != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"json" : json}};
+
+		[self objectWithModule:@"error" method:@"create" attributes:attributes];
+	}
+}
+
 @end

@@ -4,13 +4,25 @@
 
 #pragma mark - Company
 
-- (void)createAuthenticatedWithShortName:(NSString *)shortName withStoreTitle:(NSString *)storeTitle {
+- (void)createAuthenticatedWithCode:(NSString *)code withPlan:(NSString *)plan withCompanyName:(NSString *)companyName withAppIcon:(NSString *)appIcon withNotes:(NSString *)notes {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && shortName != nil && storeTitle != nil) {
+	if (tokenID != nil && code != nil && plan != nil && companyName != nil && appIcon != nil && notes != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"shortName" : shortName, @"storeTitle" : storeTitle}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"code" : code, @"plan" : plan, @"companyName" : companyName, @"appIcon" : appIcon, @"notes" : notes}};
+
+		[self objectWithModule:@"company" method:@"create" attributes:attributes];
+	}
+}
+
+- (void)createAuthenticatedWithPlan:(NSString *)plan withCompanyName:(NSString *)companyName withAppIcon:(NSString *)appIcon {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && plan != nil && companyName != nil && appIcon != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"plan" : plan, @"companyName" : companyName, @"appIcon" : appIcon}};
 
 		[self objectWithModule:@"company" method:@"create" attributes:attributes];
 	}
@@ -51,18 +63,6 @@
 	}
 }
 
-- (void)removeAuthenticatedAtCompany:(NSInteger)companyID {
-
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-
-	if (tokenID != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}};
-
-		[self objectWithModule:@"company" method:@"remove" attributes:attributes];
-	}
-}
-
 - (void)findAuthenticatedWithSelection:(NSString *)selection {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
@@ -96,12 +96,47 @@
 	[self objectWithModule:@"company" method:@"get" attributes:attributes];
 }
 
+- (void)getAuthenticatedWithNamespace:(NSString *)namespace {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && namespace != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"namespace" : namespace}};
+
+		[self objectWithModule:@"company" method:@"get" attributes:attributes];
+	}
+}
+
 - (void)getWithNamespace:(NSString *)namespace {
 
 
 	if (namespace != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"namespace" : namespace}};
+
+		[self objectWithModule:@"company" method:@"get" attributes:attributes];
+	}
+}
+
+- (void)getAuthenticatedWithNickname:(NSString *)nickname {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && nickname != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"nickname" : nickname}};
+
+		[self objectWithModule:@"company" method:@"get" attributes:attributes];
+	}
+}
+
+- (void)getWithNickname:(NSString *)nickname {
+
+
+	if (nickname != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"nickname" : nickname}};
 
 		[self objectWithModule:@"company" method:@"get" attributes:attributes];
 	}

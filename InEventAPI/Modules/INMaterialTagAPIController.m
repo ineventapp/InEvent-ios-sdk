@@ -28,13 +28,16 @@
 	}
 }
 
-- (void)findAtMaterial:(NSInteger)materialID {
+- (void)findAuthenticatedAtMaterial:(NSInteger)materialID {
 
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
+	if (tokenID != nil) {
 
-	NSDictionary *attributes = @{@"GET" : @{@"materialID" : [NSString stringWithFormat:@"%ld", (long)materialID]}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"materialID" : [NSString stringWithFormat:@"%ld", (long)materialID]}};
 
-	[self objectWithModule:@"material.tag" method:@"find" attributes:attributes];
+		[self objectWithModule:@"material.tag" method:@"find" attributes:attributes];
+	}
 }
 
 @end

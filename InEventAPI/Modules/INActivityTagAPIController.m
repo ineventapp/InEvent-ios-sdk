@@ -28,6 +28,18 @@
 	}
 }
 
+- (void)findAuthenticatedAtActivity:(NSInteger)activityID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}};
+
+		[self objectWithModule:@"activity.tag" method:@"find" attributes:attributes];
+	}
+}
+
 - (void)findAtActivity:(NSInteger)activityID {
 
 

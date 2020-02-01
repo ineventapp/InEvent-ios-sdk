@@ -4,10 +4,14 @@
 @interface INEventInviteAPIController : INAPIController
 
 #pragma mark - EventInvite
-- (void)createAuthenticatedAtEventWithValue:(NSString *)value withSource:(NSString *)source;
+- (void)createAuthenticatedAtEventWithEmail:(NSString *)email;
 - (void)createAuthenticatedAtEventWithPath:(NSString *)path;
-- (void)removeAuthenticatedAtEventInvite:(NSInteger)eventInviteID;
-- (void)findAtEventWithSelection:(NSString *)selection withQuery:(NSString *)query;
-- (void)getAtEventWithValue:(NSString *)value;
-- (void)availableAtEventWithValue:(NSString *)value;
+- (void)editAuthenticatedAtEventWithKey:(NSString *)key forPerson:(NSInteger)personID withValue:(NSString *)value;
+- (void)removeAuthenticatedAtEventForPerson:(NSInteger)personID;
+- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection withQuery:(NSString *)query withSort:(NSString *)sort withOrder:(NSString *)order;
+- (void)getAuthenticatedAtEventWithEmail:(NSString *)email;
+- (void)getAuthenticatedAtEventForPerson:(NSInteger)personID;
+- (void)getAtEventWithEmail:(NSString *)email;
+- (void)rsvpAuthenticatedAtEventWithEmail:(NSString *)email;
+- (void)rsvpAtEventWithEmail:(NSString *)email;
 @end

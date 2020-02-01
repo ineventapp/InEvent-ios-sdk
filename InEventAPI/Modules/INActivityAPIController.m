@@ -67,6 +67,19 @@
 	}
 }
 
+- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection atList:(NSInteger)listID withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && selection != nil && dateBegin != nil && dateEnd != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection, @"listID" : [NSString stringWithFormat:@"%ld", (long)listID], @"dateBegin" : dateBegin, @"dateEnd" : dateEnd}};
+
+		[self objectWithModule:@"activity" method:@"find" attributes:attributes];
+	}
+}
+
 - (void)findAuthenticatedAtEventWithSelection:(NSString *)selection withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
@@ -75,6 +88,18 @@
 	if (tokenID != nil && eventID != nil && selection != nil && dateBegin != nil && dateEnd != nil) {
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection, @"dateBegin" : dateBegin, @"dateEnd" : dateEnd}};
+
+		[self objectWithModule:@"activity" method:@"find" attributes:attributes];
+	}
+}
+
+- (void)findAtEventWithDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd withInvite:(NSString *)invite {
+
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (eventID != nil && dateBegin != nil && dateEnd != nil && invite != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID, @"dateBegin" : dateBegin, @"dateEnd" : dateEnd}, @"POST" : @{@"invite" : invite}};
 
 		[self objectWithModule:@"activity" method:@"find" attributes:attributes];
 	}

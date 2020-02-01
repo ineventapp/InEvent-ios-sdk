@@ -80,4 +80,17 @@
 	}
 }
 
+- (void)searchAuthenticatedAtEventWithQuery:(NSString *)query {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && query != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"query" : query}};
+
+		[self objectWithModule:@"event" method:@"search" attributes:attributes];
+	}
+}
+
 @end

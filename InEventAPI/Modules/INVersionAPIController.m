@@ -4,13 +4,13 @@
 
 #pragma mark - Version
 
-- (void)createAuthenticatedAtCompany:(NSInteger)companyID withPlatform:(NSString *)platform withVersion:(NSString *)version {
+- (void)createAuthenticatedAtCompany:(NSInteger)companyID withPlatform:(NSString *)platform withVersion:(NSString *)version withBuild:(NSString *)build {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && platform != nil && version != nil) {
+	if (tokenID != nil && platform != nil && version != nil && build != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"platform" : platform, @"version" : version}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"platform" : platform, @"version" : version, @"build" : build}};
 
 		[self objectWithModule:@"version" method:@"create" attributes:attributes];
 	}

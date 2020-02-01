@@ -6,4 +6,5 @@
 #pragma mark - CompanyTool
 - (void)editAuthenticatedAtCompany:(NSInteger)companyID withKey:(NSString *)key withValue:(NSString *)value;
 - (void)getAtCompany:(NSInteger)companyID;
+- (void)availableAuthenticated;
 @end

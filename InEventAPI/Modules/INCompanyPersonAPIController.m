@@ -64,4 +64,16 @@
 	}
 }
 
+- (void)journeyAuthenticatedAtCompany:(NSInteger)companyID forPerson:(NSInteger)personID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}};
+
+		[self objectWithModule:@"company.person" method:@"journey" attributes:attributes];
+	}
+}
+
 @end

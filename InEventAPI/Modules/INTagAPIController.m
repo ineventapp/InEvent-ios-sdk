@@ -4,6 +4,18 @@
 
 #pragma mark - Tag
 
+- (void)createAuthenticatedAtCompany:(NSInteger)companyID withName:(NSString *)name withColor:(NSString *)color {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && name != nil && color != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"name" : name, @"color" : color}};
+
+		[self objectWithModule:@"tag" method:@"create" attributes:attributes];
+	}
+}
+
 - (void)createAuthenticatedAtEventWithName:(NSString *)name withColor:(NSString *)color {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
@@ -29,6 +41,30 @@
 	}
 }
 
+- (void)removeAuthenticatedAtTag:(NSInteger)tagID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"tagID" : [NSString stringWithFormat:@"%ld", (long)tagID]}};
+
+		[self objectWithModule:@"tag" method:@"remove" attributes:attributes];
+	}
+}
+
+- (void)findAuthenticatedAtCompany:(NSInteger)companyID withSelection:(NSString *)selection {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && selection != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"selection" : selection}};
+
+		[self objectWithModule:@"tag" method:@"find" attributes:attributes];
+	}
+}
+
 - (void)findAuthenticatedAtEventWithSelection:(NSString *)selection {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
@@ -51,18 +87,6 @@
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"tagID" : [NSString stringWithFormat:@"%ld", (long)tagID]}};
 
 		[self objectWithModule:@"tag" method:@"get" attributes:attributes];
-	}
-}
-
-- (void)removeAuthenticatedAtTag:(NSInteger)tagID {
-
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-
-	if (tokenID != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"tagID" : [NSString stringWithFormat:@"%ld", (long)tagID]}};
-
-		[self objectWithModule:@"tag" method:@"remove" attributes:attributes];
 	}
 }
 

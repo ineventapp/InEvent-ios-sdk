@@ -56,20 +56,90 @@
 	}
 }
 
-- (void)findAuthenticatedAtEventWithCompanyName:(NSString *)companyName withName:(NSString *)name withEmail:(NSString *)email withTelephone:(NSString *)telephone withOrder:(NSString *)order {
+- (void)findAuthenticatedAtCompany:(NSInteger)companyID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && companyName != nil && name != nil && email != nil && telephone != nil && order != nil) {
+	if (tokenID != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"companyName" : companyName, @"name" : name, @"email" : email, @"telephone" : telephone, @"order" : order}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}};
 
 		[self objectWithModule:@"sponsor" method:@"find" attributes:attributes];
 	}
 }
 
-- (void)getAuthenticatedAtEventAtSponsor:(NSInteger)sponsorID {
+- (void)findAuthenticatedAtEventWithCategorized:(NSString *)categorized withCompanyName:(NSString *)companyName withName:(NSString *)name withEmail:(NSString *)email withTelephone:(NSString *)telephone withOrder:(NSString *)order {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && categorized != nil && companyName != nil && name != nil && email != nil && telephone != nil && order != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"categorized" : categorized, @"companyName" : companyName, @"name" : name, @"email" : email, @"telephone" : telephone, @"order" : order}};
+
+		[self objectWithModule:@"sponsor" method:@"find" attributes:attributes];
+	}
+}
+
+- (void)findAuthenticatedAtEventWithCategorized:(NSString *)categorized {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && categorized != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"categorized" : categorized}};
+
+		[self objectWithModule:@"sponsor" method:@"find" attributes:attributes];
+	}
+}
+
+- (void)findAtEventWithCategorized:(NSString *)categorized withCompanyName:(NSString *)companyName withName:(NSString *)name withEmail:(NSString *)email withTelephone:(NSString *)telephone withOrder:(NSString *)order {
+
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (eventID != nil && categorized != nil && companyName != nil && name != nil && email != nil && telephone != nil && order != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID, @"categorized" : categorized, @"companyName" : companyName, @"name" : name, @"email" : email, @"telephone" : telephone, @"order" : order}};
+
+		[self objectWithModule:@"sponsor" method:@"find" attributes:attributes];
+	}
+}
+
+- (void)findAtEventWithCategorized:(NSString *)categorized {
+
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (eventID != nil && categorized != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID, @"categorized" : categorized}};
+
+		[self objectWithModule:@"sponsor" method:@"find" attributes:attributes];
+	}
+}
+
+- (void)getAuthenticatedAtSponsor:(NSInteger)sponsorID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"sponsorID" : [NSString stringWithFormat:@"%ld", (long)sponsorID]}};
+
+		[self objectWithModule:@"sponsor" method:@"get" attributes:attributes];
+	}
+}
+
+- (void)getAtSponsor:(NSInteger)sponsorID {
+
+
+
+	NSDictionary *attributes = @{@"GET" : @{@"sponsorID" : [NSString stringWithFormat:@"%ld", (long)sponsorID]}};
+
+	[self objectWithModule:@"sponsor" method:@"get" attributes:attributes];
+}
+
+- (void)redeemAuthenticatedAtEventAtSponsor:(NSInteger)sponsorID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
@@ -78,7 +148,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"sponsorID" : [NSString stringWithFormat:@"%ld", (long)sponsorID]}};
 
-		[self objectWithModule:@"sponsor" method:@"get" attributes:attributes];
+		[self objectWithModule:@"sponsor" method:@"redeem" attributes:attributes];
 	}
 }
 

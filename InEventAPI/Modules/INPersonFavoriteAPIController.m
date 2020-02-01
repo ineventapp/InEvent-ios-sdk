@@ -17,14 +17,27 @@
 	}
 }
 
-- (void)bindAuthenticatedAtEventWithCode:(NSString *)code withSource:(NSString *)source withGrade:(NSString *)grade {
+- (void)bindAuthenticatedAtEventWithCode:(NSString *)code withSource:(NSString *)source {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && code != nil && source != nil && grade != nil) {
+	if (tokenID != nil && eventID != nil && code != nil && source != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"code" : code, @"source" : source}, @"POST" : @{@"grade" : grade}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"code" : code, @"source" : source}};
+
+		[self objectWithModule:@"person.favorite" method:@"bind" attributes:attributes];
+	}
+}
+
+- (void)bindAuthenticatedAtEventWithCode:(NSString *)code withSource:(NSString *)source withGrade:(NSString *)grade withNote:(NSString *)note {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && code != nil && source != nil && grade != nil && note != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"code" : code, @"source" : source}, @"POST" : @{@"grade" : grade, @"note" : note}};
 
 		[self objectWithModule:@"person.favorite" method:@"bind" attributes:attributes];
 	}

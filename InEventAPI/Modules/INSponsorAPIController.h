@@ -8,8 +8,14 @@
 - (void)createAuthenticatedAtEventWithPath:(NSString *)path;
 - (void)editAuthenticatedAtEventAtSponsor:(NSInteger)sponsorID withKey:(NSString *)key withValue:(NSString *)value;
 - (void)removeAuthenticatedAtEventAtSponsor:(NSInteger)sponsorID;
-- (void)findAuthenticatedAtEventWithCompanyName:(NSString *)companyName withName:(NSString *)name withEmail:(NSString *)email withTelephone:(NSString *)telephone withOrder:(NSString *)order;
-- (void)getAuthenticatedAtEventAtSponsor:(NSInteger)sponsorID;
+- (void)findAuthenticatedAtCompany:(NSInteger)companyID;
+- (void)findAuthenticatedAtEventWithCategorized:(NSString *)categorized withCompanyName:(NSString *)companyName withName:(NSString *)name withEmail:(NSString *)email withTelephone:(NSString *)telephone withOrder:(NSString *)order;
+- (void)findAuthenticatedAtEventWithCategorized:(NSString *)categorized;
+- (void)findAtEventWithCategorized:(NSString *)categorized withCompanyName:(NSString *)companyName withName:(NSString *)name withEmail:(NSString *)email withTelephone:(NSString *)telephone withOrder:(NSString *)order;
+- (void)findAtEventWithCategorized:(NSString *)categorized;
+- (void)getAuthenticatedAtSponsor:(NSInteger)sponsorID;
+- (void)getAtSponsor:(NSInteger)sponsorID;
+- (void)redeemAuthenticatedAtEventAtSponsor:(NSInteger)sponsorID;
 - (void)favoritesAuthenticatedAtEventAtSponsor:(NSInteger)sponsorID;
 - (void)remainingQuotaAuthenticatedAtEvent;
 @end

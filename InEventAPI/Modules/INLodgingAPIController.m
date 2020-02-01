@@ -4,14 +4,14 @@
 
 #pragma mark - Lodging
 
-- (void)createAuthenticatedAtEventWithName:(NSString *)name withDescription:(NSString *)description withCapacity:(NSString *)capacity withPrice:(NSString *)price withAddress:(NSString *)address {
+- (void)createAuthenticatedAtEventWithName:(NSString *)name withCapacity:(NSString *)capacity withPrice:(NSString *)price withDescription:(NSString *)description withAddress:(NSString *)address {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && name != nil && description != nil && capacity != nil && price != nil && address != nil) {
+	if (tokenID != nil && eventID != nil && name != nil && capacity != nil && price != nil && description != nil && address != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"name" : name, @"description" : description, @"capacity" : capacity, @"price" : price, @"address" : address}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"name" : name, @"capacity" : capacity, @"price" : price, @"description" : description, @"address" : address}};
 
 		[self objectWithModule:@"lodging" method:@"create" attributes:attributes];
 	}
@@ -76,6 +76,19 @@
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"lodgingID" : [NSString stringWithFormat:@"%ld", (long)lodgingID]}};
 
 		[self objectWithModule:@"lodging" method:@"get" attributes:attributes];
+	}
+}
+
+- (void)statsAuthenticatedAtEvent {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
+
+		[self objectWithModule:@"lodging" method:@"stats" attributes:attributes];
 	}
 }
 

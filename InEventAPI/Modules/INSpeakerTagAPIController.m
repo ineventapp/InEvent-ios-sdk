@@ -28,6 +28,18 @@
 	}
 }
 
+- (void)findAuthenticatedAtSpeaker:(NSInteger)speakerID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"speakerID" : [NSString stringWithFormat:@"%ld", (long)speakerID]}};
+
+		[self objectWithModule:@"speaker.tag" method:@"find" attributes:attributes];
+	}
+}
+
 - (void)findAtSpeaker:(NSInteger)speakerID {
 
 
