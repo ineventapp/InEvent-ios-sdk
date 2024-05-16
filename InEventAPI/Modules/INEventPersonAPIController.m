@@ -159,80 +159,153 @@
 	}
 }
 
-- (void)getAuthenticatedAtFeedback:(NSInteger)feedbackID withValue:(NSString *)value {
+- (void)findAuthenticatedAtCompany:(NSInteger)companyID withTemplates:(NSString *)templates withSelection:(NSString *)selection withOrder:(NSString *)order withOrderDirection:(NSString *)orderDirection {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && value != nil) {
+	if (tokenID != nil && templates != nil && selection != nil && order != nil && orderDirection != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"feedbackID" : [NSString stringWithFormat:@"%ld", (long)feedbackID], @"value" : value}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"templates" : templates, @"selection" : selection, @"order" : order, @"orderDirection" : orderDirection}};
+
+		[self objectWithModule:@"event.person" method:@"find" attributes:attributes];
+	}
+}
+
+- (void)findAuthenticatedAtCompany:(NSInteger)companyID withEvents:(NSString *)events withSelection:(NSString *)selection withOrder:(NSString *)order withOrderDirection:(NSString *)orderDirection {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && events != nil && selection != nil && order != nil && orderDirection != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"events" : events, @"selection" : selection, @"order" : order, @"orderDirection" : orderDirection}};
+
+		[self objectWithModule:@"event.person" method:@"find" attributes:attributes];
+	}
+}
+
+- (void)findAuthenticatedAtCompany:(NSInteger)companyID withTags:(NSString *)tags withSelection:(NSString *)selection withOrder:(NSString *)order withOrderDirection:(NSString *)orderDirection {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && tags != nil && selection != nil && order != nil && orderDirection != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"tags" : tags, @"selection" : selection, @"order" : order, @"orderDirection" : orderDirection}};
+
+		[self objectWithModule:@"event.person" method:@"find" attributes:attributes];
+	}
+}
+
+- (void)getAuthenticatedAtFeedback:(NSInteger)feedbackID withValue:(NSString *)value withFeedbackMode:(NSString *)feedbackMode {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && value != nil && feedbackMode != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"feedbackID" : [NSString stringWithFormat:@"%ld", (long)feedbackID], @"value" : value, @"feedbackMode" : feedbackMode}};
 
 		[self objectWithModule:@"event.person" method:@"get" attributes:attributes];
 	}
 }
 
-- (void)getAuthenticatedAtEventWithEmail:(NSString *)email {
+- (void)getAuthenticatedAtEventWithEmail:(NSString *)email withFeedbackMode:(NSString *)feedbackMode {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && email != nil) {
+	if (tokenID != nil && eventID != nil && email != nil && feedbackMode != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"email" : email}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"email" : email, @"feedbackMode" : feedbackMode}};
 
 		[self objectWithModule:@"event.person" method:@"get" attributes:attributes];
 	}
 }
 
-- (void)getAuthenticatedAtEventForPerson:(NSInteger)personID {
+- (void)getAuthenticatedAtEventForPerson:(NSInteger)personID withFeedbackMode:(NSString *)feedbackMode {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil) {
+	if (tokenID != nil && eventID != nil && feedbackMode != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID], @"feedbackMode" : feedbackMode}};
 
 		[self objectWithModule:@"event.person" method:@"get" attributes:attributes];
 	}
 }
 
-- (void)getAuthenticatedAtEventWithQrCode:(NSString *)qrCode {
+- (void)getAuthenticatedAtEventWithQrCode:(NSString *)qrCode withFeedbackMode:(NSString *)feedbackMode {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && qrCode != nil) {
+	if (tokenID != nil && eventID != nil && qrCode != nil && feedbackMode != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"qrCode" : qrCode}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"qrCode" : qrCode, @"feedbackMode" : feedbackMode}};
 
 		[self objectWithModule:@"event.person" method:@"get" attributes:attributes];
 	}
 }
 
-- (void)getAuthenticatedAtEventWithNfc:(NSString *)nfc {
+- (void)getAuthenticatedAtEventWithQrCode:(NSString *)qrCode withMode:(NSString *)mode {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && nfc != nil) {
+	if (tokenID != nil && eventID != nil && qrCode != nil && mode != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"nfc" : nfc}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"qrCode" : qrCode, @"mode" : mode}};
 
 		[self objectWithModule:@"event.person" method:@"get" attributes:attributes];
 	}
 }
 
-- (void)getAuthenticatedAtEvent {
+- (void)getAuthenticatedAtEventWithNfc:(NSString *)nfc withFeedbackMode:(NSString *)feedbackMode {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil) {
+	if (tokenID != nil && eventID != nil && nfc != nil && feedbackMode != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"nfc" : nfc, @"feedbackMode" : feedbackMode}};
 
 		[self objectWithModule:@"event.person" method:@"get" attributes:attributes];
+	}
+}
+
+- (void)getAuthenticatedAtEventWithFeedbackMode:(NSString *)feedbackMode {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && feedbackMode != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"feedbackMode" : feedbackMode}};
+
+		[self objectWithModule:@"event.person" method:@"get" attributes:attributes];
+	}
+}
+
+- (void)getAuthenticatedForPerson:(NSInteger)personID atCompany:(NSInteger)companyID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID], @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}};
+
+		[self objectWithModule:@"event.person" method:@"get" attributes:attributes];
+	}
+}
+
+- (void)getLastEntryAuthenticatedAtCompany:(NSInteger)companyID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}};
+
+		[self objectWithModule:@"event.person" method:@"getLastEntry" attributes:attributes];
 	}
 }
 
@@ -298,6 +371,69 @@
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
 
 		[self objectWithModule:@"event.person" method:@"printed" attributes:attributes];
+	}
+}
+
+- (void)printedListAuthenticatedAtEvent {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
+
+		[self objectWithModule:@"event.person" method:@"printedList" attributes:attributes];
+	}
+}
+
+- (void)verifyEmailAtEventWithEmail:(NSString *)email withVerifyEmailToken:(NSString *)verifyEmailToken {
+
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (eventID != nil && email != nil && verifyEmailToken != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID, @"email" : email}, @"POST" : @{@"verifyEmailToken" : verifyEmailToken}};
+
+		[self objectWithModule:@"event.person" method:@"verifyEmail" attributes:attributes];
+	}
+}
+
+- (void)requestMagicLinkAtEventWithEmail:(NSString *)email withVerifyEmailToken:(NSString *)verifyEmailToken {
+
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (eventID != nil && email != nil && verifyEmailToken != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID, @"email" : email}, @"POST" : @{@"verifyEmailToken" : verifyEmailToken}};
+
+		[self objectWithModule:@"event.person" method:@"requestMagicLink" attributes:attributes];
+	}
+}
+
+- (void)requestMagicLinkAuthenticatedAtEventForPerson:(NSInteger)personID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}};
+
+		[self objectWithModule:@"event.person" method:@"requestMagicLink" attributes:attributes];
+	}
+}
+
+- (void)regenerateQrCodeAuthenticatedAtEventForPerson:(NSInteger)personID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}};
+
+		[self objectWithModule:@"event.person" method:@"regenerateQrCode" attributes:attributes];
 	}
 }
 

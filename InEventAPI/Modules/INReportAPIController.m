@@ -52,4 +52,28 @@
 	}
 }
 
+- (void)getAuthenticatedAtReport:(NSInteger)reportID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"reportID" : [NSString stringWithFormat:@"%ld", (long)reportID]}};
+
+		[self objectWithModule:@"report" method:@"get" attributes:attributes];
+	}
+}
+
+- (void)snapshotAuthenticatedAtReport:(NSInteger)reportID withName:(NSString *)name {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && name != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"reportID" : [NSString stringWithFormat:@"%ld", (long)reportID]}, @"POST" : @{@"name" : name}};
+
+		[self objectWithModule:@"report" method:@"snapshot" attributes:attributes];
+	}
+}
+
 @end

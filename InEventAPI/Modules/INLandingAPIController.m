@@ -4,14 +4,26 @@
 
 #pragma mark - Landing
 
-- (void)createAuthenticatedAtEventWithName:(NSString *)name withCname:(NSString *)cname {
+- (void)createAuthenticatedAtCompany:(NSInteger)companyID withName:(NSString *)name withCname:(NSString *)cname withRoot:(NSString *)root {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && name != nil && cname != nil && root != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"name" : name, @"cname" : cname, @"root" : root}};
+
+		[self objectWithModule:@"landing" method:@"create" attributes:attributes];
+	}
+}
+
+- (void)createAuthenticatedAtEventWithName:(NSString *)name withCname:(NSString *)cname withRoot:(NSString *)root {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && name != nil && cname != nil) {
+	if (tokenID != nil && eventID != nil && name != nil && cname != nil && root != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"name" : name, @"cname" : cname}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"name" : name, @"cname" : cname, @"root" : root}};
 
 		[self objectWithModule:@"landing" method:@"create" attributes:attributes];
 	}
@@ -41,6 +53,18 @@
 	}
 }
 
+- (void)findAuthenticatedAtCompany:(NSInteger)companyID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}};
+
+		[self objectWithModule:@"landing" method:@"find" attributes:attributes];
+	}
+}
+
 - (void)findAuthenticatedAtEvent {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
@@ -66,13 +90,13 @@
 	}
 }
 
-- (void)putAuthenticatedAtLanding:(NSInteger)landingID withFile:(NSString *)file withUrl:(NSString *)url {
+- (void)putAuthenticatedAtLanding:(NSInteger)landingID withFile:(NSString *)file withType:(NSString *)type withUrl:(NSString *)url {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && file != nil && url != nil) {
+	if (tokenID != nil && file != nil && type != nil && url != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"landingID" : [NSString stringWithFormat:@"%ld", (long)landingID]}, @"POST" : @{@"file" : file, @"url" : url}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"landingID" : [NSString stringWithFormat:@"%ld", (long)landingID]}, @"POST" : @{@"file" : file, @"type" : type, @"url" : url}};
 
 		[self objectWithModule:@"landing" method:@"put" attributes:attributes];
 	}
@@ -87,6 +111,18 @@
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"landingID" : [NSString stringWithFormat:@"%ld", (long)landingID]}, @"POST" : @{@"file" : file}};
 
 		[self objectWithModule:@"landing" method:@"delete" attributes:attributes];
+	}
+}
+
+- (void)copyAuthenticatedAtLanding:(NSInteger)landingID atSourceLanding:(NSInteger)sourceLandingID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"landingID" : [NSString stringWithFormat:@"%ld", (long)landingID], @"sourceLandingID" : [NSString stringWithFormat:@"%ld", (long)sourceLandingID]}};
+
+		[self objectWithModule:@"landing" method:@"copy" attributes:attributes];
 	}
 }
 

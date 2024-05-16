@@ -106,4 +106,16 @@
 	}
 }
 
+- (void)lookupAtEventWithFlightIata:(NSString *)flightIata {
+
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (eventID != nil && flightIata != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID, @"flightIata" : flightIata}};
+
+		[self objectWithModule:@"flight" method:@"lookup" attributes:attributes];
+	}
+}
+
 @end

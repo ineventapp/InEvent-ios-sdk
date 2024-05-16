@@ -8,7 +8,7 @@
 - (void)createAuthenticatedAtCompany:(NSInteger)companyID withName:(NSString *)name withColor:(NSString *)color;
 - (void)editAuthenticatedAtList:(NSInteger)listID withKey:(NSString *)key withValue:(NSString *)value;
 - (void)removeAuthenticatedAtList:(NSInteger)listID;
-- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection;
+- (void)findAuthenticatedAtEventForPerson:(NSInteger)personID withSelection:(NSString *)selection;
 - (void)findAuthenticatedAtCompany:(NSInteger)companyID withSelection:(NSString *)selection;
 - (void)getAuthenticatedAtList:(NSInteger)listID;
 - (void)copyAuthenticatedAtEventAtList:(NSInteger)listID;

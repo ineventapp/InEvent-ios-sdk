@@ -10,7 +10,7 @@
 
 	if (tokenID != nil && serial != nil && iBeaconMinor != nil && bleAddress != nil && wifiAddress != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"serial" : serial, @"iBeaconMinor" : iBeaconMinor, @"bleAddress" : bleAddress, @"wifiAddress" : wifiAddress}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, }, @"POST" : @{@"serial" : serial, @"iBeaconMinor" : iBeaconMinor, @"bleAddress" : bleAddress, @"wifiAddress" : wifiAddress}};
 
 		[self objectWithModule:@"beacon" method:@"create" attributes:attributes];
 	}
@@ -22,7 +22,7 @@
 
 	if (tokenID != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, }};
 
 		[self objectWithModule:@"beacon" method:@"find" attributes:attributes];
 	}

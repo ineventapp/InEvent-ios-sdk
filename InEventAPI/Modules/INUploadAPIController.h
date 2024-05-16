@@ -6,4 +6,5 @@
 #pragma mark - Upload
 - (void)removeAuthenticatedAtUpload:(NSInteger)uploadID;
 - (void)findAuthenticatedAtCompany:(NSInteger)companyID;
+- (void)findAuthenticatedAtEvent;
 @end

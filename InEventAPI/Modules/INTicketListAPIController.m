@@ -4,25 +4,25 @@
 
 #pragma mark - TicketList
 
-- (void)bindAuthenticatedAtList:(NSInteger)listID atTicket:(NSInteger)ticketID {
+- (void)bindAuthenticatedAtList:(NSInteger)listID atTicket:(NSInteger)ticketID withTrigger:(NSString *)trigger {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil) {
+	if (tokenID != nil && trigger != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"listID" : [NSString stringWithFormat:@"%ld", (long)listID], @"ticketID" : [NSString stringWithFormat:@"%ld", (long)ticketID]}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"listID" : [NSString stringWithFormat:@"%ld", (long)listID], @"ticketID" : [NSString stringWithFormat:@"%ld", (long)ticketID]}, @"POST" : @{@"trigger" : trigger}};
 
 		[self objectWithModule:@"ticket.list" method:@"bind" attributes:attributes];
 	}
 }
 
-- (void)dismissAuthenticatedAtList:(NSInteger)listID atTicket:(NSInteger)ticketID {
+- (void)dismissAuthenticatedAtList:(NSInteger)listID atTicket:(NSInteger)ticketID withTrigger:(NSString *)trigger {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil) {
+	if (tokenID != nil && trigger != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"listID" : [NSString stringWithFormat:@"%ld", (long)listID], @"ticketID" : [NSString stringWithFormat:@"%ld", (long)ticketID]}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"listID" : [NSString stringWithFormat:@"%ld", (long)listID], @"ticketID" : [NSString stringWithFormat:@"%ld", (long)ticketID]}, @"POST" : @{@"trigger" : trigger}};
 
 		[self objectWithModule:@"ticket.list" method:@"dismiss" attributes:attributes];
 	}

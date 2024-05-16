@@ -4,15 +4,15 @@
 @interface INFormAPIController : INAPIController
 
 #pragma mark - Form
-- (void)createAuthenticatedAtCompany:(NSInteger)companyID withTitle:(NSString *)title withType:(NSString *)type withDescription:(NSString *)description;
-- (void)createAuthenticatedAtEventWithTitle:(NSString *)title withDescription:(NSString *)description;
+- (void)createAuthenticatedAtCompany:(NSInteger)companyID atSyncList:(NSInteger)syncListID withTitle:(NSString *)title withType:(NSString *)type withDescription:(NSString *)description;
+- (void)createAuthenticatedAtEventAtSyncList:(NSInteger)syncListID withTitle:(NSString *)title withDescription:(NSString *)description withComplementRegistration:(NSString *)complementRegistration;
 - (void)editAuthenticatedAtForm:(NSInteger)formID withKey:(NSString *)key withValue:(NSString *)value;
 - (void)removeAuthenticatedAtForm:(NSInteger)formID;
-- (void)findAuthenticatedAtCompany:(NSInteger)companyID withSelection:(NSString *)selection withComplementRegistration:(NSString *)complementRegistration;
-- (void)findAuthenticatedAtEventWithComplementRegistration:(NSString *)complementRegistration;
-- (void)getAuthenticatedAtForm:(NSInteger)formID;
-- (void)respondRegistrationAuthenticatedAtEventAtTicketPerson:(NSInteger)ticketPersonID withTicketToken:(NSString *)ticketToken withFeedbackContent:(NSString *)feedbackContent withEmail:(NSString *)email withUsername:(NSString *)username withFirstName:(NSString *)firstName withLastName:(NSString *)lastName withPassword:(NSString *)password withRole:(NSString *)role withCompany:(NSString *)company withGuestContent:(NSString *)guestContent withActivities:(NSString *)activities;
-- (void)respondRegistrationAuthenticatedAtEventWithFeedbackContent:(NSString *)feedbackContent withInvite:(NSString *)invite withEmail:(NSString *)email withUsername:(NSString *)username withFirstName:(NSString *)firstName withLastName:(NSString *)lastName withPassword:(NSString *)password withRole:(NSString *)role withCompany:(NSString *)company withRsvp:(NSString *)rsvp withGuestContent:(NSString *)guestContent withActivities:(NSString *)activities;
+- (void)findAuthenticatedAtCompany:(NSInteger)companyID withSelection:(NSString *)selection withComplementRegistration:(NSString *)complementRegistration withListing:(NSString *)listing withStatus:(NSString *)status;
+- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection withComplementRegistration:(NSString *)complementRegistration withListing:(NSString *)listing withStatus:(NSString *)status;
+- (void)getAuthenticatedAtForm:(NSInteger)formID withListing:(NSString *)listing;
+- (void)respondRegistrationAuthenticatedAtEventWithLogin:(NSString *)login atTicketPerson:(NSInteger)ticketPersonID withTicketToken:(NSString *)ticketToken withInvite:(NSString *)invite withFeedbackContent:(NSString *)feedbackContent withEmail:(NSString *)email withAssistantEmail:(NSString *)assistantEmail withUsername:(NSString *)username withSalutation:(NSString *)salutation withFirstName:(NSString *)firstName withLastName:(NSString *)lastName withPassword:(NSString *)password withRole:(NSString *)role withCompany:(NSString *)company withWebsite:(NSString *)website withTelephone:(NSString *)telephone withImage:(NSString *)image withPrivate:(NSString *)private withGuestContent:(NSString *)guestContent withActivities:(NSString *)activities atTags:(NSInteger)tagIDs;
+- (void)respondRegistrationAuthenticatedAtEventWithLogin:(NSString *)login withFeedbackContent:(NSString *)feedbackContent withInvite:(NSString *)invite withEmail:(NSString *)email withAssistantEmail:(NSString *)assistantEmail withUsername:(NSString *)username withSalutation:(NSString *)salutation withFirstName:(NSString *)firstName withLastName:(NSString *)lastName withPassword:(NSString *)password withRole:(NSString *)role withCompany:(NSString *)company withWebsite:(NSString *)website withTelephone:(NSString *)telephone withImage:(NSString *)image withRsvp:(NSString *)rsvp withPrivate:(NSString *)private withGuestContent:(NSString *)guestContent withActivities:(NSString *)activities atTags:(NSInteger)tagIDs;
 - (void)respondCustomAuthenticatedAtEventAtForm:(NSInteger)formID forPerson:(NSInteger)personID withContent:(NSString *)content;
 - (void)respondCustomAuthenticatedAtEventWithContent:(NSString *)content;
 - (void)respondCustomAtEventWithInvite:(NSString *)invite withContent:(NSString *)content;

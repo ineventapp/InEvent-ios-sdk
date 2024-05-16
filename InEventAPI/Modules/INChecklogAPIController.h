@@ -11,5 +11,5 @@
 - (void)statsAuthenticatedAtEvent;
 - (void)checkedInAuthenticatedAtEvent;
 - (void)checkedInAuthenticatedAtEventAtActivity:(NSInteger)activityID;
-- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection withQuery:(NSString *)query;
+- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection withKey:(NSString *)key withQuery:(NSString *)query withSort:(NSString *)sort withSortDirection:(NSString *)sortDirection;
 @end

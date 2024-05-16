@@ -56,14 +56,14 @@
 	}
 }
 
-- (void)findAuthenticatedAtEvent {
+- (void)findAuthenticatedAtEventWithExhibitor:(NSString *)exhibitor {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil) {
+	if (tokenID != nil && eventID != nil && exhibitor != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"exhibitor" : exhibitor}};
 
 		[self objectWithModule:@"sponsor.category" method:@"find" attributes:attributes];
 	}

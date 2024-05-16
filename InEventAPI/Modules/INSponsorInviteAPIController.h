@@ -7,5 +7,5 @@
 - (void)bindAuthenticatedAtEventAtSponsor:(NSInteger)sponsorID withName:(NSString *)name withUsername:(NSString *)username;
 - (void)bindAuthenticatedAtEventAtSponsor:(NSInteger)sponsorID atList:(NSInteger)listID;
 - (void)dismissAuthenticatedAtEventAtSponsor:(NSInteger)sponsorID forPerson:(NSInteger)personID;
-- (void)findAuthenticatedAtEventAtSponsor:(NSInteger)sponsorID;
+- (void)findAuthenticatedAtEventAtSponsor:(NSInteger)sponsorID withExhibitor:(NSString *)exhibitor;
 @end

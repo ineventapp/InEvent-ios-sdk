@@ -12,4 +12,5 @@
 - (void)findAuthenticatedAtEventForPerson:(NSInteger)personID;
 - (void)findAuthenticatedAtEventWithSelection:(NSString *)selection withQuery:(NSString *)query withQueryKey:(NSString *)queryKey;
 - (void)statsAuthenticatedAtEvent;
+- (void)lookupAtEventWithFlightIata:(NSString *)flightIata;
 @end

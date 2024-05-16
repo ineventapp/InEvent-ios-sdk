@@ -10,7 +10,7 @@
 
 	if (tokenID != nil && title != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"title" : title}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, }, @"POST" : @{@"title" : title}};
 
 		[self objectWithModule:@"app" method:@"create" attributes:attributes];
 	}
@@ -46,7 +46,7 @@
 
 	if (tokenID != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, }};
 
 		[self objectWithModule:@"app" method:@"find" attributes:attributes];
 	}

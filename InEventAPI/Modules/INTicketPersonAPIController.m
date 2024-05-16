@@ -42,13 +42,14 @@
 	}
 }
 
-- (void)acceptInviteAuthenticatedAtTicketPerson:(NSInteger)ticketPersonID withTicketToken:(NSString *)ticketToken withPassword:(NSString *)password withName:(NSString *)name withUsername:(NSString *)username withRole:(NSString *)role withCompany:(NSString *)company {
+- (void)acceptInviteAuthenticatedAtEventWithTicketToken:(NSString *)ticketToken {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && ticketToken != nil && password != nil && name != nil && username != nil && role != nil && company != nil) {
+	if (tokenID != nil && eventID != nil && ticketToken != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"ticketPersonID" : [NSString stringWithFormat:@"%ld", (long)ticketPersonID]}, @"POST" : @{@"ticketToken" : ticketToken, @"password" : password, @"name" : name, @"username" : username, @"role" : role, @"company" : company}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"ticketToken" : ticketToken}};
 
 		[self objectWithModule:@"ticket.person" method:@"acceptInvite" attributes:attributes];
 	}
@@ -87,6 +88,18 @@
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"ticketPersonID" : [NSString stringWithFormat:@"%ld", (long)ticketPersonID]}};
 
 		[self objectWithModule:@"ticket.person" method:@"undoDefault" attributes:attributes];
+	}
+}
+
+- (void)dismissAuthenticatedAtTicketPerson:(NSInteger)ticketPersonID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"ticketPersonID" : [NSString stringWithFormat:@"%ld", (long)ticketPersonID]}};
+
+		[self objectWithModule:@"ticket.person" method:@"dismiss" attributes:attributes];
 	}
 }
 

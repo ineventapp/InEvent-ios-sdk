@@ -4,19 +4,19 @@
 
 #pragma mark - Sso
 
-- (void)editAuthenticatedAtCompany:(NSInteger)companyID withKey:(NSString *)key withValue:(NSString *)value {
+- (void)editAuthenticatedAtSso:(NSInteger)ssoID withKey:(NSString *)key withValue:(NSString *)value {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
 	if (tokenID != nil && key != nil && value != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"key" : key}, @"POST" : @{@"value" : value}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"ssoID" : [NSString stringWithFormat:@"%ld", (long)ssoID], @"key" : key}, @"POST" : @{@"value" : value}};
 
 		[self objectWithModule:@"sso" method:@"edit" attributes:attributes];
 	}
 }
 
-- (void)getAuthenticatedAtCompany:(NSInteger)companyID {
+- (void)findAuthenticatedAtCompany:(NSInteger)companyID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
@@ -24,7 +24,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}};
 
-		[self objectWithModule:@"sso" method:@"get" attributes:attributes];
+		[self objectWithModule:@"sso" method:@"find" attributes:attributes];
 	}
 }
 

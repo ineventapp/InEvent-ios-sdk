@@ -4,14 +4,14 @@
 
 #pragma mark - Speaker
 
-- (void)createAuthenticatedAtEventWithName:(NSString *)name withHeadline:(NSString *)headline withImage:(NSString *)image {
+- (void)createAuthenticatedAtEventWithName:(NSString *)name withHeadline:(NSString *)headline withImage:(NSString *)image withIgnoreCache:(NSString *)ignoreCache {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && name != nil && headline != nil && image != nil) {
+	if (tokenID != nil && eventID != nil && name != nil && headline != nil && image != nil && ignoreCache != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"name" : name, @"headline" : headline, @"image" : image}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"name" : name, @"headline" : headline, @"image" : image, @"ignoreCache" : ignoreCache}};
 
 		[self objectWithModule:@"speaker" method:@"create" attributes:attributes];
 	}

@@ -4,14 +4,14 @@
 
 #pragma mark - Sponsor
 
-- (void)createAuthenticatedAtEventWithCompanyName:(NSString *)companyName withContactName:(NSString *)contactName withTelephone:(NSString *)telephone withEmail:(NSString *)email withWebsite:(NSString *)website withBio:(NSString *)bio withLogo:(NSString *)logo withCategory:(NSString *)category {
+- (void)createAuthenticatedAtEventWithCompanyName:(NSString *)companyName withContactName:(NSString *)contactName withTelephone:(NSString *)telephone withEmail:(NSString *)email withWebsite:(NSString *)website withBio:(NSString *)bio withLogo:(NSString *)logo withCategory:(NSString *)category withIgnoreCache:(NSString *)ignoreCache withExhibitor:(NSString *)exhibitor {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && companyName != nil && contactName != nil && telephone != nil && email != nil && website != nil && bio != nil && logo != nil && category != nil) {
+	if (tokenID != nil && eventID != nil && companyName != nil && contactName != nil && telephone != nil && email != nil && website != nil && bio != nil && logo != nil && category != nil && ignoreCache != nil && exhibitor != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"companyName" : companyName, @"contactName" : contactName, @"telephone" : telephone, @"email" : email, @"website" : website, @"bio" : bio, @"logo" : logo, @"category" : category}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"companyName" : companyName, @"contactName" : contactName, @"telephone" : telephone, @"email" : email, @"website" : website, @"bio" : bio, @"logo" : logo, @"category" : category, @"ignoreCache" : ignoreCache, @"exhibitor" : exhibitor}};
 
 		[self objectWithModule:@"sponsor" method:@"create" attributes:attributes];
 	}
@@ -30,14 +30,14 @@
 	}
 }
 
-- (void)editAuthenticatedAtEventAtSponsor:(NSInteger)sponsorID withKey:(NSString *)key withValue:(NSString *)value {
+- (void)editAuthenticatedAtEventAtSponsor:(NSInteger)sponsorID withKey:(NSString *)key withValue:(NSString *)value withExhibitor:(NSString *)exhibitor {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && key != nil && value != nil) {
+	if (tokenID != nil && eventID != nil && key != nil && value != nil && exhibitor != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"sponsorID" : [NSString stringWithFormat:@"%ld", (long)sponsorID], @"key" : key}, @"POST" : @{@"value" : value}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"sponsorID" : [NSString stringWithFormat:@"%ld", (long)sponsorID], @"key" : key}, @"POST" : @{@"value" : value, @"exhibitor" : exhibitor}};
 
 		[self objectWithModule:@"sponsor" method:@"edit" attributes:attributes];
 	}
@@ -68,14 +68,14 @@
 	}
 }
 
-- (void)findAuthenticatedAtEventWithCategorized:(NSString *)categorized withCompanyName:(NSString *)companyName withName:(NSString *)name withEmail:(NSString *)email withTelephone:(NSString *)telephone withOrder:(NSString *)order {
+- (void)findAuthenticatedAtEventWithCategorized:(NSString *)categorized withCompanyName:(NSString *)companyName withName:(NSString *)name withEmail:(NSString *)email withTelephone:(NSString *)telephone withOrder:(NSString *)order withExhibitor:(NSString *)exhibitor {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && categorized != nil && companyName != nil && name != nil && email != nil && telephone != nil && order != nil) {
+	if (tokenID != nil && eventID != nil && categorized != nil && companyName != nil && name != nil && email != nil && telephone != nil && order != nil && exhibitor != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"categorized" : categorized, @"companyName" : companyName, @"name" : name, @"email" : email, @"telephone" : telephone, @"order" : order}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"categorized" : categorized, @"companyName" : companyName, @"name" : name, @"email" : email, @"telephone" : telephone, @"order" : order}, @"POST" : @{@"exhibitor" : exhibitor}};
 
 		[self objectWithModule:@"sponsor" method:@"find" attributes:attributes];
 	}

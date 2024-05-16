@@ -54,14 +54,14 @@
 	}
 }
 
-- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection forPerson:(NSInteger)personID withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd {
+- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection forPerson:(NSInteger)personID withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd withPaginated:(NSString *)paginated {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && selection != nil && dateBegin != nil && dateEnd != nil) {
+	if (tokenID != nil && eventID != nil && selection != nil && dateBegin != nil && dateEnd != nil && paginated != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID], @"dateBegin" : dateBegin, @"dateEnd" : dateEnd}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID], @"dateBegin" : dateBegin, @"dateEnd" : dateEnd, @"paginated" : paginated}};
 
 		[self objectWithModule:@"activity" method:@"find" attributes:attributes];
 	}
@@ -148,6 +148,19 @@
 	NSDictionary *attributes = @{@"GET" : @{@"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}};
 
 	[self objectWithModule:@"activity" method:@"get" attributes:attributes];
+}
+
+- (void)getDaysAuthenticatedAtEventWithActivities:(NSString *)activities withQuery:(NSString *)query {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && activities != nil && query != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"activities" : activities, @"query" : query}};
+
+		[self objectWithModule:@"activity" method:@"getDays" attributes:attributes];
+	}
 }
 
 - (void)copyAuthenticatedAtActivity:(NSInteger)activityID {

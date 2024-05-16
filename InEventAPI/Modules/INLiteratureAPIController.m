@@ -10,7 +10,7 @@
 
 	if (tokenID != nil && url != nil && category != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"url" : url, @"category" : category}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, }, @"POST" : @{@"url" : url, @"category" : category}};
 
 		[self objectWithModule:@"literature" method:@"create" attributes:attributes];
 	}

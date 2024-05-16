@@ -4,14 +4,14 @@
 
 #pragma mark - Task
 
-- (void)createAuthenticatedAtEventWithName:(NSString *)name {
+- (void)createAuthenticatedAtEventWithName:(NSString *)name withTarget:(NSString *)target withTargetModifiers:(NSString *)targetModifiers {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && name != nil) {
+	if (tokenID != nil && eventID != nil && name != nil && target != nil && targetModifiers != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"name" : name}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"name" : name, @"target" : target, @"targetModifiers" : targetModifiers}};
 
 		[self objectWithModule:@"task" method:@"create" attributes:attributes];
 	}

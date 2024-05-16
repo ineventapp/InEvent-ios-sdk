@@ -31,7 +31,7 @@
 
 	if (tokenID != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, }};
 
 		[self objectWithModule:@"company.tool" method:@"available" attributes:attributes];
 	}

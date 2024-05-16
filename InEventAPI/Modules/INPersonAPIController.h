@@ -31,4 +31,7 @@
 - (void)terminateAccountAuthenticatedWithPassword:(NSString *)password;
 - (void)sendFeedbackAuthenticatedAtCompany:(NSInteger)companyID withMessage:(NSString *)message;
 - (void)sendBugAuthenticatedAtEventAtCompany:(NSInteger)companyID withPlatform:(NSString *)platform withPagelink:(NSString *)pagelink withBug:(NSString *)bug withSteps:(NSString *)steps withExtra:(NSString *)extra;
+- (void)getBugAuthenticatedWithConversationId:(NSString *)conversationId;
+- (void)sendTroubleshootAuthenticatedAtEventWithMessage:(NSString *)message;
+- (void)setPreferenceAuthenticatedWithKey:(NSString *)key withValue:(NSString *)value;
 @end

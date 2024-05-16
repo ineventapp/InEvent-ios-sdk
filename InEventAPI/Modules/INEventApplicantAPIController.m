@@ -4,25 +4,25 @@
 
 #pragma mark - EventApplicant
 
-- (void)bindAtEventWithName:(NSString *)name withUsername:(NSString *)username withPassword:(NSString *)password withEmail:(NSString *)email withRole:(NSString *)role withCompany:(NSString *)company withTelephone:(NSString *)telephone {
+- (void)bindAtEventWithSalutation:(NSString *)salutation withName:(NSString *)name withUsername:(NSString *)username withPassword:(NSString *)password withEmail:(NSString *)email withAssistantEmail:(NSString *)assistantEmail withRole:(NSString *)role withCompany:(NSString *)company withWebsite:(NSString *)website withTelephone:(NSString *)telephone atTags:(NSInteger)tagIDs withWaitlist:(NSString *)waitlist {
 
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (eventID != nil && name != nil && username != nil && password != nil && email != nil && role != nil && company != nil && telephone != nil) {
+	if (eventID != nil && salutation != nil && name != nil && username != nil && password != nil && email != nil && assistantEmail != nil && role != nil && company != nil && website != nil && telephone != nil && waitlist != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID}, @"POST" : @{@"name" : name, @"username" : username, @"password" : password, @"email" : email, @"role" : role, @"company" : company, @"telephone" : telephone}};
+		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID}, @"POST" : @{@"salutation" : salutation, @"name" : name, @"username" : username, @"password" : password, @"email" : email, @"assistantEmail" : assistantEmail, @"role" : role, @"company" : company, @"website" : website, @"telephone" : telephone, @"tagIDs" : [NSString stringWithFormat:@"%ld", (long)tagIDs], @"waitlist" : waitlist}};
 
 		[self objectWithModule:@"event.applicant" method:@"bind" attributes:attributes];
 	}
 }
 
-- (void)bindAtEventWithName:(NSString *)name withEmail:(NSString *)email withPassword:(NSString *)password withRole:(NSString *)role withCompany:(NSString *)company withTelephone:(NSString *)telephone {
+- (void)bindAtEventWithSalutation:(NSString *)salutation withName:(NSString *)name withEmail:(NSString *)email withPassword:(NSString *)password withRole:(NSString *)role withCompany:(NSString *)company withWebsite:(NSString *)website withTelephone:(NSString *)telephone atTags:(NSInteger)tagIDs withWaitlist:(NSString *)waitlist {
 
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (eventID != nil && name != nil && email != nil && password != nil && role != nil && company != nil && telephone != nil) {
+	if (eventID != nil && salutation != nil && name != nil && email != nil && password != nil && role != nil && company != nil && website != nil && telephone != nil && waitlist != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID}, @"POST" : @{@"name" : name, @"email" : email, @"password" : password, @"role" : role, @"company" : company, @"telephone" : telephone}};
+		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID}, @"POST" : @{@"salutation" : salutation, @"name" : name, @"email" : email, @"password" : password, @"role" : role, @"company" : company, @"website" : website, @"telephone" : telephone, @"tagIDs" : [NSString stringWithFormat:@"%ld", (long)tagIDs], @"waitlist" : waitlist}};
 
 		[self objectWithModule:@"event.applicant" method:@"bind" attributes:attributes];
 	}
@@ -129,6 +129,32 @@
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}};
 
 		[self objectWithModule:@"event.applicant" method:@"approve" attributes:attributes];
+	}
+}
+
+- (void)rejectAuthenticatedAtEventForPerson:(NSInteger)personID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}};
+
+		[self objectWithModule:@"event.applicant" method:@"reject" attributes:attributes];
+	}
+}
+
+- (void)undoRejectAuthenticatedAtEventForPerson:(NSInteger)personID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}};
+
+		[self objectWithModule:@"event.applicant" method:@"undoReject" attributes:attributes];
 	}
 }
 

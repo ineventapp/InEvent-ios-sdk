@@ -34,7 +34,7 @@
 
 	if (tokenID != nil && content != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"content" : content}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, }, @"POST" : @{@"content" : content}};
 
 		[self objectWithModule:@"person.tag" method:@"bind" attributes:attributes];
 	}

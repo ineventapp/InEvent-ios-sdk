@@ -4,26 +4,26 @@
 
 #pragma mark - Place
 
-- (void)createAuthenticatedAtCompany:(NSInteger)companyID withName:(NSString *)name withCategory:(NSString *)category {
+- (void)createAuthenticatedAtCompany:(NSInteger)companyID withName:(NSString *)name withCategory:(NSString *)category withCapacity:(NSString *)capacity withRestricted:(NSString *)restricted {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && name != nil && category != nil) {
+	if (tokenID != nil && name != nil && category != nil && capacity != nil && restricted != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"name" : name, @"category" : category}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"name" : name, @"category" : category, @"capacity" : capacity, @"restricted" : restricted}};
 
 		[self objectWithModule:@"place" method:@"create" attributes:attributes];
 	}
 }
 
-- (void)createAuthenticatedAtEventWithName:(NSString *)name {
+- (void)createAuthenticatedAtEventWithName:(NSString *)name withCategory:(NSString *)category withCapacity:(NSString *)capacity withRestricted:(NSString *)restricted {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && name != nil) {
+	if (tokenID != nil && eventID != nil && name != nil && category != nil && capacity != nil && restricted != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"name" : name}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"name" : name, @"category" : category, @"capacity" : capacity, @"restricted" : restricted}};
 
 		[self objectWithModule:@"place" method:@"create" attributes:attributes];
 	}

@@ -4,8 +4,7 @@
 @interface INCompanyAPIController : INAPIController
 
 #pragma mark - Company
-- (void)createAuthenticatedWithCode:(NSString *)code withPlan:(NSString *)plan withCompanyName:(NSString *)companyName withAppIcon:(NSString *)appIcon withNotes:(NSString *)notes;
-- (void)createAuthenticatedWithPlan:(NSString *)plan withCompanyName:(NSString *)companyName withAppIcon:(NSString *)appIcon;
+- (void)createAuthenticatedWithPlan:(NSString *)plan withCompanyName:(NSString *)companyName withAppIcon:(NSString *)appIcon withRegion:(NSString *)region;
 - (void)createAuthenticatedWithPath:(NSString *)path;
 - (void)editAuthenticatedAtCompany:(NSInteger)companyID withKey:(NSString *)key withValue:(NSString *)value;
 - (void)editWithOnboardingToken:(NSString *)onboardingToken withKey:(NSString *)key withValue:(NSString *)value;
@@ -17,4 +16,5 @@
 - (void)getAuthenticatedWithNickname:(NSString *)nickname;
 - (void)getWithNickname:(NSString *)nickname;
 - (void)getWithOnboardingToken:(NSString *)onboardingToken;
+- (void)getColorsAuthenticatedAtCompany:(NSInteger)companyID;
 @end

@@ -5,5 +5,6 @@
 
 #pragma mark - Download
 - (void)removeAuthenticatedAtDownload:(NSInteger)downloadID;
-- (void)findAuthenticatedAtCompany:(NSInteger)companyID;
+- (void)findAuthenticatedAtCompany:(NSInteger)companyID withTarget:(NSString *)target;
+- (void)findAuthenticatedAtEventWithTarget:(NSString *)target;
 @end

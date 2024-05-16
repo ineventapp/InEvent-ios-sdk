@@ -17,13 +17,24 @@
 	}
 }
 
+- (void)createWithTrackingToken:(NSString *)trackingToken withTarget:(NSString *)target atTarget:(NSInteger)targetID {
+
+
+	if (trackingToken != nil && target != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"trackingToken" : trackingToken, @"target" : target, @"targetID" : [NSString stringWithFormat:@"%ld", (long)targetID]}};
+
+		[self objectWithModule:@"tracking" method:@"create" attributes:attributes];
+	}
+}
+
 - (void)createAuthenticatedWithContent:(NSString *)content {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
 	if (tokenID != nil && content != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"content" : content}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, }, @"POST" : @{@"content" : content}};
 
 		[self objectWithModule:@"tracking" method:@"create" attributes:attributes];
 	}

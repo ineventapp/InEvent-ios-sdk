@@ -12,4 +12,9 @@
 - (void)findAuthenticatedAtEvent;
 - (void)getAuthenticatedAtMarketoLink:(NSInteger)marketoLinkID;
 - (void)syncAuthenticatedAtMarketoLink:(NSInteger)marketoLinkID;
+- (void)syncTokensAuthenticatedAtMarketoLink:(NSInteger)marketoLinkID;
+- (void)syncStatusesAuthenticatedAtMarketoLink:(NSInteger)marketoLinkID;
+- (void)setActivitySyncAuthenticatedAtEventWithActive:(NSString *)active;
+- (void)setActivitySyncForActivityAuthenticatedAtEventAtActivity:(NSInteger)activityID withActive:(NSString *)active;
+- (void)syncActivityAuthenticatedAtEventAtActivity:(NSInteger)activityID;
 @end

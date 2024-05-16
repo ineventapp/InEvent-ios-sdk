@@ -74,7 +74,7 @@
 
 	if (tokenID != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"eventEmailID" : [NSString stringWithFormat:@"%ld", (long)eventEmailID]}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, }, @"POST" : @{@"eventEmailID" : [NSString stringWithFormat:@"%ld", (long)eventEmailID]}};
 
 		[self objectWithModule:@"event.email" method:@"dispatch" attributes:attributes];
 	}

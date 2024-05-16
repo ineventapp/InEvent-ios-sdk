@@ -4,14 +4,14 @@
 
 #pragma mark - Gamification
 
-- (void)createAuthenticatedAtEventWithName:(NSString *)name withDescription:(NSString *)description withPoints:(NSString *)points {
+- (void)createAuthenticatedAtEventWithName:(NSString *)name withDescription:(NSString *)description withPoints:(NSString *)points withVisible:(NSString *)visible {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && name != nil && description != nil && points != nil) {
+	if (tokenID != nil && eventID != nil && name != nil && description != nil && points != nil && visible != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"name" : name, @"description" : description, @"points" : points}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"name" : name, @"description" : description, @"points" : points, @"visible" : visible}};
 
 		[self objectWithModule:@"gamification" method:@"create" attributes:attributes];
 	}
@@ -41,14 +41,14 @@
 	}
 }
 
-- (void)findAuthenticatedAtEvent {
+- (void)findAuthenticatedAtEventWithVisible:(NSString *)visible {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil) {
+	if (tokenID != nil && eventID != nil && visible != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"visible" : visible}};
 
 		[self objectWithModule:@"gamification" method:@"find" attributes:attributes];
 	}

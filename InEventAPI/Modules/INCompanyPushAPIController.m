@@ -4,15 +4,15 @@
 
 #pragma mark - CompanyPush
 
-- (void)bindAuthenticatedAtCompany:(NSInteger)companyID withAndroidKey:(NSString *)androidKey withIosPath:(NSString *)iosPath {
+- (void)editAuthenticatedAtCompany:(NSInteger)companyID withKey:(NSString *)key withValue:(NSString *)value {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && androidKey != nil && iosPath != nil) {
+	if (tokenID != nil && key != nil && value != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"androidKey" : androidKey, @"iosPath" : iosPath}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"key" : key}, @"POST" : @{@"value" : value}};
 
-		[self objectWithModule:@"company.push" method:@"bind" attributes:attributes];
+		[self objectWithModule:@"company.push" method:@"edit" attributes:attributes];
 	}
 }
 

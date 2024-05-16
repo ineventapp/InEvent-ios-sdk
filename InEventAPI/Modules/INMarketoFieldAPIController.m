@@ -17,6 +17,19 @@
 	}
 }
 
+- (void)bindAuthenticatedAtEventWithFormKey:(NSString *)formKey withMkFieldId:(NSString *)mkFieldId {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && formKey != nil && mkFieldId != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"formKey" : formKey, @"mkFieldId" : mkFieldId}};
+
+		[self objectWithModule:@"marketo.field" method:@"bind" attributes:attributes];
+	}
+}
+
 - (void)dismissAuthenticatedAtMarketoField:(NSInteger)marketoFieldID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];

@@ -4,107 +4,207 @@
 
 #pragma mark - Hotsite
 
-- (void)createAuthenticatedAtCompany:(NSInteger)companyID withSection:(NSString *)section withPosition:(NSString *)position withName:(NSString *)name withText:(NSString *)text {
+- (void)createAuthenticatedAtCompany:(NSInteger)companyID withPage:(NSString *)page withSection:(NSString *)section withPosition:(NSString *)position withName:(NSString *)name withText:(NSString *)text {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && section != nil && position != nil && name != nil && text != nil) {
+	if (tokenID != nil && page != nil && section != nil && position != nil && name != nil && text != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"section" : section}, @"POST" : @{@"position" : position, @"name" : name, @"text" : text}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"page" : page, @"section" : section}, @"POST" : @{@"position" : position, @"name" : name, @"text" : text}};
 
 		[self objectWithModule:@"hotsite" method:@"create" attributes:attributes];
 	}
 }
 
-- (void)createAuthenticatedAtEventWithSection:(NSString *)section withPosition:(NSString *)position withName:(NSString *)name withText:(NSString *)text {
+- (void)createAuthenticatedAtEventWithPage:(NSString *)page withSection:(NSString *)section withPosition:(NSString *)position withName:(NSString *)name withText:(NSString *)text {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && section != nil && position != nil && name != nil && text != nil) {
+	if (tokenID != nil && eventID != nil && page != nil && section != nil && position != nil && name != nil && text != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"section" : section}, @"POST" : @{@"position" : position, @"name" : name, @"text" : text}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"page" : page, @"section" : section}, @"POST" : @{@"position" : position, @"name" : name, @"text" : text}};
 
 		[self objectWithModule:@"hotsite" method:@"create" attributes:attributes];
 	}
 }
 
-- (void)editAuthenticatedAtCompany:(NSInteger)companyID withSection:(NSString *)section withKey:(NSString *)key withValue:(NSString *)value {
+- (void)createPageAuthenticatedAtCompany:(NSInteger)companyID withPage:(NSString *)page {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && section != nil && key != nil && value != nil) {
+	if (tokenID != nil && page != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"section" : section, @"key" : key}, @"POST" : @{@"value" : value}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"page" : page}};
 
-		[self objectWithModule:@"hotsite" method:@"edit" attributes:attributes];
+		[self objectWithModule:@"hotsite" method:@"createPage" attributes:attributes];
 	}
 }
 
-- (void)editAuthenticatedAtEventWithSection:(NSString *)section withKey:(NSString *)key withValue:(NSString *)value {
+- (void)createPageAuthenticatedAtEventWithPage:(NSString *)page {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && section != nil && key != nil && value != nil) {
+	if (tokenID != nil && eventID != nil && page != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"section" : section, @"key" : key}, @"POST" : @{@"value" : value}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"page" : page}};
 
-		[self objectWithModule:@"hotsite" method:@"edit" attributes:attributes];
+		[self objectWithModule:@"hotsite" method:@"createPage" attributes:attributes];
 	}
 }
 
-- (void)editAuthenticatedAtCompany:(NSInteger)companyID withSection:(NSString *)section withContent:(NSString *)content {
+- (void)editAuthenticatedAtCompany:(NSInteger)companyID withPage:(NSString *)page withSection:(NSString *)section withKey:(NSString *)key withValue:(NSString *)value {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && section != nil && content != nil) {
+	if (tokenID != nil && page != nil && section != nil && key != nil && value != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"section" : section}, @"POST" : @{@"content" : content}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"page" : page, @"section" : section, @"key" : key}, @"POST" : @{@"value" : value}};
 
 		[self objectWithModule:@"hotsite" method:@"edit" attributes:attributes];
 	}
 }
 
-- (void)editAuthenticatedAtEventWithSection:(NSString *)section withContent:(NSString *)content {
+- (void)editAuthenticatedAtEventWithPage:(NSString *)page withSection:(NSString *)section withKey:(NSString *)key withValue:(NSString *)value {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && section != nil && content != nil) {
+	if (tokenID != nil && eventID != nil && page != nil && section != nil && key != nil && value != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"section" : section}, @"POST" : @{@"content" : content}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"page" : page, @"section" : section, @"key" : key}, @"POST" : @{@"value" : value}};
 
 		[self objectWithModule:@"hotsite" method:@"edit" attributes:attributes];
 	}
 }
 
-- (void)removeAuthenticatedAtCompany:(NSInteger)companyID withSection:(NSString *)section {
+- (void)editAuthenticatedAtCompany:(NSInteger)companyID withPage:(NSString *)page withSection:(NSString *)section withContent:(NSString *)content {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && section != nil) {
+	if (tokenID != nil && page != nil && section != nil && content != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"section" : section}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"page" : page, @"section" : section}, @"POST" : @{@"content" : content}};
+
+		[self objectWithModule:@"hotsite" method:@"edit" attributes:attributes];
+	}
+}
+
+- (void)editAuthenticatedAtEventWithPage:(NSString *)page withSection:(NSString *)section withContent:(NSString *)content {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && page != nil && section != nil && content != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"page" : page, @"section" : section}, @"POST" : @{@"content" : content}};
+
+		[self objectWithModule:@"hotsite" method:@"edit" attributes:attributes];
+	}
+}
+
+- (void)removeAuthenticatedAtCompany:(NSInteger)companyID withPage:(NSString *)page withSection:(NSString *)section {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && page != nil && section != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"page" : page, @"section" : section}};
 
 		[self objectWithModule:@"hotsite" method:@"remove" attributes:attributes];
 	}
 }
 
-- (void)removeAuthenticatedAtEventWithSection:(NSString *)section {
+- (void)removeAuthenticatedAtEventWithPage:(NSString *)page withSection:(NSString *)section {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && section != nil) {
+	if (tokenID != nil && eventID != nil && page != nil && section != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"section" : section}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"page" : page, @"section" : section}};
 
 		[self objectWithModule:@"hotsite" method:@"remove" attributes:attributes];
 	}
 }
 
-- (void)findAuthenticatedAtCompany:(NSInteger)companyID {
+- (void)removePageAuthenticatedAtCompany:(NSInteger)companyID withPage:(NSString *)page {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && page != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"page" : page}};
+
+		[self objectWithModule:@"hotsite" method:@"removePage" attributes:attributes];
+	}
+}
+
+- (void)removePageAuthenticatedAtEventWithPage:(NSString *)page {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && page != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"page" : page}};
+
+		[self objectWithModule:@"hotsite" method:@"removePage" attributes:attributes];
+	}
+}
+
+- (void)findAuthenticatedAtCompany:(NSInteger)companyID withPage:(NSString *)page {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && page != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"page" : page}};
+
+		[self objectWithModule:@"hotsite" method:@"find" attributes:attributes];
+	}
+}
+
+- (void)findAuthenticatedAtEventWithPage:(NSString *)page {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && page != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"page" : page}};
+
+		[self objectWithModule:@"hotsite" method:@"find" attributes:attributes];
+	}
+}
+
+- (void)getAuthenticatedAtCompany:(NSInteger)companyID withPage:(NSString *)page withSection:(NSString *)section {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && page != nil && section != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"page" : page, @"section" : section}};
+
+		[self objectWithModule:@"hotsite" method:@"get" attributes:attributes];
+	}
+}
+
+- (void)getAuthenticatedAtEventWithPage:(NSString *)page withSection:(NSString *)section {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && page != nil && section != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"page" : page, @"section" : section}};
+
+		[self objectWithModule:@"hotsite" method:@"get" attributes:attributes];
+	}
+}
+
+- (void)getPagesAuthenticatedAtCompany:(NSInteger)companyID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
@@ -112,11 +212,11 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}};
 
-		[self objectWithModule:@"hotsite" method:@"find" attributes:attributes];
+		[self objectWithModule:@"hotsite" method:@"getPages" attributes:attributes];
 	}
 }
 
-- (void)findAuthenticatedAtEvent {
+- (void)getPagesAuthenticatedAtEvent {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
@@ -125,48 +225,61 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
 
-		[self objectWithModule:@"hotsite" method:@"find" attributes:attributes];
+		[self objectWithModule:@"hotsite" method:@"getPages" attributes:attributes];
 	}
 }
 
-- (void)getAuthenticatedAtCompany:(NSInteger)companyID withSection:(NSString *)section {
+- (void)getConfigAuthenticatedAtCompany:(NSInteger)companyID withPage:(NSString *)page {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && section != nil) {
+	if (tokenID != nil && page != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"section" : section}};
-
-		[self objectWithModule:@"hotsite" method:@"get" attributes:attributes];
-	}
-}
-
-- (void)getAuthenticatedAtEventWithSection:(NSString *)section {
-
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
-
-	if (tokenID != nil && eventID != nil && section != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"section" : section}};
-
-		[self objectWithModule:@"hotsite" method:@"get" attributes:attributes];
-	}
-}
-
-- (void)getConfigAuthenticatedAtCompany:(NSInteger)companyID {
-
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-
-	if (tokenID != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"page" : page}};
 
 		[self objectWithModule:@"hotsite" method:@"getConfig" attributes:attributes];
 	}
 }
 
-- (void)getConfigAuthenticatedAtEvent {
+- (void)getConfigAuthenticatedAtEventWithPage:(NSString *)page {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && page != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"page" : page}};
+
+		[self objectWithModule:@"hotsite" method:@"getConfig" attributes:attributes];
+	}
+}
+
+- (void)setConfigAuthenticatedAtCompany:(NSInteger)companyID withPage:(NSString *)page withKey:(NSString *)key withValue:(NSString *)value {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && page != nil && key != nil && value != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"page" : page, @"key" : key}, @"POST" : @{@"value" : value}};
+
+		[self objectWithModule:@"hotsite" method:@"setConfig" attributes:attributes];
+	}
+}
+
+- (void)setConfigAuthenticatedAtEventWithPage:(NSString *)page withKey:(NSString *)key withValue:(NSString *)value {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && page != nil && key != nil && value != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"page" : page, @"key" : key}, @"POST" : @{@"value" : value}};
+
+		[self objectWithModule:@"hotsite" method:@"setConfig" attributes:attributes];
+	}
+}
+
+- (void)rebuildAuthenticatedAtEvent {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
@@ -175,32 +288,7 @@
 
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
 
-		[self objectWithModule:@"hotsite" method:@"getConfig" attributes:attributes];
-	}
-}
-
-- (void)setConfigAuthenticatedAtCompany:(NSInteger)companyID withKey:(NSString *)key withValue:(NSString *)value {
-
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-
-	if (tokenID != nil && key != nil && value != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"key" : key}, @"POST" : @{@"value" : value}};
-
-		[self objectWithModule:@"hotsite" method:@"setConfig" attributes:attributes];
-	}
-}
-
-- (void)setConfigAuthenticatedAtEventWithKey:(NSString *)key withValue:(NSString *)value {
-
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
-
-	if (tokenID != nil && eventID != nil && key != nil && value != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"key" : key}, @"POST" : @{@"value" : value}};
-
-		[self objectWithModule:@"hotsite" method:@"setConfig" attributes:attributes];
+		[self objectWithModule:@"hotsite" method:@"rebuild" attributes:attributes];
 	}
 }
 

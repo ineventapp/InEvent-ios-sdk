@@ -78,14 +78,14 @@
 	}
 }
 
-- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection {
+- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection withOrder:(NSString *)order withWithAnalytics:(NSString *)withAnalytics withAutomaticEmails:(NSString *)automaticEmails withPaginated:(NSString *)paginated withQuery:(NSString *)query {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && selection != nil) {
+	if (tokenID != nil && eventID != nil && selection != nil && order != nil && withAnalytics != nil && automaticEmails != nil && paginated != nil && query != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection, @"order" : order, @"withAnalytics" : withAnalytics, @"automaticEmails" : automaticEmails, @"paginated" : paginated, @"query" : query}};
 
 		[self objectWithModule:@"list.email" method:@"find" attributes:attributes];
 	}
@@ -112,6 +112,18 @@
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"listEmailID" : [NSString stringWithFormat:@"%ld", (long)listEmailID]}};
 
 		[self objectWithModule:@"list.email" method:@"send" attributes:attributes];
+	}
+}
+
+- (void)sendEmailsNotSentAuthenticatedAtListEmail:(NSInteger)listEmailID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"listEmailID" : [NSString stringWithFormat:@"%ld", (long)listEmailID]}};
+
+		[self objectWithModule:@"list.email" method:@"sendEmailsNotSent" attributes:attributes];
 	}
 }
 
@@ -148,6 +160,18 @@
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"listEmailID" : [NSString stringWithFormat:@"%ld", (long)listEmailID]}};
 
 		[self objectWithModule:@"list.email" method:@"stats" attributes:attributes];
+	}
+}
+
+- (void)emailsNotSentAuthenticatedAtListEmail:(NSInteger)listEmailID withCount:(NSString *)count {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && count != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"listEmailID" : [NSString stringWithFormat:@"%ld", (long)listEmailID], @"count" : count}};
+
+		[self objectWithModule:@"list.email" method:@"emailsNotSent" attributes:attributes];
 	}
 }
 

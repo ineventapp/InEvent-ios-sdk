@@ -4,26 +4,26 @@
 
 #pragma mark - Form
 
-- (void)createAuthenticatedAtCompany:(NSInteger)companyID withTitle:(NSString *)title withType:(NSString *)type withDescription:(NSString *)description {
+- (void)createAuthenticatedAtCompany:(NSInteger)companyID atSyncList:(NSInteger)syncListID withTitle:(NSString *)title withType:(NSString *)type withDescription:(NSString *)description {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
 	if (tokenID != nil && title != nil && type != nil && description != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"title" : title, @"type" : type, @"description" : description}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"syncListID" : [NSString stringWithFormat:@"%ld", (long)syncListID]}, @"POST" : @{@"title" : title, @"type" : type, @"description" : description}};
 
 		[self objectWithModule:@"form" method:@"create" attributes:attributes];
 	}
 }
 
-- (void)createAuthenticatedAtEventWithTitle:(NSString *)title withDescription:(NSString *)description {
+- (void)createAuthenticatedAtEventAtSyncList:(NSInteger)syncListID withTitle:(NSString *)title withDescription:(NSString *)description withComplementRegistration:(NSString *)complementRegistration {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && title != nil && description != nil) {
+	if (tokenID != nil && eventID != nil && title != nil && description != nil && complementRegistration != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"title" : title, @"description" : description}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"syncListID" : [NSString stringWithFormat:@"%ld", (long)syncListID]}, @"POST" : @{@"title" : title, @"description" : description, @"complementRegistration" : complementRegistration}};
 
 		[self objectWithModule:@"form" method:@"create" attributes:attributes];
 	}
@@ -53,64 +53,64 @@
 	}
 }
 
-- (void)findAuthenticatedAtCompany:(NSInteger)companyID withSelection:(NSString *)selection withComplementRegistration:(NSString *)complementRegistration {
+- (void)findAuthenticatedAtCompany:(NSInteger)companyID withSelection:(NSString *)selection withComplementRegistration:(NSString *)complementRegistration withListing:(NSString *)listing withStatus:(NSString *)status {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && selection != nil && complementRegistration != nil) {
+	if (tokenID != nil && selection != nil && complementRegistration != nil && listing != nil && status != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"selection" : selection, @"complementRegistration" : complementRegistration}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"selection" : selection, @"complementRegistration" : complementRegistration, @"listing" : listing, @"status" : status}};
 
 		[self objectWithModule:@"form" method:@"find" attributes:attributes];
 	}
 }
 
-- (void)findAuthenticatedAtEventWithComplementRegistration:(NSString *)complementRegistration {
+- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection withComplementRegistration:(NSString *)complementRegistration withListing:(NSString *)listing withStatus:(NSString *)status {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && complementRegistration != nil) {
+	if (tokenID != nil && eventID != nil && selection != nil && complementRegistration != nil && listing != nil && status != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"complementRegistration" : complementRegistration}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection, @"complementRegistration" : complementRegistration, @"listing" : listing, @"status" : status}};
 
 		[self objectWithModule:@"form" method:@"find" attributes:attributes];
 	}
 }
 
-- (void)getAuthenticatedAtForm:(NSInteger)formID {
+- (void)getAuthenticatedAtForm:(NSInteger)formID withListing:(NSString *)listing {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil) {
+	if (tokenID != nil && listing != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"formID" : [NSString stringWithFormat:@"%ld", (long)formID]}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"formID" : [NSString stringWithFormat:@"%ld", (long)formID], @"listing" : listing}};
 
 		[self objectWithModule:@"form" method:@"get" attributes:attributes];
 	}
 }
 
-- (void)respondRegistrationAuthenticatedAtEventAtTicketPerson:(NSInteger)ticketPersonID withTicketToken:(NSString *)ticketToken withFeedbackContent:(NSString *)feedbackContent withEmail:(NSString *)email withUsername:(NSString *)username withFirstName:(NSString *)firstName withLastName:(NSString *)lastName withPassword:(NSString *)password withRole:(NSString *)role withCompany:(NSString *)company withGuestContent:(NSString *)guestContent withActivities:(NSString *)activities {
+- (void)respondRegistrationAuthenticatedAtEventWithLogin:(NSString *)login atTicketPerson:(NSInteger)ticketPersonID withTicketToken:(NSString *)ticketToken withInvite:(NSString *)invite withFeedbackContent:(NSString *)feedbackContent withEmail:(NSString *)email withAssistantEmail:(NSString *)assistantEmail withUsername:(NSString *)username withSalutation:(NSString *)salutation withFirstName:(NSString *)firstName withLastName:(NSString *)lastName withPassword:(NSString *)password withRole:(NSString *)role withCompany:(NSString *)company withWebsite:(NSString *)website withTelephone:(NSString *)telephone withImage:(NSString *)image withPrivate:(NSString *)private withGuestContent:(NSString *)guestContent withActivities:(NSString *)activities atTags:(NSInteger)tagIDs {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && ticketToken != nil && feedbackContent != nil && email != nil && username != nil && firstName != nil && lastName != nil && password != nil && role != nil && company != nil && guestContent != nil && activities != nil) {
+	if (tokenID != nil && eventID != nil && login != nil && ticketToken != nil && invite != nil && feedbackContent != nil && email != nil && assistantEmail != nil && username != nil && salutation != nil && firstName != nil && lastName != nil && password != nil && role != nil && company != nil && website != nil && telephone != nil && image != nil && private != nil && guestContent != nil && activities != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"ticketPersonID" : [NSString stringWithFormat:@"%ld", (long)ticketPersonID]}, @"POST" : @{@"ticketToken" : ticketToken, @"feedbackContent" : feedbackContent, @"email" : email, @"username" : username, @"firstName" : firstName, @"lastName" : lastName, @"password" : password, @"role" : role, @"company" : company, @"guestContent" : guestContent, @"activities" : activities}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"login" : login, @"ticketPersonID" : [NSString stringWithFormat:@"%ld", (long)ticketPersonID]}, @"POST" : @{@"ticketToken" : ticketToken, @"invite" : invite, @"feedbackContent" : feedbackContent, @"email" : email, @"assistantEmail" : assistantEmail, @"username" : username, @"salutation" : salutation, @"firstName" : firstName, @"lastName" : lastName, @"password" : password, @"role" : role, @"company" : company, @"website" : website, @"telephone" : telephone, @"image" : image, @"private" : private, @"guestContent" : guestContent, @"activities" : activities, @"tagIDs" : [NSString stringWithFormat:@"%ld", (long)tagIDs]}};
 
 		[self objectWithModule:@"form" method:@"respondRegistration" attributes:attributes];
 	}
 }
 
-- (void)respondRegistrationAuthenticatedAtEventWithFeedbackContent:(NSString *)feedbackContent withInvite:(NSString *)invite withEmail:(NSString *)email withUsername:(NSString *)username withFirstName:(NSString *)firstName withLastName:(NSString *)lastName withPassword:(NSString *)password withRole:(NSString *)role withCompany:(NSString *)company withRsvp:(NSString *)rsvp withGuestContent:(NSString *)guestContent withActivities:(NSString *)activities {
+- (void)respondRegistrationAuthenticatedAtEventWithLogin:(NSString *)login withFeedbackContent:(NSString *)feedbackContent withInvite:(NSString *)invite withEmail:(NSString *)email withAssistantEmail:(NSString *)assistantEmail withUsername:(NSString *)username withSalutation:(NSString *)salutation withFirstName:(NSString *)firstName withLastName:(NSString *)lastName withPassword:(NSString *)password withRole:(NSString *)role withCompany:(NSString *)company withWebsite:(NSString *)website withTelephone:(NSString *)telephone withImage:(NSString *)image withRsvp:(NSString *)rsvp withPrivate:(NSString *)private withGuestContent:(NSString *)guestContent withActivities:(NSString *)activities atTags:(NSInteger)tagIDs {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && feedbackContent != nil && invite != nil && email != nil && username != nil && firstName != nil && lastName != nil && password != nil && role != nil && company != nil && rsvp != nil && guestContent != nil && activities != nil) {
+	if (tokenID != nil && login != nil && eventID != nil && feedbackContent != nil && invite != nil && email != nil && assistantEmail != nil && username != nil && salutation != nil && firstName != nil && lastName != nil && password != nil && role != nil && company != nil && website != nil && telephone != nil && image != nil && rsvp != nil && private != nil && guestContent != nil && activities != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"feedbackContent" : feedbackContent, @"invite" : invite, @"email" : email, @"username" : username, @"firstName" : firstName, @"lastName" : lastName, @"password" : password, @"role" : role, @"company" : company, @"rsvp" : rsvp, @"guestContent" : guestContent, @"activities" : activities}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"login" : login, @"eventID" : eventID}, @"POST" : @{@"feedbackContent" : feedbackContent, @"invite" : invite, @"email" : email, @"assistantEmail" : assistantEmail, @"username" : username, @"salutation" : salutation, @"firstName" : firstName, @"lastName" : lastName, @"password" : password, @"role" : role, @"company" : company, @"website" : website, @"telephone" : telephone, @"image" : image, @"rsvp" : rsvp, @"private" : private, @"guestContent" : guestContent, @"activities" : activities, @"tagIDs" : [NSString stringWithFormat:@"%ld", (long)tagIDs]}};
 
 		[self objectWithModule:@"form" method:@"respondRegistration" attributes:attributes];
 	}

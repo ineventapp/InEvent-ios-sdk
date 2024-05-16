@@ -4,14 +4,14 @@
 
 #pragma mark - Trigger
 
-- (void)createAuthenticatedAtEventWithActionType:(NSString *)actionType atAction:(NSInteger)actionID withReactionType:(NSString *)reactionType atReaction:(NSInteger)reactionID {
+- (void)createAuthenticatedAtEventWithActionType:(NSString *)actionType atAction:(NSInteger)actionID withReactionType:(NSString *)reactionType atReaction:(NSInteger)reactionID withReactionDelay:(NSString *)reactionDelay {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && actionType != nil && reactionType != nil) {
+	if (tokenID != nil && eventID != nil && actionType != nil && reactionType != nil && reactionDelay != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"actionType" : actionType, @"actionID" : [NSString stringWithFormat:@"%ld", (long)actionID], @"reactionType" : reactionType, @"reactionID" : [NSString stringWithFormat:@"%ld", (long)reactionID]}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"actionType" : actionType, @"actionID" : [NSString stringWithFormat:@"%ld", (long)actionID], @"reactionType" : reactionType, @"reactionID" : [NSString stringWithFormat:@"%ld", (long)reactionID], @"reactionDelay" : reactionDelay}};
 
 		[self objectWithModule:@"trigger" method:@"create" attributes:attributes];
 	}
@@ -42,14 +42,14 @@
 	}
 }
 
-- (void)findAuthenticatedAtEvent {
+- (void)findAuthenticatedAtEventWithFilterAction:(NSString *)filterAction atFilterAction:(NSInteger)filterActionID withFilterReaction:(NSString *)filterReaction atFilterReaction:(NSInteger)filterReactionID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil) {
+	if (tokenID != nil && eventID != nil && filterAction != nil && filterReaction != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"filterAction" : filterAction, @"filterActionID" : [NSString stringWithFormat:@"%ld", (long)filterActionID], @"filterReaction" : filterReaction, @"filterReactionID" : [NSString stringWithFormat:@"%ld", (long)filterReactionID]}};
 
 		[self objectWithModule:@"trigger" method:@"find" attributes:attributes];
 	}

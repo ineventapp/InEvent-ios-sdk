@@ -4,13 +4,13 @@
 
 #pragma mark - Tag
 
-- (void)createAuthenticatedAtCompany:(NSInteger)companyID withName:(NSString *)name withColor:(NSString *)color {
+- (void)createAuthenticatedAtCompany:(NSInteger)companyID withName:(NSString *)name withColor:(NSString *)color withCategory:(NSString *)category withCategoryType:(NSString *)categoryType {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && name != nil && color != nil) {
+	if (tokenID != nil && name != nil && color != nil && category != nil && categoryType != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"name" : name, @"color" : color}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"name" : name, @"color" : color, @"category" : category, @"categoryType" : categoryType}};
 
 		[self objectWithModule:@"tag" method:@"create" attributes:attributes];
 	}
@@ -29,13 +29,14 @@
 	}
 }
 
-- (void)editAuthenticatedAtTag:(NSInteger)tagID withKey:(NSString *)key withValue:(NSString *)value {
+- (void)editAuthenticatedAtEventAtTag:(NSInteger)tagID withKey:(NSString *)key withValue:(NSString *)value withCategoryType:(NSString *)categoryType {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && key != nil && value != nil) {
+	if (tokenID != nil && eventID != nil && key != nil && value != nil && categoryType != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"tagID" : [NSString stringWithFormat:@"%ld", (long)tagID], @"key" : key}, @"POST" : @{@"value" : value}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"tagID" : [NSString stringWithFormat:@"%ld", (long)tagID], @"key" : key}, @"POST" : @{@"value" : value, @"categoryType" : categoryType}};
 
 		[self objectWithModule:@"tag" method:@"edit" attributes:attributes];
 	}
@@ -87,6 +88,19 @@
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"tagID" : [NSString stringWithFormat:@"%ld", (long)tagID]}};
 
 		[self objectWithModule:@"tag" method:@"get" attributes:attributes];
+	}
+}
+
+- (void)getCategoriesAuthenticatedAtEventWithCategoryType:(NSString *)categoryType {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && categoryType != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"categoryType" : categoryType}};
+
+		[self objectWithModule:@"tag" method:@"getCategories" attributes:attributes];
 	}
 }
 

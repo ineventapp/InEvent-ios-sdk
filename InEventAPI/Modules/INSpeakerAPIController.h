@@ -4,7 +4,7 @@
 @interface INSpeakerAPIController : INAPIController
 
 #pragma mark - Speaker
-- (void)createAuthenticatedAtEventWithName:(NSString *)name withHeadline:(NSString *)headline withImage:(NSString *)image;
+- (void)createAuthenticatedAtEventWithName:(NSString *)name withHeadline:(NSString *)headline withImage:(NSString *)image withIgnoreCache:(NSString *)ignoreCache;
 - (void)createAuthenticatedAtEventWithPath:(NSString *)path;
 - (void)editAuthenticatedAtSpeaker:(NSInteger)speakerID withKey:(NSString *)key withValue:(NSString *)value;
 - (void)removeAuthenticatedAtSpeaker:(NSInteger)speakerID;

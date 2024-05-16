@@ -52,13 +52,25 @@
 	}
 }
 
+- (void)getAuthenticatedAtCompany:(NSInteger)companyID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}};
+
+		[self objectWithModule:@"company.person" method:@"get" attributes:attributes];
+	}
+}
+
 - (void)syncAuthenticated {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
 	if (tokenID != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, }};
 
 		[self objectWithModule:@"company.person" method:@"sync" attributes:attributes];
 	}

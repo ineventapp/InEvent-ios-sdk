@@ -29,4 +29,16 @@
 	}
 }
 
+- (void)transferAuthenticatedAtCompany:(NSInteger)companyID atDestCompany:(NSInteger)destCompanyID withDestProduct:(NSString *)destProduct withDestAmount:(NSString *)destAmount {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && destProduct != nil && destAmount != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"destCompanyID" : [NSString stringWithFormat:@"%ld", (long)destCompanyID]}, @"POST" : @{@"destProduct" : destProduct, @"destAmount" : destAmount}};
+
+		[self objectWithModule:@"billing" method:@"transfer" attributes:attributes];
+	}
+}
+
 @end

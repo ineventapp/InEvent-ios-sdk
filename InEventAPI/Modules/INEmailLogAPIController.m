@@ -29,4 +29,16 @@
 	}
 }
 
+- (void)setConversionAuthenticatedAtEmailLog:(NSInteger)emailLogID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, }, @"POST" : @{@"emailLogID" : [NSString stringWithFormat:@"%ld", (long)emailLogID]}};
+
+		[self objectWithModule:@"email.log" method:@"setConversion" attributes:attributes];
+	}
+}
+
 @end

@@ -53,14 +53,14 @@
 	}
 }
 
-- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection {
+- (void)findAuthenticatedAtEventForPerson:(NSInteger)personID withSelection:(NSString *)selection {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
 	if (tokenID != nil && eventID != nil && selection != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID], @"selection" : selection}};
 
 		[self objectWithModule:@"list" method:@"find" attributes:attributes];
 	}

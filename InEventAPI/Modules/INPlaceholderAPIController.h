@@ -10,4 +10,5 @@
 - (void)findAtCompany:(NSInteger)companyID;
 - (void)findAtEvent;
 - (void)getAuthenticatedAtPlaceholder:(NSInteger)placeholderID;
+- (void)getAuthenticatedAtEventWithType:(NSString *)type;
 @end

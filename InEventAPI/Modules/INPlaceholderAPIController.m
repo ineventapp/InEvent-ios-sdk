@@ -74,4 +74,17 @@
 	}
 }
 
+- (void)getAuthenticatedAtEventWithType:(NSString *)type {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && type != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"type" : type}};
+
+		[self objectWithModule:@"placeholder" method:@"get" attributes:attributes];
+	}
+}
+
 @end

@@ -89,6 +89,19 @@
 	}
 }
 
+- (void)getListsAuthenticatedAtEventWithAllLists:(NSString *)allLists {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && allLists != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"allLists" : allLists}};
+
+		[self objectWithModule:@"marketo" method:@"getLists" attributes:attributes];
+	}
+}
+
 - (void)getTagsAuthenticatedAtCompany:(NSInteger)companyID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
@@ -107,7 +120,7 @@
 
 	if (tokenID != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, }};
 
 		[self objectWithModule:@"marketo" method:@"getTypes" attributes:attributes];
 	}
@@ -125,6 +138,18 @@
 	}
 }
 
+- (void)getProgramAuthenticatedAtCompany:(NSInteger)companyID withProgramId:(NSString *)programId {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && programId != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"programId" : programId}};
+
+		[self objectWithModule:@"marketo" method:@"getProgram" attributes:attributes];
+	}
+}
+
 - (void)importAuthenticatedAtEventAtMktList:(NSInteger)mktListID withTarget:(NSString *)target atTarget:(NSInteger)targetID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
@@ -135,6 +160,31 @@
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"mktListID" : [NSString stringWithFormat:@"%ld", (long)mktListID], @"target" : target, @"targetID" : [NSString stringWithFormat:@"%ld", (long)targetID]}};
 
 		[self objectWithModule:@"marketo" method:@"import" attributes:attributes];
+	}
+}
+
+- (void)exportAuthenticatedAtEventAtMktList:(NSInteger)mktListID withTarget:(NSString *)target atTarget:(NSInteger)targetID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && target != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"mktListID" : [NSString stringWithFormat:@"%ld", (long)mktListID], @"target" : target, @"targetID" : [NSString stringWithFormat:@"%ld", (long)targetID]}};
+
+		[self objectWithModule:@"marketo" method:@"export" attributes:attributes];
+	}
+}
+
+- (void)syncAvailableFieldsAuthenticatedAtCompany:(NSInteger)companyID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}};
+
+		[self objectWithModule:@"marketo" method:@"syncAvailableFields" attributes:attributes];
 	}
 }
 

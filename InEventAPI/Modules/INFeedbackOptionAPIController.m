@@ -4,13 +4,13 @@
 
 #pragma mark - FeedbackOption
 
-- (void)createAuthenticatedAtFeedback:(NSInteger)feedbackID withTextPT:(NSString *)textPT withTextEN:(NSString *)textEN withTextES:(NSString *)textES {
+- (void)createAuthenticatedAtFeedback:(NSInteger)feedbackID withText:(NSString *)text withMultiLines:(NSString *)multiLines {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && textPT != nil && textEN != nil && textES != nil) {
+	if (tokenID != nil && text != nil && multiLines != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"feedbackID" : [NSString stringWithFormat:@"%ld", (long)feedbackID]}, @"POST" : @{@"textPT" : textPT, @"textEN" : textEN, @"textES" : textES}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"feedbackID" : [NSString stringWithFormat:@"%ld", (long)feedbackID]}, @"POST" : @{@"text" : text, @"multiLines" : multiLines}};
 
 		[self objectWithModule:@"feedback.option" method:@"create" attributes:attributes];
 	}

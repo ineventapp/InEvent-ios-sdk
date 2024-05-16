@@ -54,14 +54,14 @@
 	}
 }
 
-- (void)findAuthenticatedAtEvent {
+- (void)findAuthenticatedAtEventWithPaginated:(NSString *)paginated atChain:(NSInteger)chainID withQuery:(NSString *)query {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil) {
+	if (tokenID != nil && eventID != nil && paginated != nil && query != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"paginated" : paginated, @"chainID" : [NSString stringWithFormat:@"%ld", (long)chainID], @"query" : query}};
 
 		[self objectWithModule:@"ticket" method:@"find" attributes:attributes];
 	}
@@ -91,14 +91,14 @@
 	}
 }
 
-- (void)payAuthenticatedAtEventWithContent:(NSString *)content {
+- (void)payAuthenticatedAtEventWithContent:(NSString *)content withSession_nounce:(NSString *)session_nounce {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && content != nil) {
+	if (tokenID != nil && eventID != nil && content != nil && session_nounce != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"content" : content}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"content" : content, @"session_nounce" : session_nounce}};
 
 		[self objectWithModule:@"ticket" method:@"pay" attributes:attributes];
 	}

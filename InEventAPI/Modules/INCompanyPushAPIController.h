@@ -4,7 +4,7 @@
 @interface INCompanyPushAPIController : INAPIController
 
 #pragma mark - CompanyPush
-- (void)bindAuthenticatedAtCompany:(NSInteger)companyID withAndroidKey:(NSString *)androidKey withIosPath:(NSString *)iosPath;
+- (void)editAuthenticatedAtCompany:(NSInteger)companyID withKey:(NSString *)key withValue:(NSString *)value;
 - (void)dismissAuthenticatedAtCompany:(NSInteger)companyID;
 - (void)findAuthenticatedAtCompany:(NSInteger)companyID;
 @end

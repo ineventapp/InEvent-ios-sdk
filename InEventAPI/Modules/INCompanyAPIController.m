@@ -4,25 +4,13 @@
 
 #pragma mark - Company
 
-- (void)createAuthenticatedWithCode:(NSString *)code withPlan:(NSString *)plan withCompanyName:(NSString *)companyName withAppIcon:(NSString *)appIcon withNotes:(NSString *)notes {
+- (void)createAuthenticatedWithPlan:(NSString *)plan withCompanyName:(NSString *)companyName withAppIcon:(NSString *)appIcon withRegion:(NSString *)region {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && code != nil && plan != nil && companyName != nil && appIcon != nil && notes != nil) {
+	if (tokenID != nil && plan != nil && companyName != nil && appIcon != nil && region != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"code" : code, @"plan" : plan, @"companyName" : companyName, @"appIcon" : appIcon, @"notes" : notes}};
-
-		[self objectWithModule:@"company" method:@"create" attributes:attributes];
-	}
-}
-
-- (void)createAuthenticatedWithPlan:(NSString *)plan withCompanyName:(NSString *)companyName withAppIcon:(NSString *)appIcon {
-
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-
-	if (tokenID != nil && plan != nil && companyName != nil && appIcon != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"plan" : plan, @"companyName" : companyName, @"appIcon" : appIcon}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, }, @"POST" : @{@"plan" : plan, @"companyName" : companyName, @"appIcon" : appIcon, @"region" : region}};
 
 		[self objectWithModule:@"company" method:@"create" attributes:attributes];
 	}
@@ -34,7 +22,7 @@
 
 	if (tokenID != nil && path != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"path" : path}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, }, @"POST" : @{@"path" : path}};
 
 		[self objectWithModule:@"company" method:@"create" attributes:attributes];
 	}
@@ -150,6 +138,18 @@
 		NSDictionary *attributes = @{@"GET" : @{@"onboardingToken" : onboardingToken}};
 
 		[self objectWithModule:@"company" method:@"get" attributes:attributes];
+	}
+}
+
+- (void)getColorsAuthenticatedAtCompany:(NSInteger)companyID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}};
+
+		[self objectWithModule:@"company" method:@"getColors" attributes:attributes];
 	}
 }
 

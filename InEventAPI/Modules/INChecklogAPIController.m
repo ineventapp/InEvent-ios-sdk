@@ -95,14 +95,14 @@
 	}
 }
 
-- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection withQuery:(NSString *)query {
+- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection withKey:(NSString *)key withQuery:(NSString *)query withSort:(NSString *)sort withSortDirection:(NSString *)sortDirection {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && selection != nil && query != nil) {
+	if (tokenID != nil && eventID != nil && selection != nil && key != nil && query != nil && sort != nil && sortDirection != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection, @"query" : query}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection, @"key" : key, @"query" : query, @"sort" : sort, @"sortDirection" : sortDirection}};
 
 		[self objectWithModule:@"checklog" method:@"find" attributes:attributes];
 	}

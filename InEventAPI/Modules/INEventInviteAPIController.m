@@ -69,19 +69,6 @@
 	}
 }
 
-- (void)getAuthenticatedAtEventWithEmail:(NSString *)email {
-
-	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
-	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
-
-	if (tokenID != nil && eventID != nil && email != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"email" : email}};
-
-		[self objectWithModule:@"event.invite" method:@"get" attributes:attributes];
-	}
-}
-
 - (void)getAuthenticatedAtEventForPerson:(NSInteger)personID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
@@ -95,13 +82,13 @@
 	}
 }
 
-- (void)getAtEventWithEmail:(NSString *)email {
+- (void)getAtEventWithEmail:(NSString *)email withTracking:(NSString *)tracking {
 
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (eventID != nil && email != nil) {
+	if (eventID != nil && email != nil && tracking != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID, @"email" : email}};
+		NSDictionary *attributes = @{@"GET" : @{@"eventID" : eventID, @"email" : email, @"tracking" : tracking}};
 
 		[self objectWithModule:@"event.invite" method:@"get" attributes:attributes];
 	}

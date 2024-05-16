@@ -39,4 +39,17 @@
 	}
 }
 
+- (void)generateUploadUrlAuthenticatedAtEventWithFilename:(NSString *)filename withContentType:(NSString *)contentType {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && filename != nil && contentType != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"filename" : filename, @"contentType" : contentType}};
+
+		[self objectWithModule:@"file" method:@"generateUploadUrl" attributes:attributes];
+	}
+}
+
 @end

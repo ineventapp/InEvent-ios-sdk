@@ -4,7 +4,9 @@
 @interface INEventBookingAPIController : INAPIController
 
 #pragma mark - EventBooking
-- (void)createAuthenticatedAtEventWithName:(NSString *)name withEmail:(NSString *)email withTelephone:(NSString *)telephone withCompany:(NSString *)company withDataCollectors:(NSString *)dataCollectors withLiveSupport:(NSString *)liveSupport withExtraPhone:(NSString *)extraPhone withExtraLive:(NSString *)extraLive withAutomaticReport:(NSString *)automaticReport withBeacons:(NSString *)beacons withPricing:(NSString *)pricing;
-- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection withQuery:(NSString *)query;
-- (void)getAuthenticatedAtEventWithValue:(NSString *)value;
+- (void)createAuthenticatedAtCompany:(NSInteger)companyID withName:(NSString *)name withTimezone:(NSString *)timezone withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd withEventFields:(NSString *)eventFields withExtras:(NSString *)extras atTemplate:(NSInteger)templateID atForCompany:(NSInteger)forCompanyID atForm:(NSInteger)formID;
+- (void)editAuthenticatedAtCompany:(NSInteger)companyID atEventBooking:(NSInteger)eventBookingID withKey:(NSString *)key withValue:(NSString *)value;
+- (void)authorizeAuthenticatedAtCompany:(NSInteger)companyID atEventBooking:(NSInteger)eventBookingID atTemplate:(NSInteger)templateID atSibling:(NSInteger)siblingID;
+- (void)rejectAuthenticatedAtEventBooking:(NSInteger)eventBookingID withMessage:(NSString *)message;
+- (void)assignOwnerAuthenticatedAtEventBooking:(NSInteger)eventBookingID forPerson:(NSInteger)personID;
 @end

@@ -90,14 +90,14 @@
 	}
 }
 
-- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection {
+- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection withSort:(NSString *)sort withSortDirection:(NSString *)sortDirection {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
 
-	if (tokenID != nil && eventID != nil && selection != nil) {
+	if (tokenID != nil && eventID != nil && selection != nil && sort != nil && sortDirection != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"selection" : selection, @"sort" : sort, @"sortDirection" : sortDirection}};
 
 		[self objectWithModule:@"news" method:@"find" attributes:attributes];
 	}

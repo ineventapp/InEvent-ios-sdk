@@ -16,6 +16,18 @@
 	}
 }
 
+- (void)editAuthenticatedAtQuiz:(NSInteger)quizID atQuizOption:(NSInteger)quizOptionID withKey:(NSString *)key withValue:(NSString *)value {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && key != nil && value != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"quizID" : [NSString stringWithFormat:@"%ld", (long)quizID], @"quizOptionID" : [NSString stringWithFormat:@"%ld", (long)quizOptionID], @"key" : key}, @"POST" : @{@"value" : value}};
+
+		[self objectWithModule:@"quiz.option" method:@"edit" attributes:attributes];
+	}
+}
+
 - (void)removeAuthenticatedAtQuizOption:(NSInteger)quizOptionID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];

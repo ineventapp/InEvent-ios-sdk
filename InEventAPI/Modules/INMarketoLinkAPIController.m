@@ -104,4 +104,67 @@
 	}
 }
 
+- (void)syncTokensAuthenticatedAtMarketoLink:(NSInteger)marketoLinkID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"marketoLinkID" : [NSString stringWithFormat:@"%ld", (long)marketoLinkID]}};
+
+		[self objectWithModule:@"marketo.link" method:@"syncTokens" attributes:attributes];
+	}
+}
+
+- (void)syncStatusesAuthenticatedAtMarketoLink:(NSInteger)marketoLinkID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"marketoLinkID" : [NSString stringWithFormat:@"%ld", (long)marketoLinkID]}};
+
+		[self objectWithModule:@"marketo.link" method:@"syncStatuses" attributes:attributes];
+	}
+}
+
+- (void)setActivitySyncAuthenticatedAtEventWithActive:(NSString *)active {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && active != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"active" : active}};
+
+		[self objectWithModule:@"marketo.link" method:@"setActivitySync" attributes:attributes];
+	}
+}
+
+- (void)setActivitySyncForActivityAuthenticatedAtEventAtActivity:(NSInteger)activityID withActive:(NSString *)active {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && active != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID], @"active" : active}};
+
+		[self objectWithModule:@"marketo.link" method:@"setActivitySyncForActivity" attributes:attributes];
+	}
+}
+
+- (void)syncActivityAuthenticatedAtEventAtActivity:(NSInteger)activityID {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID]}};
+
+		[self objectWithModule:@"marketo.link" method:@"syncActivity" attributes:attributes];
+	}
+}
+
 @end

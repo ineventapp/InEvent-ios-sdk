@@ -8,5 +8,5 @@
 - (void)editAuthenticatedAtEventAtSponsorCategory:(NSInteger)sponsorCategoryID withKey:(NSString *)key withValue:(NSString *)value;
 - (void)removeAuthenticatedAtEventAtSponsorCategory:(NSInteger)sponsorCategoryID;
 - (void)getAuthenticatedAtEventWithName:(NSString *)name;
-- (void)findAuthenticatedAtEvent;
+- (void)findAuthenticatedAtEventWithExhibitor:(NSString *)exhibitor;
 @end

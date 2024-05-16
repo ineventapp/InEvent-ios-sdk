@@ -76,6 +76,18 @@
 	}
 }
 
+- (void)operateAuthenticatedAtList:(NSInteger)listID withKey:(NSString *)key forPerson:(NSInteger)personID withValue:(NSString *)value {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && key != nil && value != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"listID" : [NSString stringWithFormat:@"%ld", (long)listID], @"key" : key, @"personID" : [NSString stringWithFormat:@"%ld", (long)personID]}, @"POST" : @{@"value" : value}};
+
+		[self objectWithModule:@"list.person" method:@"operate" attributes:attributes];
+	}
+}
+
 - (void)dismissAuthenticatedAtList:(NSInteger)listID forPerson:(NSInteger)personID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
@@ -100,13 +112,13 @@
 	}
 }
 
-- (void)findAuthenticatedAtList:(NSInteger)listID withQuery:(NSString *)query withSort:(NSString *)sort withOrder:(NSString *)order {
+- (void)findAuthenticatedAtList:(NSInteger)listID withQuery:(NSString *)query withSort:(NSString *)sort withOrder:(NSString *)order withFillGaps:(NSString *)fillGaps {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && query != nil && sort != nil && order != nil) {
+	if (tokenID != nil && query != nil && sort != nil && order != nil && fillGaps != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"listID" : [NSString stringWithFormat:@"%ld", (long)listID], @"query" : query, @"sort" : sort, @"order" : order}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"listID" : [NSString stringWithFormat:@"%ld", (long)listID], @"query" : query, @"sort" : sort, @"order" : order, @"fillGaps" : fillGaps}};
 
 		[self objectWithModule:@"list.person" method:@"find" attributes:attributes];
 	}

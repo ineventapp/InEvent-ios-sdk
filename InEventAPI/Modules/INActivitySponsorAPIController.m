@@ -16,6 +16,18 @@
 	}
 }
 
+- (void)operateAuthenticatedAtActivity:(NSInteger)activityID atSponsor:(NSInteger)sponsorID withKey:(NSString *)key withValue:(NSString *)value {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && key != nil && value != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"activityID" : [NSString stringWithFormat:@"%ld", (long)activityID], @"sponsorID" : [NSString stringWithFormat:@"%ld", (long)sponsorID], @"key" : key}, @"POST" : @{@"value" : value}};
+
+		[self objectWithModule:@"activity.sponsor" method:@"operate" attributes:attributes];
+	}
+}
+
 - (void)dismissAuthenticatedAtActivity:(NSInteger)activityID atSponsor:(NSInteger)sponsorID {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];

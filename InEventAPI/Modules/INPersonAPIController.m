@@ -45,7 +45,7 @@
 
 	if (tokenID != nil && content != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"content" : content}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, }, @"POST" : @{@"content" : content}};
 
 		[self objectWithModule:@"person" method:@"edit" attributes:attributes];
 	}
@@ -160,7 +160,7 @@
 
 	if (tokenID != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, }};
 
 		[self objectWithModule:@"person" method:@"disableTwoFactor" attributes:attributes];
 	}
@@ -172,7 +172,7 @@
 
 	if (tokenID != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, }};
 
 		[self objectWithModule:@"person" method:@"requestTrial" attributes:attributes];
 	}
@@ -232,7 +232,7 @@
 
 	if (tokenID != nil && oldPassword != nil && newPassword != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"oldPassword" : oldPassword, @"newPassword" : newPassword}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, }, @"POST" : @{@"oldPassword" : oldPassword, @"newPassword" : newPassword}};
 
 		[self objectWithModule:@"person" method:@"changePassword" attributes:attributes];
 	}
@@ -244,7 +244,7 @@
 
 	if (tokenID != nil && newPassword != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"newPassword" : newPassword}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, }, @"POST" : @{@"newPassword" : newPassword}};
 
 		[self objectWithModule:@"person" method:@"changePassword" attributes:attributes];
 	}
@@ -292,7 +292,7 @@
 
 	if (tokenID != nil && password != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID}, @"POST" : @{@"password" : password}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, }, @"POST" : @{@"password" : password}};
 
 		[self objectWithModule:@"person" method:@"terminateAccount" attributes:attributes];
 	}
@@ -320,6 +320,43 @@
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"eventID" : eventID}, @"POST" : @{@"platform" : platform, @"pagelink" : pagelink, @"bug" : bug, @"steps" : steps, @"extra" : extra}};
 
 		[self objectWithModule:@"person" method:@"sendBug" attributes:attributes];
+	}
+}
+
+- (void)getBugAuthenticatedWithConversationId:(NSString *)conversationId {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && conversationId != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"conversationId" : conversationId}};
+
+		[self objectWithModule:@"person" method:@"getBug" attributes:attributes];
+	}
+}
+
+- (void)sendTroubleshootAuthenticatedAtEventWithMessage:(NSString *)message {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+	NSString *eventID = [[INEventToken sharedInstance] objectForKey:@"eventID"];
+
+	if (tokenID != nil && eventID != nil && message != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"eventID" : eventID}, @"POST" : @{@"message" : message}};
+
+		[self objectWithModule:@"person" method:@"sendTroubleshoot" attributes:attributes];
+	}
+}
+
+- (void)setPreferenceAuthenticatedWithKey:(NSString *)key withValue:(NSString *)value {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && key != nil && value != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"key" : key}, @"POST" : @{@"value" : value}};
+
+		[self objectWithModule:@"person" method:@"setPreference" attributes:attributes];
 	}
 }
 

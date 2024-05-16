@@ -41,47 +41,47 @@
 	}
 }
 
-- (void)findAuthenticatedAtCompany:(NSInteger)companyID withSelection:(NSString *)selection withName:(NSString *)name withCity:(NSString *)city withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd withPresential:(NSString *)presential withPublic:(NSString *)public withVisible:(NSString *)visible atTemplate:(NSInteger)templateID atPlace:(NSInteger)placeID withOrder:(NSString *)order withTimezone:(NSString *)timezone {
+- (void)findAuthenticatedAtCompany:(NSInteger)companyID withSelection:(NSString *)selection withName:(NSString *)name withCity:(NSString *)city withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd withPresential:(NSString *)presential withPublic:(NSString *)public withVisible:(NSString *)visible withArchived:(NSString *)archived atTemplate:(NSInteger)templateID atPlace:(NSInteger)placeID withOrder:(NSString *)order withTimezone:(NSString *)timezone withTags:(NSString *)tags withEvents:(NSString *)events withStripTagsDescription:(NSString *)stripTagsDescription withCurrent:(NSString *)current {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && selection != nil && name != nil && city != nil && dateBegin != nil && dateEnd != nil && presential != nil && public != nil && visible != nil && order != nil && timezone != nil) {
+	if (tokenID != nil && selection != nil && name != nil && city != nil && dateBegin != nil && dateEnd != nil && presential != nil && public != nil && visible != nil && archived != nil && order != nil && timezone != nil && tags != nil && events != nil && stripTagsDescription != nil && current != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"selection" : selection, @"name" : name, @"city" : city, @"dateBegin" : dateBegin, @"dateEnd" : dateEnd, @"presential" : presential, @"public" : public, @"visible" : visible, @"templateID" : [NSString stringWithFormat:@"%ld", (long)templateID], @"placeID" : [NSString stringWithFormat:@"%ld", (long)placeID], @"order" : order, @"timezone" : timezone}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"selection" : selection, @"name" : name, @"city" : city, @"dateBegin" : dateBegin, @"dateEnd" : dateEnd, @"presential" : presential, @"public" : public, @"visible" : visible, @"archived" : archived, @"templateID" : [NSString stringWithFormat:@"%ld", (long)templateID], @"placeID" : [NSString stringWithFormat:@"%ld", (long)placeID], @"order" : order, @"timezone" : timezone, @"tags" : tags, @"events" : events, @"stripTagsDescription" : stripTagsDescription, @"current" : current}};
 
 		[self objectWithModule:@"company.event" method:@"find" attributes:attributes];
 	}
 }
 
-- (void)findAuthenticatedAtCompany:(NSInteger)companyID withSelection:(NSString *)selection withName:(NSString *)name withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd {
+- (void)findAuthenticatedAtCompany:(NSInteger)companyID withSelection:(NSString *)selection withName:(NSString *)name withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd withTags:(NSString *)tags {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && selection != nil && name != nil && dateBegin != nil && dateEnd != nil) {
+	if (tokenID != nil && selection != nil && name != nil && dateBegin != nil && dateEnd != nil && tags != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"selection" : selection, @"name" : name, @"dateBegin" : dateBegin, @"dateEnd" : dateEnd}};
-
-		[self objectWithModule:@"company.event" method:@"find" attributes:attributes];
-	}
-}
-
-- (void)findAtCompany:(NSInteger)companyID withName:(NSString *)name withCity:(NSString *)city withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd withPresential:(NSString *)presential withPublic:(NSString *)public withVisible:(NSString *)visible withOrder:(NSString *)order {
-
-
-	if (name != nil && city != nil && dateBegin != nil && dateEnd != nil && presential != nil && public != nil && visible != nil && order != nil) {
-
-		NSDictionary *attributes = @{@"GET" : @{@"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"name" : name, @"city" : city, @"dateBegin" : dateBegin, @"dateEnd" : dateEnd, @"presential" : presential, @"public" : public, @"visible" : visible, @"order" : order}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"selection" : selection, @"name" : name, @"dateBegin" : dateBegin, @"dateEnd" : dateEnd, @"tags" : tags}};
 
 		[self objectWithModule:@"company.event" method:@"find" attributes:attributes];
 	}
 }
 
-- (void)findAtCompany:(NSInteger)companyID withName:(NSString *)name withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd {
+- (void)findAtCompany:(NSInteger)companyID withName:(NSString *)name withCity:(NSString *)city withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd withPresential:(NSString *)presential withPublic:(NSString *)public withVisible:(NSString *)visible withOrder:(NSString *)order withTags:(NSString *)tags {
 
 
-	if (name != nil && dateBegin != nil && dateEnd != nil) {
+	if (name != nil && city != nil && dateBegin != nil && dateEnd != nil && presential != nil && public != nil && visible != nil && order != nil && tags != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"name" : name, @"dateBegin" : dateBegin, @"dateEnd" : dateEnd}};
+		NSDictionary *attributes = @{@"GET" : @{@"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"name" : name, @"city" : city, @"dateBegin" : dateBegin, @"dateEnd" : dateEnd, @"presential" : presential, @"public" : public, @"visible" : visible, @"order" : order, @"tags" : tags}};
+
+		[self objectWithModule:@"company.event" method:@"find" attributes:attributes];
+	}
+}
+
+- (void)findAtCompany:(NSInteger)companyID withName:(NSString *)name withDateBegin:(NSString *)dateBegin withDateEnd:(NSString *)dateEnd withTags:(NSString *)tags {
+
+
+	if (name != nil && dateBegin != nil && dateEnd != nil && tags != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"name" : name, @"dateBegin" : dateBegin, @"dateEnd" : dateEnd, @"tags" : tags}};
 
 		[self objectWithModule:@"company.event" method:@"find" attributes:attributes];
 	}

@@ -11,7 +11,7 @@
 - (void)editAtNews:(NSInteger)newsID withKey:(NSString *)key withValue:(NSString *)value;
 - (void)removeAuthenticatedAtNews:(NSInteger)newsID;
 - (void)findAuthenticatedAtEventForPerson:(NSInteger)personID;
-- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection;
+- (void)findAuthenticatedAtEventWithSelection:(NSString *)selection withSort:(NSString *)sort withSortDirection:(NSString *)sortDirection;
 - (void)findAuthenticatedAtActivity:(NSInteger)activityID;
 - (void)findAuthenticatedAtList:(NSInteger)listID;
 - (void)getAtNews:(NSInteger)newsID;

@@ -4,13 +4,13 @@
 
 #pragma mark - TemplateEvent
 
-- (void)createAuthenticatedAtCompany:(NSInteger)companyID withName:(NSString *)name withColor:(NSString *)color {
+- (void)createAuthenticatedAtCompany:(NSInteger)companyID withIsWebinar:(NSString *)isWebinar withName:(NSString *)name withColor:(NSString *)color {
 
 	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
 
-	if (tokenID != nil && name != nil && color != nil) {
+	if (tokenID != nil && isWebinar != nil && name != nil && color != nil) {
 
-		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID]}, @"POST" : @{@"name" : name, @"color" : color}};
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"isWebinar" : isWebinar}, @"POST" : @{@"name" : name, @"color" : color}};
 
 		[self objectWithModule:@"template.event" method:@"create" attributes:attributes];
 	}
@@ -61,6 +61,18 @@
 		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"templateEventID" : [NSString stringWithFormat:@"%ld", (long)templateEventID]}};
 
 		[self objectWithModule:@"template.event" method:@"get" attributes:attributes];
+	}
+}
+
+- (void)copyAuthenticatedAtCompany:(NSInteger)companyID atTemplateEvent:(NSInteger)templateEventID withName:(NSString *)name withColor:(NSString *)color {
+
+	NSString *tokenID = [[INPersonToken sharedInstance] objectForKey:@"tokenID"];
+
+	if (tokenID != nil && name != nil && color != nil) {
+
+		NSDictionary *attributes = @{@"GET" : @{@"tokenID" : tokenID, @"companyID" : [NSString stringWithFormat:@"%ld", (long)companyID], @"templateEventID" : [NSString stringWithFormat:@"%ld", (long)templateEventID]}, @"POST" : @{@"name" : name, @"color" : color}};
+
+		[self objectWithModule:@"template.event" method:@"copy" attributes:attributes];
 	}
 }
 
